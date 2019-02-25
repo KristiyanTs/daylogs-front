@@ -30,3 +30,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # infbase-frontend
 # infbase-frontend
 # Rails-Vue
+# Rails-Vue-Front
