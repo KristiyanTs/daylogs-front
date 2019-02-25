@@ -8,16 +8,6 @@ import Signup from "./views/Signup";
 import ResetPassword from "./views/ResetPassword";
 import Profile from "./views/Profile";
 import AdminPanel from "./views/admin/AdminPanel";
-import CourseList from "./views/admin/Course/CourseList";
-import Schedule from "./views/admin/Schedule/Schedule";
-import ReportList from "./views/admin/Report/ReportList";
-import ReportForm from "./views/admin/Report/ReportForm";
-import UserList from "./views/admin/User/UserList";
-import HourList from "./views/admin/Hour/HourList";
-import ExpertiseList from "./views/admin/Expertise/ExpertiseList";
-import FAQIndex from "./views/FAQ/FAQIndex";
-import FAQQuestionView from "./views/FAQ/FAQQuestionView";
-import FAQAsk from "./views/FAQ/FAQAsk";
 
 Vue.use(Router);
 
@@ -83,71 +73,11 @@ let router = new Router({
         footer: AppFooter
       },
       children: [
-        {
-          path: "schedule",
-          component: Schedule
-        },
-        {
-          path: "reports",
-          component: ReportList
-        },
-        {
-          path: "report/:id",
-          component: ReportForm
-        },
-        {
-          path: "users",
-          component: UserList
-        },
-        {
-          path: "courses",
-          component: CourseList
-        },
-        {
-          path: "hours",
-          component: HourList
-        },
-        {
-          path: "expertises",
-          component: ExpertiseList
-        }
+        // {
+        //   path: "schedule",
+        //   component: Schedule
+        // },
       ]
-    },
-    {
-      path: "/faq",
-      name: "faq_index",
-      components: {
-        header: AppHeader,
-        default: FAQIndex,
-        footer: AppFooter
-      },
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/faq/ask",
-      name: "faq_ask",
-      components: {
-        header: AppHeader,
-        default: FAQAsk,
-        footer: AppFooter
-      },
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/faq/:id",
-      name: "faq_detail",
-      components: {
-        header: AppHeader,
-        default: FAQQuestionView,
-        footer: AppFooter
-      },
-      meta: {
-        requiresAuth: true
-      }
     }
   ],
   scrollBehavior: to => {
