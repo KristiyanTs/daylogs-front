@@ -32,3 +32,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # Rails-Vue
 # Rails-Vue-Front
 # Productivity-Front
+# ddaylogs-front
