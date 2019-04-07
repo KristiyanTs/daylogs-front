@@ -71,7 +71,7 @@
             </div>
             <div class="col-6 text-right">
               <router-link
-                to="/register"
+                to="/signup"
                 class="text-light"
               >
                 <small>Register</small>
