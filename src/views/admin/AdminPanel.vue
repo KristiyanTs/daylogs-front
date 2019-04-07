@@ -9,33 +9,6 @@
         role="tablist"
         aria-orientation="vertical"
       >
-        <router-link
-          to="/admin-panel/schedule"
-          class="nav-link mb-1"
-        >Schedule</router-link>
-        <router-link
-          to="/admin-panel/reports"
-          class="nav-link mb-1"
-        >Reports</router-link>
-        <router-link
-          to="/admin-panel/users"
-          class="nav-link mb-1"
-        >Users</router-link>
-        <router-link
-          v-if="userRole == 'admin'"
-          to="/admin-panel/courses"
-          class="nav-link mb-1"
-        >Courses</router-link>
-        <router-link
-          v-if="userRole == 'admin'"
-          to="/admin-panel/hours"
-          class="nav-link mb-1"
-        >Hours</router-link>
-        <router-link
-          v-if="userRole == 'tutor'"
-          to="/admin-panel/expertises"
-          class="nav-link mb-1"
-        >Expertises</router-link>
       </div>
       <fade-transition
         mode="out-in"

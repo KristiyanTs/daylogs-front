@@ -97,8 +97,8 @@ router.beforeEach((to, from, next) => {
       if (window.$cookies.get("jwt")) {
         let token = window.$cookies.get("jwt");
         let userId = window.$cookies.get("userId");
-        let userRole = window.$cookies.get("userRole");
-        router.app.$store.commit("SIGNED_IN", [token, userId, userRole]);
+        let admin = window.$cookies.get("admin");
+        router.app.$store.commit("SIGNED_IN", [token, userId, admin]);
         next();
       } else {
         next({

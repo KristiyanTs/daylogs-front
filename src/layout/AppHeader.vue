@@ -2,13 +2,13 @@
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
       <a slot="brand" class="navbar-brand mr-lg-5" href="https://www.ed.ac.uk/">
-        <img src="../assets/images/logo.png" />
+        <!-- <img src="../assets/images/logo.png" /> -->
       </a>
 
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">
         <div class="col-6 collapse-brand">
           <a href="https://www.ed.ac.uk/">
-            <img src="../assets/images/logo.png" />
+            <!-- <img src="../assets/images/logo.png" /> -->
           </a>
         </div>
         <div class="col-6 collapse-close">
@@ -40,23 +40,13 @@
           </base-button>
           <router-link
             v-if="signedIn && userRole == 'admin'"
-            to="/admin-panel/schedule"
+            to="/"
             class="btn btn-primary btn-icon"
           >
             <span class="btn-inner--icon">
               <i class="fa fa-sign-in mr-2"></i>
             </span>
             <span class="nav-link-inner--text">Admin panel</span>
-          </router-link>
-          <router-link
-            v-if="signedIn && userRole == 'tutor'"
-            to="/admin-panel/schedule"
-            class="btn btn-primary btn-icon"
-          >
-            <span class="btn-inner--icon">
-              <i class="fa fa-sign-in mr-2"></i>
-            </span>
-            <span class="nav-link-inner--text">Tutor panel</span>
           </router-link>
         </li>
       </ul>
@@ -91,8 +81,8 @@ export default {
     signedIn() {
       return this.$store.state.signedIn;
     },
-    userRole() {
-      return this.$store.state.userRole;
+    isAdmin() {
+      return this.$store.state.admin;
     },
     anyAlerts() {
       return this.$store.state.alerts.length;

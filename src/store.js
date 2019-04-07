@@ -8,24 +8,24 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     signedIn: false,
-    userRole: "",
+    admin: "",
     id: "",
     alerts: []
   },
   mutations: {
-    SIGNED_IN(state, [token, userId, userRole]) {
+    SIGNED_IN(state, [token, userId, admin]) {
       this.$axios.defaults.headers.common["Authorization"] = token;
       state.signedIn = true;
-      state.userRole = userRole;
+      state.admin = admin;
       state.userId = userId;
     },
     SIGNED_OUT(state) {
       window.$cookies.remove("jwt");
       window.$cookies.remove("userId");
-      window.$cookies.remove("userRole");
+      window.$cookies.remove("admin");
       state.signedIn = false;
       state.userId = "";
-      state.userRole = "";
+      state.admin = false;
       this.$axios.defaults.headers.common["Authorization"] = null;
     },
     ADD_ALERT(state, [message, status]) {
@@ -41,11 +41,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    signedIn(_state, [token, userId, userRole]) {
+    signedIn(_state, [token, userId, admin]) {
       window.$cookies.set("jwt", token);
       window.$cookies.set("userId", userId);
-      window.$cookies.set("userRole", userRole);
-      this.commit("SIGNED_IN", [token, userId, userRole]);
+      window.$cookies.set("admin", admin);
+      this.commit("SIGNED_IN", [token, userId, admin]);
     },
     signedOut(_state) {
       let self = this;
