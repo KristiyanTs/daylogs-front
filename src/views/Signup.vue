@@ -1,6 +1,7 @@
 <template>
   <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-1 bg-gradient-default">
+    <div class="shape shape-style-3 shape-default shape-skew">
+      <span></span>
       <span></span>
       <span></span>
       <span></span>
@@ -22,7 +23,7 @@
           >
             <template>
               <div class="text-center text-muted mb-4">
-                <small>Sign up</small>
+                <h3>Sign up</h3>
               </div>
               <base-alert type="warning" v-if="errors.length">
                 <b>Please correct the following error(s):</b>
@@ -34,19 +35,10 @@
                 <base-input
                   alternative
                   class="mb-3"
-                  placeholder="First name"
-                  addon-left-icon="ni ni-hat-3"
-                  v-model="first_name"
+                  placeholder="Name"
+                  addon-left-icon="ni ni-single-02"
+                  v-model="name"
                   required="true"
-                >
-                </base-input>
-                <base-input
-                  autocomplete="off"
-                  alternative
-                  class="mb-3"
-                  placeholder="Last name"
-                  addon-left-icon="ni ni-hat-3"
-                  v-model="last_name"
                 >
                 </base-input>
                 <base-input
@@ -100,8 +92,7 @@
 export default {
   data() {
     return {
-      first_name: "",
-      last_name: "",
+      name: "",
       email: "",
       password: "",
       password_confirmation: "",
@@ -113,7 +104,7 @@ export default {
   methods: {
     checkForm() {
       if (
-        this.first_name &&
+        this.name &&
         this.email &&
         this.password.length >= 8 &&
         this.accept &&
@@ -124,8 +115,8 @@ export default {
 
       this.errors = [];
 
-      if (!this.first_name) {
-        this.errors.push("First name required.");
+      if (!this.name) {
+        this.errors.push("Name required.");
       }
       if (!this.email) {
         this.errors.push("Email required.");
@@ -149,15 +140,13 @@ export default {
       this.axios
         .post("/api/signup", {
           user: {
-            first_name: this.first_name,
-            last_name: this.last_name,
+            name: this.name,
             email: this.email,
             password: this.password,
             password_confirmation: this.password_confirmation,
             remember_me: this.remember_me ? 1 : 0
           }
         })
-        // eslint-disable-next-line no-unused-vars
         .then(response => {
           this.signupSuccessful();
         })
@@ -170,7 +159,6 @@ export default {
       ]);
       this.$router.push("/login");
     },
-    // eslint-disable-next-line no-unused-vars
     signupFailed(error) {
       this.failure = true;
     }

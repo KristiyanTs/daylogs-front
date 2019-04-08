@@ -2,13 +2,13 @@
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
       <a slot="brand" class="navbar-brand mr-lg-5" href="https://www.ed.ac.uk/">
-        <!-- <img src="../assets/images/logo.png" /> -->
+        <img src="../assets/images/logo.png" style="height:50px" />
       </a>
 
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">
         <div class="col-6 collapse-brand">
           <a href="https://www.ed.ac.uk/">
-            <!-- <img src="../assets/images/logo.png" /> -->
+            <img src="../assets/images/logo.png" style="height:50px" />
           </a>
         </div>
         <div class="col-6 collapse-close">

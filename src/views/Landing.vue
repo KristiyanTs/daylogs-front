@@ -7,11 +7,6 @@
           <span></span>
           <span></span>
           <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
         </div>
         <div class="container shape-container d-flex">
           <div class="col px-0">

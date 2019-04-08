@@ -1,6 +1,7 @@
 <template>
   <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-1 bg-gradient-default">
+    <div class="shape shape-style-3 shape-default shape-skew">
+      <span></span>
       <span></span>
       <span></span>
       <span></span>
@@ -21,7 +22,7 @@
             class="border-0"
           >
             <div class="text-center text-muted mb-3">
-              <small>Sign in</small>
+              <h3>Sign in</h3>
             </div>
             <base-alert
               type="danger"
@@ -63,25 +64,25 @@
                 </base-button>
               </div>
             </form>
+            <div class="row mt-3">
+              <div class="col-6">
+                <router-link
+                  to="/password"
+                  class="text-light"
+                >
+                  <small>Forgot password?</small>
+                </router-link>
+              </div>
+              <div class="col-6 text-right">
+                <router-link
+                  to="/signup"
+                  class="text-light"
+                >
+                  <small>Create new account</small>
+                </router-link>
+              </div>
+            </div>
           </card>
-          <div class="row mt-3">
-            <div class="col-6">
-              <router-link
-                to="/password"
-                class="text-light"
-              >
-                <small>Forgot password?</small>
-              </router-link>
-            </div>
-            <div class="col-6 text-right">
-              <router-link
-                to="/signup"
-                class="text-light"
-              >
-                <small>Create new account</small>
-              </router-link>
-            </div>
-          </div>
         </div>
       </div>
     </div>
