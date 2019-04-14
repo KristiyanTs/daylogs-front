@@ -29,6 +29,8 @@
       <input
         :disabled="disabled"
         :value="value"
+        :autofocus="autofocus"
+        :autocomplete="autocomplete"
         v-on="listeners"
         class="form-control"
         :type="input_type"
@@ -119,6 +121,11 @@ export default {
       type: [Boolean, String],
       default: false,
       description: "Input disabled?"
+    },
+    autocomplete: {
+      type: String,
+      default: "on",
+      description: "Enable autofill (on/off)"
     }
   },
   data() {

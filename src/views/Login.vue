@@ -24,16 +24,10 @@
             <div class="text-center text-muted mb-3">
               <h3>Sign in</h3>
             </div>
-            <base-alert
-              type="danger"
-              v-if="failure"
-            >
+            <base-alert type="danger" v-if="failure">
               {{response}}
             </base-alert>
-            <form
-              id="loginForm"
-              role="form"
-            >
+            <form id="loginForm" role="form">
               <base-input
                 alternative
                 required
@@ -55,29 +49,19 @@
                 Remember me
               </base-checkbox>
               <div class="text-center">
-                <base-button
-                  type="primary"
-                  class="my-4"
-                  v-on:click="submit()"
-                >
+                <base-button type="primary" class="my-4" v-on:click="submit()">
                   Sign In
                 </base-button>
               </div>
             </form>
             <div class="row mt-3">
               <div class="col-6">
-                <router-link
-                  to="/password"
-                  class="text-light"
-                >
+                <router-link to="/password">
                   <small>Forgot password?</small>
                 </router-link>
               </div>
               <div class="col-6 text-right">
-                <router-link
-                  to="/signup"
-                  class="text-light"
-                >
+                <router-link to="/signup">
                   <small>Create new account</small>
                 </router-link>
               </div>

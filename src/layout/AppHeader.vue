@@ -1,15 +1,15 @@
 <template>
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
-      <a slot="brand" class="navbar-brand mr-lg-5" href="https://www.ed.ac.uk/">
+      <router-link slot="brand" to="/" class="navbar-brand mr-lg-5">
         <img src="../assets/images/logo.png" style="height:50px" />
-      </a>
+      </router-link>
 
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">
         <div class="col-6 collapse-brand">
-          <a href="https://www.ed.ac.uk/">
+          <router-link to="/">
             <img src="../assets/images/logo.png" style="height:50px" />
-          </a>
+          </router-link>
         </div>
         <div class="col-6 collapse-close">
           <close-button @click="closeMenu"></close-button>
@@ -39,7 +39,7 @@
             <span class="nav-link-inner--text">Log out</span>
           </base-button>
           <router-link
-            v-if="signedIn && userRole == 'admin'"
+            v-if="signedIn && isAdmin == 'true'"
             to="/"
             class="btn btn-primary btn-icon"
           >

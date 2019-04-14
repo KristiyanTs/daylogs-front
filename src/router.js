@@ -3,6 +3,7 @@ import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
 import Landing from "./views/Landing";
+import Home from "./views/Home";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
 import ResetPassword from "./views/ResetPassword";
@@ -18,10 +19,15 @@ let router = new Router({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "landing",
       components: {
         header: AppHeader,
-        default: Landing,
+        default: {
+          render(c) {
+            if (this.$store.state.userId) return c(Home);
+            else return c(Landing);
+          }
+        },
         footer: AppFooter
       }
     },
@@ -71,13 +77,7 @@ let router = new Router({
         header: AppHeader,
         default: AdminPanel,
         footer: AppFooter
-      },
-      children: [
-        // {
-        //   path: "schedule",
-        //   component: Schedule
-        // },
-      ]
+      }
     }
   ],
   scrollBehavior: to => {

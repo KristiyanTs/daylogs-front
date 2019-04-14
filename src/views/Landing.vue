@@ -12,18 +12,11 @@
           <div class="col px-0">
             <div class="row">
               <div class="col-lg-6">
-                <h1 class="display-3  text-white">
-                  InfBase
-                  <span
-                    >A drop-in helpdesk for pre-honours Informatics students to
-                    get additional tutoring and support with their
-                    courses.</span
-                  >
-                </h1>
-                <p class="lead  text-white">
-                  In addition to supporting drop-in assistance, InfBase can be
-                  used as a place to work together with other students, with
-                  support from an InfBase tutor.
+                <h3 class="display-3 text-white">
+                  Your online journal.
+                </h3>
+                <p class="lead text-white">
+                  DayLogs helps you boost your productivity. Plan your day and track your progress.
                 </p>
               </div>
             </div>
@@ -36,6 +29,6 @@
 
 <script>
 export default {
-  name: "home"
+  name: "landing"
 };
 </script>

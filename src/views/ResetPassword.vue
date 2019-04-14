@@ -62,18 +62,12 @@
             </form>
             <div class="row mt-3">
               <div class="col-6">
-                <router-link
-                  to="/login"
-                  class="text-light"
-                >
+                <router-link to="/login">
                   <small>Log in</small>
                 </router-link>
               </div>
               <div class="col-6 text-right">
-                <router-link
-                  to="/signup"
-                  class="text-light"
-                >
+                <router-link to="/signup">
                   <small>Register</small>
                 </router-link>
               </div>

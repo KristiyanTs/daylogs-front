@@ -39,25 +39,30 @@
                   addon-left-icon="ni ni-single-02"
                   v-model="name"
                   required="true"
+                  ref="name"
                 >
                 </base-input>
                 <base-input
                   alternative
+                  autocomplete="off"
                   input_type="email"
                   class="mb-3"
                   placeholder="Email"
                   addon-left-icon="ni ni-email-83"
                   v-model="email"
                   required="true"
+                  style="background-color: white"
                 >
                 </base-input>
                 <base-input
                   alternative
                   input_type="password"
+                  autocomplete="off"
                   placeholder="Password"
                   addon-left-icon="ni ni-lock-circle-open"
                   v-model="password"
                   required="true"
+                  style="background-color: white"
                 >
                 </base-input>
                 <base-input
@@ -162,6 +167,9 @@ export default {
     signupFailed(error) {
       this.failure = true;
     }
+  },
+  mounted() {
+    this.$refs.name.$el.focus();
   }
 };
 </script>

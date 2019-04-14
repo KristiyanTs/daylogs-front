@@ -6,44 +6,29 @@
         <div class="col-md-6">
           <div class="copyright">
             &copy; 2019
-            <a href="https://www.ed.ac.uk/home" target="_blank"
-              >The University of Edinburgh</a
-            >.
+            <a href="/" target="_blank">DayLogs</a>.
           </div>
         </div>
         <div class="col-md-6">
           <ul class="nav nav-footer justify-content-end">
             <li class="nav-item">
               <a
-                href="https://www.creative-tim.com"
+                href="https://www.moonhythe.com"
                 class="nav-link"
                 target="_blank"
-                >Creative Tim</a
+                >Moonhythe</a
               >
             </li>
             <li class="nav-item">
               <a
-                href="https://www.creative-tim.com/presentation"
+                href="https://www.moonhythe.com/about"
                 class="nav-link"
                 target="_blank"
                 >About Us</a
               >
             </li>
             <li class="nav-item">
-              <a
-                href="http://blog.creative-tim.com"
-                class="nav-link"
-                target="_blank"
-                >Blog</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                href="https://github.com/creativetimofficial/argon-design-system/blob/master/LICENSE.md"
-                class="nav-link"
-                target="_blank"
-                >MIT License</a
-              >
+              <a href="/blog" class="nav-link" target="_blank">Blog</a>
             </li>
           </ul>
         </div>
