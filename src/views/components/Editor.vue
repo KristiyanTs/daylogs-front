@@ -157,14 +157,13 @@ export default {
           new Underline(),
           new History()
         ],
-        content: `<h3>Start your log...</h3>`
+        content: `Start your log...`
       })
     };
   },
   methods: {
     clearContents() {
-      console.log("click");
-      if (this.editor.content == `<h3>Start your log...</h3>`) {
+      if (this.editor.content == `Start your log...`) {
         this.$refs.editor.clearContent();
       }
     }
@@ -187,7 +186,7 @@ export default {
   visibility: visible;
   opacity: 1;
 }
-.editor__content .ProseMirror {
+.editor__content /deep/ .ProseMirror {
   min-height: 500px;
 }
 .editor__content /deep/ .ProseMirror:focus {
