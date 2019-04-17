@@ -21,16 +21,13 @@
             body-classes="px-lg-5 py-lg-5"
             class="border-0"
           >
-            <div class="text-center text-muted mb-3">
-              <h3>Sign in</h3>
-            </div>
+            <h3 class="text-center mb-3">Sign in</h3>
             <base-alert type="danger" v-if="failure">
               {{response}}
             </base-alert>
-            <form id="loginForm" role="form">
+            <form @submit.prevent="submit">
               <base-input
                 alternative
-                required
                 class="mb-3"
                 placeholder="Email"
                 addon-left-icon="ni ni-email-83"
@@ -49,10 +46,12 @@
                 Remember me
               </base-checkbox>
               <div class="text-center">
-                <base-button type="primary" class="my-4" v-on:click="submit()">
+                <base-button type="primary" class="my-4" @click="submit">
                   Sign In
                 </base-button>
               </div>
+              <!-- The following line submits the form when pressing enter -->
+              <input type="submit" value="Submit" class="d-none" />
             </form>
             <div class="row mt-3">
               <div class="col-6">

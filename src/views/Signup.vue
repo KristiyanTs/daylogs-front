@@ -17,75 +17,65 @@
           <card
             type="secondary"
             shadow
-            header-classes="bg-white pb-5"
+            header-classes="pb-5"
             body-classes="px-lg-5 py-lg-5"
-            class="border-0"
           >
-            <template>
-              <div class="text-center text-muted mb-4">
-                <h3>Sign up</h3>
+            <h3 class="text-center mb-4">Sign up</h3>
+            <base-alert type="warning" v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+              <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+              </ul>
+            </base-alert>
+            <form @submit.prevent="validateForm">
+              <base-input
+                alternative
+                class="mb-3"
+                placeholder="Name"
+                addon-left-icon="ni ni-single-02"
+                v-model="name"
+              >
+              </base-input>
+              <base-input
+                alternative
+                autocomplete="off"
+                input_type="email"
+                class="mb-3"
+                placeholder="Email"
+                addon-left-icon="ni ni-email-83"
+                v-model="email"
+                style="background-color: white"
+              >
+              </base-input>
+              <base-input
+                alternative
+                input_type="password"
+                autocomplete="off"
+                placeholder="Password"
+                addon-left-icon="ni ni-lock-circle-open"
+                v-model="password"
+                style="background-color: white"
+              >
+              </base-input>
+              <base-input
+                alternative
+                input_type="password"
+                placeholder="Confirm password"
+                addon-left-icon="ni ni-lock-circle-open"
+                v-model="password_confirmation"
+              >
+              </base-input>
+              <base-checkbox v-model="accept">
+                I agree with the <a href="#">Privacy Policy</a>
+              </base-checkbox>
+              <div class="text-center">
+                <base-button type="primary" class="my-4" @click="validateForm">
+                  Create account
+                </base-button>
               </div>
-              <base-alert type="warning" v-if="errors.length">
-                <b>Please correct the following error(s):</b>
-                <ul>
-                  <li v-for="error in errors" :key="error">{{ error }}</li>
-                </ul>
-              </base-alert>
-              <form role="form" id="register">
-                <base-input
-                  alternative
-                  class="mb-3"
-                  placeholder="Name"
-                  addon-left-icon="ni ni-single-02"
-                  v-model="name"
-                  required="true"
-                  ref="name"
-                >
-                </base-input>
-                <base-input
-                  alternative
-                  autocomplete="off"
-                  input_type="email"
-                  class="mb-3"
-                  placeholder="Email"
-                  addon-left-icon="ni ni-email-83"
-                  v-model="email"
-                  required="true"
-                  style="background-color: white"
-                >
-                </base-input>
-                <base-input
-                  alternative
-                  input_type="password"
-                  autocomplete="off"
-                  placeholder="Password"
-                  addon-left-icon="ni ni-lock-circle-open"
-                  v-model="password"
-                  required="true"
-                  style="background-color: white"
-                >
-                </base-input>
-                <base-input
-                  alternative
-                  input_type="password"
-                  placeholder="Confirm password"
-                  addon-left-icon="ni ni-lock-circle-open"
-                  v-model="password_confirmation"
-                  required="true"
-                >
-                </base-input>
-                <base-checkbox v-model="accept">
-                  <span>I agree with the
-                    <a href="#">Privacy Policy</a>
-                  </span>
-                </base-checkbox>
-                <div class="text-center">
-                  <base-button type="primary" class="my-4" @click="checkForm">
-                    Create account
-                  </base-button>
-                </div>
-              </form>
-            </template>
+              <!-- The following line submits the form when pressing enter -->
+              <input type="submit" value="Submit" class="d-none" />
+            </form>
           </card>
         </div>
       </div>
@@ -107,7 +97,7 @@ export default {
     };
   },
   methods: {
-    checkForm() {
+    validateForm() {
       if (
         this.name &&
         this.email &&
@@ -148,11 +138,10 @@ export default {
             name: this.name,
             email: this.email,
             password: this.password,
-            password_confirmation: this.password_confirmation,
-            remember_me: this.remember_me ? 1 : 0
+            password_confirmation: this.password_confirmation
           }
         })
-        .then(response => {
+        .then(() => {
           this.signupSuccessful();
         })
         .catch(error => this.signupFailed(error));
@@ -167,9 +156,6 @@ export default {
     signupFailed(error) {
       this.failure = true;
     }
-  },
-  mounted() {
-    this.$refs.name.$el.focus();
   }
 };
 </script>
