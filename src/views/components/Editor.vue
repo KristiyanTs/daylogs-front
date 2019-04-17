@@ -85,15 +85,6 @@
         >
           <font-awesome-icon icon="list-ol" />
         </base-button>
-
-        <base-button
-          :type="isActive.blockquote() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
-          @click="commands.blockquote"
-        >
-          <font-awesome-icon icon="quote-right" />
-        </base-button>
-
         <base-button
           :type="isActive.code_block() ? 'default' : 'secondary'"
           class="menubar__button btn-sm"
@@ -104,15 +95,16 @@
       </div>
     </editor-menu-bar>
 
-    <editor-content class="editor__content" :editor="editor">
-      Hey
+    <editor-content
+      class="editor__content form-control form-control-alternative"
+      :editor="editor"
+    >
     </editor-content>
   </div>
 </template>
 <script>
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
-  Blockquote,
   BulletList,
   CodeBlock,
   HardBreak,
@@ -131,7 +123,6 @@ import {
 } from "tiptap-extensions";
 
 export default {
-  name: "home",
   components: {
     EditorContent,
     EditorMenuBar
@@ -140,7 +131,6 @@ export default {
     return {
       editor: new Editor({
         extensions: [
-          new Blockquote(),
           new BulletList(),
           new CodeBlock(),
           new HardBreak(),
@@ -191,5 +181,8 @@ export default {
 }
 .editor__content /deep/ .ProseMirror:focus {
   outline: none;
+}
+.form-control {
+  height: auto;
 }
 </style>

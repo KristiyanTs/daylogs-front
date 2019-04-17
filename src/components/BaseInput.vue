@@ -29,7 +29,6 @@
       <input
         :disabled="disabled"
         :value="value"
-        :autofocus="autofocus"
         :autocomplete="autocomplete"
         v-on="listeners"
         class="form-control"

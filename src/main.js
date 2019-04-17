@@ -26,7 +26,11 @@ import {
   faChevronLeft,
   faChevronRight,
   faAngleDoubleLeft,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faPlus,
+  faCheck,
+  faRedo,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add({
@@ -42,7 +46,11 @@ library.add({
   faChevronLeft,
   faChevronRight,
   faAngleDoubleLeft,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faPlus,
+  faCheck,
+  faRedo,
+  faTrashAlt
 });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
