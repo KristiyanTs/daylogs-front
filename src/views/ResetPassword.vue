@@ -17,32 +17,21 @@
           <card
             type="secondary"
             shadow
-            header-classes="bg-white pb-5"
+            header-classes="pb-5"
             body-classes="px-lg-5 py-lg-5"
-            class="border-0"
           >
             <div class="text-center text-muted mb-3">
               <h3>Reset password</h3>
             </div>
-            <base-alert
-              type="success"
-              v-if="success"
-            >
+            <base-alert type="success" v-if="success">
               {{response}}
             </base-alert>
-            <base-alert
-              type="warning"
-              v-if="failure"
-            >
+            <base-alert type="warning" v-if="failure">
               {{response}}
             </base-alert>
-            <form
-              id="loginForm"
-              role="form"
-            >
+            <form @submit.prevent="submit" v-cloak>
               <base-input
                 alternative
-                required
                 class="mb-3"
                 placeholder="Email"
                 addon-left-icon="ni ni-email-83"
@@ -53,12 +42,14 @@
                 <base-button
                   type="primary"
                   class="my-4"
-                  :class="{disabled: success}"
-                  v-on:click="submit()"
+                  :class="{ disabled: success }"
+                  @click="submit"
                 >
-                  Send a link to reset password
+                  Send a link
                 </base-button>
               </div>
+              <!-- The following line submits the form when pressing enter -->
+              <input type="submit" value="Submit" class="d-none" />
             </form>
             <div class="row mt-3">
               <div class="col-6">
@@ -90,11 +81,11 @@ export default {
     };
   },
   methods: {
-    validEmail: function(email) {
+    validEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(this.email);
+      return re.test(email);
     },
-    submit: function() {
+    submit() {
       this.response = "";
       this.failure = false;
       this.success = false;

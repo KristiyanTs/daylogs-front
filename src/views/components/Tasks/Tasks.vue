@@ -4,15 +4,20 @@
       No tasks for today
     </div>
     <table class="col-12">
-      <tbody>
+      <component
+        :is="loading ? '' : 'transition-group'"
+        tag="tbody"
+        name="table-row"
+      >
         <Task
           v-for="task in tasks"
           :task="task"
           :key="task.id"
           :day="day"
+          @updateTask="updateTask"
           @deleteTask="deleteTask"
         />
-      </tbody>
+      </component>
     </table>
     <FormModal
       :day="day"
@@ -35,12 +40,14 @@
 import Task from "./Task";
 import FormModal from "./FormModal";
 import moment from "moment";
+import smoothReflow from "vue-smooth-reflow";
 
 export default {
   components: {
     Task,
     FormModal
   },
+  mixins: [smoothReflow],
   props: {
     day: {
       type: Date,
@@ -58,11 +65,14 @@ export default {
   },
   mounted() {
     this.getDayTasks();
+    this.$smoothReflow();
   },
   methods: {
     getDayTasks() {
+      this.loading = true;
       this.axios
         .get("/api/tasks", {
+          headers: { Authorization: window.$cookies.get("jwt") },
           params: { day: this.day }
         })
         .then(response => {
@@ -75,10 +85,27 @@ export default {
     },
     addTask(task) {
       this.tasks.push(task);
+      this.reorderTasks();
+    },
+    updateTask(task) {
+      let index = this.tasks.findIndex(t => t.id == task.id);
+      this.tasks.splice(index, 1, task);
+      this.reorderTasks();
     },
     deleteTask(task) {
       let index = this.tasks.findIndex(t => t.id == task.id);
       this.tasks.splice(index, 1);
+    },
+    reorderTasks() {
+      this.tasks = this.tasks.sort((a, b) =>
+        a.completed > b.completed
+          ? 1
+          : a.completed === b.completed
+          ? a.title > b.title
+            ? 1
+            : -1
+          : -1
+      );
     },
     closeModal() {
       this.modal = false;
@@ -102,5 +129,8 @@ export default {
   position: absolute;
   bottom: -24px;
   right: 10px;
+}
+.table-row-move {
+  transition: transform 0.2s;
 }
 </style>

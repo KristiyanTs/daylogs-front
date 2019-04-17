@@ -53,14 +53,12 @@ export default {
       this.axios
         .put(`/api/tasks/${this.task.id}`, { task: params })
         .then(response => {
-          this.task = response.data;
+          this.$emit("updateTask", response.data);
           this.$store.commit("ADD_ALERT", ["Task updated.", "success"]);
         })
         .catch(() => {
           this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
         });
-
-      this.$emit("updateTask", this.task);
     },
     deleteTask() {
       this.axios

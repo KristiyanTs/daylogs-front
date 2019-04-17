@@ -4,7 +4,7 @@
       Create new task
     </template>
     
-    <form @submit.prevent="validateForm">
+    <form @submit.prevent="validateForm" v-cloak>
       <base-input placeholder="Title" v-model="title" alternative></base-input>
       <textarea
         v-model="description"

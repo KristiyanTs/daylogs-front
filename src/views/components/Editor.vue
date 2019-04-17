@@ -7,6 +7,22 @@
         slot-scope="{ commands, isActive, focused }"
       >
         <base-button
+          :type="isActive.bullet_list() ? 'default' : 'secondary'"
+          class="menubar__button btn-sm"
+          @click="commands.bullet_list"
+        >
+          <font-awesome-icon icon="list-ul" />
+        </base-button>
+
+        <base-button
+          :type="isActive.ordered_list() ? 'default' : 'secondary'"
+          class="menubar__button btn-sm"
+          @click="commands.ordered_list"
+        >
+          <font-awesome-icon icon="list-ol" />
+        </base-button>
+
+        <base-button
           :type="isActive.bold() ? 'default' : 'secondary'"
           class="menubar__button btn-sm"
           @click="commands.bold"
@@ -39,14 +55,6 @@
         </base-button>
 
         <base-button
-          :type="isActive.paragraph() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
-          @click="commands.paragraph"
-        >
-          <font-awesome-icon icon="paragraph" />
-        </base-button>
-
-        <base-button
           :type="isActive.heading({ level: 1 }) ? 'default' : 'secondary'"
           class="menubar__button btn-sm"
           @click="commands.heading({ level: 1 })"
@@ -70,21 +78,6 @@
           H3
         </base-button>
 
-        <base-button
-          :type="isActive.bullet_list() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
-          @click="commands.bullet_list"
-        >
-          <font-awesome-icon icon="list-ul" />
-        </base-button>
-
-        <base-button
-          :type="isActive.ordered_list() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
-          @click="commands.ordered_list"
-        >
-          <font-awesome-icon icon="list-ol" />
-        </base-button>
         <base-button
           :type="isActive.code_block() ? 'default' : 'secondary'"
           class="menubar__button btn-sm"
@@ -147,17 +140,16 @@ export default {
           new Underline(),
           new History()
         ],
-        content: `Start your log...`
+        content: `Start your log...`,
+        onFocus(esv) {
+          if (esv.event.target.innerText == "Start your log...") {
+            esv.event.target.innerText = "";
+          }
+        }
       })
     };
   },
-  methods: {
-    clearContents() {
-      if (this.editor.content == `Start your log...`) {
-        this.$refs.editor.clearContent();
-      }
-    }
-  },
+  methods: {},
   beforeDestroy() {
     this.editor.destroy();
   }
