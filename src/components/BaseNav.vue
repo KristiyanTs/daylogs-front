@@ -9,7 +9,7 @@
       { rounded: round }
     ]"
   >
-    <div class="container col-lg-10">
+    <div class="container col-lg-12">
       <slot name="container-pre"></slot>
       <slot name="brand">
         <a class="navbar-brand" href="#" @click.prevent="onTitleClick">
@@ -100,4 +100,9 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+.container.col-lg-12 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+</style>

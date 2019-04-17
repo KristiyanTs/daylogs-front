@@ -51,14 +51,16 @@
         </li>
       </ul>
     </base-nav>
-    <div id="alerts" v-if="anyAlerts" class="w-100 row">
-      <base-alert v-for="[message, status] in $store.state.alerts" 
-                  dismissible="true"
-                  :type="status"
-                  :message="message"
-                  :key="message"
-                  class="col-3 offset-8">
-        {{message}}
+    <div id="alerts" v-if="anyAlerts" class="text-center col-12">
+      <base-alert
+        v-for="[message, status] in $store.state.alerts"
+        dismissible="true"
+        :type="status"
+        :message="message"
+        :key="message"
+        class="alert-message"
+      >
+        {{ message }}
       </base-alert>
     </div>
   </header>
@@ -91,12 +93,18 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-  #alerts {
-    position: absolute;
-    top: 95px;
-    z-index: 1000;
+#alerts {
+  position: absolute;
+  top: 20px;
+  z-index: 1000;
+
+  .alert-message {
+    max-width: 300px;
+    min-width: 250px;
+    margin: 0 auto;
   }
-  .navbar-nav .nav-item {
-    margin-right: 0px;
-  }
+}
+.navbar-nav .nav-item {
+  margin-right: 0px;
+}
 </style>
