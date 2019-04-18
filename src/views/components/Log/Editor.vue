@@ -95,6 +95,7 @@
     </editor-content>
   </div>
 </template>
+
 <script>
 import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
@@ -120,36 +121,53 @@ export default {
     EditorContent,
     EditorMenuBar
   },
+  props: {
+    content: {
+      type: String,
+      default: "",
+      description: "Editor content"
+    }
+  },
   data() {
     return {
-      editor: new Editor({
-        extensions: [
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new Link(),
-          new Strike(),
-          new Underline(),
-          new History()
-        ],
-        content: `Start your log...`,
-        onFocus(esv) {
-          if (esv.event.target.innerText == "Start your log...") {
-            esv.event.target.innerText = "";
-          }
-        }
-      })
+      editor: null
     };
   },
-  methods: {},
+  mounted() {
+    this.editor = new Editor({
+      extensions: [
+        new BulletList(),
+        new CodeBlock(),
+        new HardBreak(),
+        new Heading({ levels: [1, 2, 3] }),
+        new ListItem(),
+        new OrderedList(),
+        new TodoItem(),
+        new TodoList(),
+        new Bold(),
+        new Code(),
+        new Italic(),
+        new Link(),
+        new Strike(),
+        new Underline(),
+        new History()
+      ],
+      content: this.content,
+      onUpdate: ({ getHTML }) => {
+        this.$emit("contentChange", getHTML());
+      },
+      onFocus: ({ getHTML }) => {
+        this.$emit("onFocus", getHTML);
+      }
+    });
+  },
+  watch: {
+    content(val) {
+      if (val !== this.editor.getHTML()) {
+        this.editor.setContent(val);
+      }
+    }
+  },
   beforeDestroy() {
     this.editor.destroy();
   }

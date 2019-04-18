@@ -56,14 +56,7 @@
           </card>
         </div>
         <div class="col-lg-7 col-xs-12">
-          <card
-            shadow
-            header-classes="bg-white pb-5"
-            body-classes="px-lg-0 py-lg-0"
-            class="border-0 shadow editor"
-          >
-            <editor />
-          </card>
+          <log :day="day" />
         </div>
       </div>
     </section>
@@ -71,14 +64,14 @@
 </template>
 
 <script>
-import Editor from "./components/Editor";
+import Log from "./components/Log/Log";
 import Tasks from "./components/Tasks/Tasks";
 import moment from "moment";
 
 export default {
   name: "home",
   components: {
-    Editor,
+    Log,
     Tasks
   },
   data() {

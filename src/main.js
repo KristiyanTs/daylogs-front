@@ -30,7 +30,9 @@ import {
   faPlus,
   faCheck,
   faRedo,
-  faTrashAlt
+  faTrashAlt,
+  faSave,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add({
@@ -50,7 +52,9 @@ library.add({
   faPlus,
   faCheck,
   faRedo,
-  faTrashAlt
+  faTrashAlt,
+  faSave,
+  faSpinner
 });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
