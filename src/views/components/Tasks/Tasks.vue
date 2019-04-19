@@ -1,5 +1,9 @@
 <template>
-  <div class="tasks">
+  <card
+    shadow
+    body-classes="px-lg-3 pt-lg-3 pb-lg-5"
+    class="shadow mt-2 tasks-card"
+  >
     <div class="text-center text-muted" v-if="tasks.length == 0">
       No tasks for today
     </div>
@@ -19,12 +23,6 @@
         />
       </component>
     </table>
-    <FormModal
-      :day="day"
-      :modal="modal"
-      @closeModal="closeModal"
-      @addTask="addTask"
-    />
     <base-button
       v-if="isRelevant"
       @click="modal = true"
@@ -33,7 +31,13 @@
       class="icon icon-shape p-0 add-task shadow"
       ><font-awesome-icon icon="plus"
     /></base-button>
-  </div>
+    <FormModal
+      :day="day"
+      :modal="modal"
+      @closeModal="closeModal"
+      @addTask="addTask"
+    />
+  </card>
 </template>
 
 <script>
@@ -124,13 +128,18 @@ export default {
 };
 </script>
 
-<style>
-.tasks .add-task {
-  position: absolute;
-  bottom: -24px;
-  right: 10px;
-}
-.table-row-move {
-  transition: transform 0.2s;
-}
+<style lang="sass">
+.tasks-card .add-task
+  float: right
+  bottom: -24px
+  right: 10px
+
+.container.w-100
+  max-width: none
+
+.mt--450
+  margin-top: -450px
+
+.row
+  margin: 0px
 </style>

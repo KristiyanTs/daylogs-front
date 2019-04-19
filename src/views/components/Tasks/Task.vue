@@ -82,6 +82,9 @@ export default {
 </script>
 
 <style scoped>
+.table-row-move {
+  transition: transform 0.2s;
+}
 .task {
   border-radius: 25px;
 }

@@ -1,9 +1,9 @@
 <template>
   <card
     shadow
-    header-classes="bg-white pb-5"
+    header-classes="pb-5"
     body-classes="px-lg-0 py-lg-0"
-    class="border-0 shadow editor"
+    class="shadow editor"
   >
     <Editor
       @contentChange="contentChange"
