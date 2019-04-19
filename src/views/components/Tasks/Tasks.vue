@@ -1,9 +1,5 @@
 <template>
-  <card
-    shadow
-    body-classes="px-lg-3 pt-lg-3 pb-lg-5"
-    class="shadow mt-2 tasks-card"
-  >
+  <div class="tasks">
     <div class="text-center text-muted" v-if="tasks.length == 0">
       No tasks for today
     </div>
@@ -37,7 +33,7 @@
       @closeModal="closeModal"
       @addTask="addTask"
     />
-  </card>
+  </div>
 </template>
 
 <script>
@@ -129,17 +125,8 @@ export default {
 </script>
 
 <style lang="sass">
-.tasks-card .add-task
-  float: right
+.tasks .add-task
+  position: absolute
   bottom: -24px
   right: 10px
-
-.container.w-100
-  max-width: none
-
-.mt--450
-  margin-top: -450px
-
-.row
-  margin: 0px
 </style>

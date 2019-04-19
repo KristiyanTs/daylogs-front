@@ -13,7 +13,13 @@
       <div class="container row w-100">
         <div class="col-lg-5 col-xs-12">
           <LogDate :day="day" @dateChanged="changeDate" />
-          <Tasks :day="day" />
+          <card
+            shadow
+            body-classes="px-lg-3 pt-lg-3 pb-lg-5"
+            class="shadow mt-2 tasks-card"
+          >
+            <Tasks :day="day" />
+          </card>
         </div>
         <div class="col-lg-7 col-xs-12">
           <log :day="day" />
