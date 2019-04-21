@@ -73,7 +73,7 @@ export default {
       this.axios
         .get("/api/tasks", {
           headers: { Authorization: window.$cookies.get("jwt") },
-          params: { day: this.day }
+          params: { day: this.day.toString() }
         })
         .then(response => {
           this.tasks = response.data;

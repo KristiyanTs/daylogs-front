@@ -3,7 +3,6 @@
     <template slot="header">
       Create new task
     </template>
-    
     <form @submit.prevent="validateForm" v-cloak>
       <base-input placeholder="Title" v-model="title" alternative></base-input>
       <textarea
@@ -69,7 +68,7 @@ export default {
           task: {
             title: this.title,
             body: this.description,
-            recurring: this.recurring,
+            recurrent: this.recurrent,
             flag: this.flag,
             day: this.day
           }

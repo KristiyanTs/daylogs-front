@@ -14,7 +14,10 @@
         round
         @click="updateTask"
       >
-        <font-awesome-icon icon="redo" class="text-muted" />
+        <font-awesome-icon
+          icon="redo"
+          :class="task.recurrent ? 'text-warning' : 'text-muted'"
+        />
       </span>
       <span class="icon icon-shape btn" round @click="deleteTask">
         <font-awesome-icon icon="trash-alt" class="text-muted" />

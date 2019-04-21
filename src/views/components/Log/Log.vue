@@ -68,7 +68,10 @@ export default {
       this.axios
         .put(`/api/logs/${this.log.id}`, { log: this.log })
         .then(() => {
-          this.saved = true;
+          setTimeout(() => {
+            this.loading = false;
+            this.saved = true;
+          }, 500);
         })
         .catch(() => {
           this.$store.commit("ADD_ALERT", [
@@ -76,7 +79,6 @@ export default {
             "danger"
           ]);
         })
-        .finally(() => setTimeout(() => (this.loading = false), 500));
     },
     contentChange(newVal) {
       this.saved = false;
