@@ -1,10 +1,5 @@
 <template>
-  <card
-    shadow
-    header-classes="pb-5"
-    body-classes="px-lg-0 py-lg-0"
-    class="shadow editor"
-  >
+  <div class="editor">
     <Editor
       @contentChange="contentChange"
       @onFocus="onFocus"
@@ -19,7 +14,7 @@
       <font-awesome-icon v-if="loading && !saved" icon="spinner" spin />
       <font-awesome-icon v-else icon="save" />
     </base-button>
-  </card>
+  </div>
 </template>
 
 <script>

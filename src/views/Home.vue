@@ -22,7 +22,7 @@
           </card>
         </div>
         <div class="col-lg-7 col-xs-12">
-          <log :day="day" />
+          <notes-wrapper :day="day" />
         </div>
       </div>
     </section>
@@ -30,14 +30,14 @@
 </template>
 
 <script>
-import Log from "./components/Log/Log";
+import NotesWrapper from "./components/Notes/Wrapper";
 import Tasks from "./components/Tasks/Tasks";
 import LogDate from "./components/Navigation/LogDate";
 
 export default {
   name: "home",
   components: {
-    Log,
+    NotesWrapper,
     Tasks,
     LogDate
   },
