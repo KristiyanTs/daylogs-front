@@ -22,7 +22,7 @@
     "vue-axios": "^2.1.4",
     "vue-cookies": "^1.5.12",
     "vue-disable-autocomplete": "0.0.4",
-    "vue-flatpickr-component": "^8.1.1",
+    "vue-flatpickr-component": "^8.1.2",
     "vue-lazyload": "^1.2.6",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.1",

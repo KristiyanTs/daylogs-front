@@ -15,7 +15,7 @@
           <LogDate :day="day" @dateChanged="changeDate" />
           <card
             shadow
-            body-classes="px-lg-3 pt-lg-3 pb-lg-5"
+            body-classes="bg-white px-lg-3 pt-lg-3 pb-lg-5"
             class="shadow mt-2 tasks-card"
           >
             <Tasks :day="day" />
