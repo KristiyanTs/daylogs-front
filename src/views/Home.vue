@@ -1,66 +1,112 @@
 <template>
   <div>
-    <section class="section-shaped my-0">
-      <div class="shape shape-style-3 shape-default shape-skew">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="container shape-container d-flex w-100"></div>
-    </section>
-    <section class="section section-lg pt-lg-0 section-shaped mt--450">
+    <section class="section section-lg pt-lg-0 section-shaped">
       <div class="container row w-100">
-        <div class="col-lg-5 col-xs-12">
-          <LogDate :day="day" @dateChanged="changeDate" />
-          <card
-            shadow
-            body-classes="bg-white px-lg-3 pt-lg-3 pb-lg-5"
-            class="shadow mt-2 tasks-card"
+        <div class="col-lg-1 p-0">
+          <div
+            class="nav flex-column nav-pills d-inline-block justify-content-center"
+            id="v-pills-tab"
+            role="tablist"
+            aria-orientation="vertical"
           >
-            <Tasks :day="day" />
-          </card>
+            <router-link
+              class="btn btn-sm nav-link"
+              exact-active-class="active"
+              to="/home/tasks"
+            >
+              <font-awesome-icon icon="tasks" size="3x" class="text-primary" />
+            </router-link>
+            <router-link
+              class="btn btn-sm nav-link"
+              exact-active-class="active"
+              active-class="active"
+              to="/home/notes"
+            >
+              <font-awesome-icon
+                :icon="['far', 'clipboard']"
+                size="3x"
+                class="text-primary"
+              />
+            </router-link>
+            <router-link
+              class="btn btn-sm nav-link"
+              exact-active-class="active"
+              active-class="active"
+              to="/music"
+            >
+              <font-awesome-icon
+                icon="headphones"
+                size="3x"
+                class="text-primary"
+              />
+            </router-link>
+          </div>
         </div>
-        <div class="col-lg-7 col-xs-12">
-          <notes-wrapper :day="day" />
-        </div>
+        <fade-transition
+          mode="out-in"
+          name="fade"
+          :duration="300"
+          class="col-lg-11 p-0"
+        >
+          <keep-alive>
+            <router-view />
+          </keep-alive>
+        </fade-transition>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import NotesWrapper from "./components/Notes/Wrapper";
-import Tasks from "./components/Tasks/Tasks";
-import LogDate from "./components/Navigation/LogDate";
+import { FadeTransition } from "vue2-transitions";
 
 export default {
   name: "home",
   components: {
-    NotesWrapper,
-    Tasks,
-    LogDate
+    FadeTransition
   },
   data() {
-    return {
-      day: new Date()
-    };
-  },
-  methods: {
-    changeDate(day) {
-      this.day = day;
-    }
+    return {};
   }
 };
 </script>
 
-<style scoped lang="sass">
-.container.w-100
-  max-width: none
-
-.mt--450
-  margin-top: -450px
-
-.row
-  margin: 0px
+<style>
+* /deep/ .card, * /deep/ .card-body {
+  /* border: 1px solid rgba(94,114,228, 0.4) !important; */
+  border: 0px !important;
+  border-radius: 5px !important;
+}
+* /deep/ .container.row.w-100 {
+  margin: 0 auto;
+}
+.container.w-100 {
+  max-width: none;
+}
+.row{
+  margin: 0px;
+}
+#app {
+  /* background-image: linear-gradient(to right top, #bf9aca, #cfa4c9, #dbb0ca, #e4bdcc, #eacbd2); */
+  background-image: linear-gradient(to left top, #028090, #008a94, #009497, #009e97, #00a896);
+}
+a.nav-link {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  margin: 0px !important;
+}
+/* a.nav-link.active {
+  background-color: transparent !important;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+} */
+a.nav-link:hover {
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+a.nav-link:hover svg {
+  transition: 0.5s;
+  transition-delay: 0.1s;
+}
+.nav-link svg {
+  color: #f0f3bd !important;
+}
 </style>

@@ -37,9 +37,6 @@ export default {
     return {};
   },
   computed: {
-    userRole() {
-      return this.$store.state.userRole;
-    }
   }
 };
 </script>

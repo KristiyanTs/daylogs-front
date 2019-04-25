@@ -1,6 +1,6 @@
 <template>
   <div class="tasks">
-    <div class="text-center text-muted" v-if="tasks.length == 0">
+    <div class="text-center text-muted" v-if="tasks.length == 0 && !isRelevant">
       No tasks for today
     </div>
     <table class="col-12">
@@ -13,48 +13,34 @@
           v-for="task in tasks"
           :task="task"
           :key="task.id"
-          :day="day"
           @updateTask="updateTask"
           @deleteTask="deleteTask"
         />
+        <tr :key="1000" style="height: 30px" v-if="isRelevant"></tr>
+        <task-form :day="day" key="0" @addTask="addTask" v-if="isRelevant" />
       </component>
     </table>
-    <base-button
-      v-if="isRelevant"
-      @click="modal = true"
-      round
-      type="success"
-      class="icon icon-shape p-0 add-task shadow"
-      ><font-awesome-icon icon="plus"
-    /></base-button>
-    <FormModal
-      :day="day"
-      :modal="modal"
-      @closeModal="closeModal"
-      @addTask="addTask"
-    />
   </div>
 </template>
 
 <script>
 import Task from "./Task";
-import FormModal from "./FormModal";
-import moment from "moment";
+import TaskForm from "./TaskForm";
 import smoothReflow from "vue-smooth-reflow";
 
 export default {
   components: {
     Task,
-    FormModal
+    TaskForm
   },
-  mixins: [smoothReflow],
   props: {
     day: {
       type: Date,
       default: new Date(),
-      description: "The currently viewed date"
+      description: "Current day"
     }
   },
+  mixins: [smoothReflow],
   data() {
     return {
       loading: true,
@@ -64,8 +50,8 @@ export default {
     };
   },
   mounted() {
-    this.getDayTasks();
     this.$smoothReflow();
+    this.getDayTasks();
   },
   methods: {
     getDayTasks() {
@@ -113,7 +99,7 @@ export default {
   },
   computed: {
     isRelevant() {
-      return moment().subtract(1, "days") <= this.day;
+      return this.moment().subtract(1, "days") <= this.day;
     }
   },
   watch: {

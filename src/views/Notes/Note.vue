@@ -1,67 +1,67 @@
 <template>
-  <div class="editor">
+  <card class="editor">
     <Editor
       @contentChange="contentChange"
       @onFocus="onFocus"
-      :content="log.content"
+      :content="note.content"
     />
     <base-button
       round
-      @click="saveDayLog"
+      @click="saveNote"
       :type="saved ? 'success' : 'warning'"
-      class="icon icon-shape p-0 save-log shadow"
+      class="icon icon-shape p-0 save-log"
     >
       <font-awesome-icon v-if="loading && !saved" icon="spinner" spin />
       <font-awesome-icon v-else icon="save" />
     </base-button>
-  </div>
+  </card>
 </template>
 
 <script>
-import Editor from "./Editor";
+import Editor from "@/views/components/Editor";
 
 export default {
   components: {
     Editor
   },
   props: {
-    day: {
-      type: Date,
-      default: new Date(),
-      description: "Log's date"
+    note_id: {
+      type: Number,
+      default: 0,
+      description: "Selected note id"
     }
   },
   data() {
     return {
-      log: { content: "" },
+      note: { content: "" },
       saved: true,
       save_timer: null,
       loading: true
     };
   },
   methods: {
-    getDayLog() {
+    getNote() {
       this.loading = true;
       this.axios
-        .get("/api/logs/1", {
-          headers: { Authorization: window.$cookies.get("jwt") },
-          params: { day: this.day }
+        .get(`/api/notes/${this.note_id}`, {
+          headers: { Authorization: window.$cookies.get("jwt") }
         })
         .then(response => {
-          this.log = response.data;
-          if (this.log.content == null) this.log.content = "Start your log...";
+          this.note = response.data;
+          if (this.note.content == null)
+            this.note.content = "Start your note...";
         })
         .catch(() => {
           this.errored = true;
         })
         .finally(() => (this.loading = false));
     },
-    saveDayLog() {
+    saveNote() {
       if (this.saved) return;
 
       this.loading = true;
       this.axios
-        .put(`/api/logs/${this.log.id}`, { log: this.log })
+        .put(`/api/notes/${this.note.id}`, { note: this.note })
         .then(() => {
           setTimeout(() => {
             this.loading = false;
@@ -69,29 +69,27 @@ export default {
           }, 500);
         })
         .catch(() => {
-          this.$store.commit("ADD_ALERT", [
-            "Unable to save day's log.",
-            "danger"
-          ]);
-        })
+          this.$store.commit("ADD_ALERT", ["Unable to save note.", "danger"]);
+        });
     },
     contentChange(newVal) {
       this.saved = false;
-      this.log.content = newVal;
+      this.note.content = newVal;
       clearTimeout(this.save_timer);
       this.save_timer = setTimeout(() => {
-        this.saveDayLog();
+        this.saveNote();
       }, 5000);
     },
     onFocus() {
-      if (this.log.content == "Start your log...") this.log.content = "";
+      if (this.note.content == "Start your note...") this.note.content = "";
     }
   },
   watch: {
-    day: {
+    note_id: {
       immediate: true,
       handler() {
-        this.getDayLog();
+        console.log("loading new");
+        this.getNote();
       }
     }
   }

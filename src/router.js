@@ -9,6 +9,8 @@ import Signup from "./views/Signup";
 import ResetPassword from "./views/ResetPassword";
 import Profile from "./views/Profile";
 import AdminPanel from "./views/admin/AdminPanel";
+import NotesWrapper from "./views/Notes/NotesWrapper";
+import TasksWrapper from "./views/Tasks/TasksWrapper";
 
 Vue.use(Router);
 
@@ -22,13 +24,34 @@ let router = new Router({
       name: "landing",
       components: {
         header: AppHeader,
-        default: {
-          render(c) {
-            if (this.$store.state.userId) return c(Home);
-            else return c(Landing);
-          }
-        },
+        default: Landing,
         footer: AppFooter
+      }
+    },
+    {
+      path: "/home",
+      name: "home",
+      components: {
+        header: AppHeader,
+        default: Home,
+        footer: AppFooter
+      },
+      children: [
+        {
+          path: "tasks",
+          component: TasksWrapper
+        },
+        {
+          path: "notes",
+          component: NotesWrapper
+        }
+        // {
+        //   path: "music",
+        //   components: Music
+        // }
+      ],
+      props: {
+        default: true
       }
     },
     {

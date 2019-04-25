@@ -88,11 +88,7 @@
       </div>
     </editor-menu-bar>
 
-    <editor-content
-      class="editor__content form-control form-control-alternative"
-      :editor="editor"
-    >
-    </editor-content>
+    <editor-content class="editor__content" :editor="editor"> </editor-content>
   </div>
 </template>
 
@@ -186,13 +182,13 @@ export default {
   visibility: visible;
   opacity: 1;
 }
+.editor__content /deep/ p {
+  margin-bottom: 3px;
+}
 .editor__content /deep/ .ProseMirror {
   min-height: 500px;
 }
 .editor__content /deep/ .ProseMirror:focus {
   outline: none;
-}
-.form-control {
-  height: auto;
 }
 </style>

@@ -1,7 +1,6 @@
 <template>
-  <footer class="footer has-cards">
+  <footer class="footer">
     <div class="container">
-      <hr />
       <div class="row align-items-center justify-content-md-between">
         <div class="col-md-6">
           <div class="copyright">
@@ -39,4 +38,13 @@
 <script>
 export default {};
 </script>
-<style></style>
+<style scoped>
+footer {
+  color: white;
+  background-image: linear-gradient(to right, #028090, #027381, #016572, #015964, #014c56);
+}
+footer a {
+  color: white;
+  font-weight: bold;
+}
+</style>

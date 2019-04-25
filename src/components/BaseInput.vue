@@ -4,7 +4,7 @@
     :class="[
       { 'input-group': hasIcon },
       { 'has-danger': error },
-      { focused: focused },
+      { 'focused': focused },
       { 'input-group-alternative': alternative },
       { 'has-label': label || $slots.label },
       { 'has-success': valid === true },
@@ -27,6 +27,7 @@
     </div>
     <slot v-bind="slotData">
       <input
+        ref="input"
         :disabled="disabled"
         :value="value"
         :autocomplete="autocomplete"
@@ -125,6 +126,11 @@ export default {
       type: String,
       default: "on",
       description: "Enable autofill (on/off)"
+    },
+    focus: {
+      type: String,
+      default: "false",
+      description: "Autofocus input"
     }
   },
   data() {
@@ -169,6 +175,11 @@ export default {
     onBlur(value) {
       this.focused = false;
       this.$emit("blur", value);
+    }
+  },
+  watch: {
+    focus() {
+      this.$refs.input.focus();
     }
   }
 };

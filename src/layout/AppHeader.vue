@@ -28,15 +28,8 @@
             </span>
             <span class="nav-link-inner--text">Log in</span>
           </router-link>
-          <base-button
-            v-if="signedIn"
-            @click="logOut"
-            class="btn btn-neutral btn-icon"
-          >
-            <span class="btn-inner--icon">
-              <i class="fa fa-sign-in mr-2"></i>
-            </span>
-            <span class="nav-link-inner--text">Log out</span>
+          <base-button round v-if="signedIn" @click="logOut" type="link">
+            <font-awesome-icon icon="user" size="2x" color="#f0f3bd" />
           </base-button>
           <router-link
             v-if="signedIn && isAdmin == 'true'"

@@ -1,22 +1,13 @@
 <template>
   <tr class="w-100">
-    <td class="px-2 task">{{ task.title }}</td>
+    <td class="px-2 task" :class="{ 'text-muted': task.completed }">
+      {{ task.title }}
+    </td>
     <td class="text-right actions">
-      <span class="icon icon-shape btn" round @click="updateTask('completed')">
+      <span class="icon icon-shape btn" round @click="updateTask">
         <font-awesome-icon
           icon="check"
           :class="task.completed ? 'text-success' : 'text-muted'"
-        />
-      </span>
-      <span
-        v-if="isRelevant"
-        class="icon icon-shape btn"
-        round
-        @click="updateTask"
-      >
-        <font-awesome-icon
-          icon="redo"
-          :class="task.recurrent ? 'text-warning' : 'text-muted'"
         />
       </span>
       <span class="icon icon-shape btn" round @click="deleteTask">
@@ -27,8 +18,6 @@
 </template>
 
 <script>
-import moment from "moment";
-
 export default {
   components: {},
   props: {
@@ -39,22 +28,19 @@ export default {
     },
     day: {
       type: Date,
-      default: new Date(),
-      description: "The currently viewed date"
+      default: () => new Date(),
+      description: "Current day"
     }
   },
   data() {
     return {};
   },
   methods: {
-    updateTask(column) {
-      let params =
-        column == "completed"
-          ? { completed: !this.task.completed }
-          : { recurrent: !this.task.recurrent };
-
+    updateTask() {
       this.axios
-        .put(`/api/tasks/${this.task.id}`, { task: params })
+        .put(`/api/tasks/${this.task.id}`, {
+          task: { completed: !this.task.completed }
+        })
         .then(response => {
           this.$emit("updateTask", response.data);
           this.$store.commit("ADD_ALERT", ["Task updated.", "success"]);
@@ -75,11 +61,6 @@ export default {
 
       this.$emit("deleteTask", this.task);
     }
-  },
-  computed: {
-    isRelevant() {
-      return moment().subtract(1, "days") <= this.day;
-    }
   }
 };
 </script>
@@ -87,9 +68,6 @@ export default {
 <style scoped>
 .table-row-move {
   transition: transform 0.2s;
-}
-.task {
-  border-radius: 25px;
 }
 .actions {
   width: 170px;
