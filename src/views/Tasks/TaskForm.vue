@@ -7,6 +7,7 @@
         <input type="submit" value="Submit" class="d-none" />
       </form>
     </td>
+    <td></td>
     <td class="text-right actions">
       <span class="icon icon-shape btn" round @click="submitForm">
         <font-awesome-icon icon="plus" class="text-success" />

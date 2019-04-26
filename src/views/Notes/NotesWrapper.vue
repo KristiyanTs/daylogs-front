@@ -66,6 +66,7 @@ export default {
     },
     addNote(note) {
       this.notes.push(note);
+      this.selected_note_id = note.id;
     },
     updateNote(note) {
       let index = this.notes.findIndex(n => n.id == note.id);

@@ -1,5 +1,5 @@
 <template>
-  <tr class="note-row w-100" :class="{ active: selected, shadow: selected }">
+  <tr class="note-row w-100" :class="{ active: selected }">
     <td class="title col-xs-8" @click="selectNote">
       <form @submit.prevent="updateNote" v-if="updating" :focus="updating">
         <base-input
@@ -89,6 +89,9 @@ export default {
 <style lang="scss">
 .form-group {
   margin: 0px !important;
+}
+tr td.title span {
+  padding-left: 10px;
 }
 tr.note-row:hover {
   cursor: pointer;

@@ -1,13 +1,32 @@
 <template>
   <tr class="w-100">
-    <td class="px-2 task" :class="{ 'text-muted': task.completed }">
+    <td class="px-2 task" :class="{ 'text-muted': task.status == 'completed' }">
       {{ task.title }}
     </td>
+    <td>
+      {{ taskTime }}
+    </td>
     <td class="text-right actions">
-      <span class="icon icon-shape btn" round @click="updateTask">
+      <span
+        class="icon icon-shape btn"
+        round
+        @click="runTask"
+        v-if="task.status == 'created' || task.status == 'paused'"
+      >
+        <font-awesome-icon icon="play" class="text-muted" />
+      </span>
+      <span
+        class="icon icon-shape btn"
+        round
+        @click="pauseTask"
+        v-if="task.status == 'running'"
+      >
+        <font-awesome-icon icon="pause" class="text-success" />
+      </span>
+      <span class="icon icon-shape btn" round @click="completeTask">
         <font-awesome-icon
           icon="check"
-          :class="task.completed ? 'text-success' : 'text-muted'"
+          :class="task.status == 'completed' ? 'text-success' : 'text-muted'"
         />
       </span>
       <span class="icon icon-shape btn" round @click="deleteTask">
@@ -33,17 +52,30 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      last_updated: new Date()
+    };
   },
   methods: {
-    updateTask() {
+    runTask() {
+      this.updateTask({ status: "running" });
+    },
+    pauseTask() {
+      this.updateTask({ status: "paused" });
+    },
+    completeTask() {
+      if (this.task.status != "completed") {
+        this.updateTask({ status: "completed" });
+      }
+    },
+    updateTask(params) {
       this.axios
         .put(`/api/tasks/${this.task.id}`, {
-          task: { completed: !this.task.completed }
+          task: params
         })
         .then(response => {
           this.$emit("updateTask", response.data);
-          this.$store.commit("ADD_ALERT", ["Task updated.", "success"]);
+          this.last_updated = new Date();
         })
         .catch(() => {
           this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
@@ -52,14 +84,26 @@ export default {
     deleteTask() {
       this.axios
         .delete(`/api/tasks/${this.task.id}`)
-        .then(() => {
-          this.$store.commit("ADD_ALERT", ["Task deleted.", "success"]);
-        })
+        .then(() => {})
         .catch(() => {
           this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
         });
 
       this.$emit("deleteTask", this.task);
+    }
+  },
+  computed: {
+    taskTime() {
+      let time;
+      if (this.task.status == "running") {
+        time = (this.$store.state.now - this.last_updated) / 1000;
+        time = Math.round(this.task.total_time + time);
+      } else if (this.task.status == "created") {
+        return "";
+      } else {
+        time = this.task.total_time;
+      }
+      return this.moment.utc(time * 1000).format("HH:mm:ss");
     }
   }
 };

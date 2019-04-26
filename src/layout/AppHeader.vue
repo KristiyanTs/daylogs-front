@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+      <ul class="navbar-nav ml-lg-auto">
         <li class="nav-item d-none d-lg-block">
           <router-link
             v-if="!signedIn"
@@ -28,9 +28,6 @@
             </span>
             <span class="nav-link-inner--text">Log in</span>
           </router-link>
-          <base-button round v-if="signedIn" @click="logOut" type="link">
-            <font-awesome-icon icon="user" size="2x" color="#f0f3bd" />
-          </base-button>
           <router-link
             v-if="signedIn && isAdmin == 'true'"
             to="/"
@@ -42,8 +39,29 @@
             <span class="nav-link-inner--text">Admin panel</span>
           </router-link>
         </li>
+        <base-dropdown
+          tag="li"
+          direction="left"
+          position="right"
+          v-if="signedIn"
+        >
+          <base-button
+            slot="title"
+            round
+            v-if="signedIn"
+            type="link"
+            class="dropdown-toggle"
+          >
+            <font-awesome-icon icon="user" size="2x" color="#f0f3bd" />
+          </base-button>
+          <router-link class="dropdown-item" to="/profile">
+            Profile
+          </router-link>
+          <a class="dropdown-item" href="#" @click="logOut">Log out</a>
+        </base-dropdown>
       </ul>
     </base-nav>
+
     <div id="alerts" v-if="anyAlerts" class="text-center col-12">
       <base-alert
         v-for="[message, status] in $store.state.alerts"
@@ -61,11 +79,15 @@
 <script>
 import BaseNav from "@/components/BaseNav";
 import CloseButton from "@/components/CloseButton";
+import BaseDropdown from "@/components/BaseDropdown";
+import BaseButton from "@/components/BaseButton";
 
 export default {
   components: {
     BaseNav,
-    CloseButton
+    CloseButton,
+    BaseDropdown,
+    BaseButton
   },
   methods: {
     logOut() {

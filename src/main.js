@@ -37,7 +37,9 @@ import {
   faHeadphones,
   faUser,
   faEdit,
-  faSave
+  faSave,
+  faPlay,
+  faPause
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faClipboard } from "@fortawesome/free-regular-svg-icons";
@@ -66,7 +68,9 @@ library.add({
   faHeadphones,
   faUser,
   faEdit,
-  faClipboard
+  faClipboard,
+  faPlay,
+  faPause
 });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

@@ -11,6 +11,7 @@ import Profile from "./views/Profile";
 import AdminPanel from "./views/admin/AdminPanel";
 import NotesWrapper from "./views/Notes/NotesWrapper";
 import TasksWrapper from "./views/Tasks/TasksWrapper";
+import SoundsWrapper from "./views/Sounds/SoundsWrapper";
 
 Vue.use(Router);
 
@@ -44,11 +45,11 @@ let router = new Router({
         {
           path: "notes",
           component: NotesWrapper
+        },
+        {
+          path: "sounds",
+          component: SoundsWrapper
         }
-        // {
-        //   path: "music",
-        //   components: Music
-        // }
       ],
       props: {
         default: true
@@ -85,7 +86,7 @@ let router = new Router({
       }
     },
     {
-      path: "/profile/:id",
+      path: "/profile",
       name: "profile",
       components: {
         header: AppHeader,
@@ -130,6 +131,10 @@ router.beforeEach((to, from, next) => {
         });
       }
     }
+  } else if (to.path == "/" && router.app.$store.state.signedIn) {
+    next({
+      path: "/home/tasks"
+    });
   } else {
     next();
   }

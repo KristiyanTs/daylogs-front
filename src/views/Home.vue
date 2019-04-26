@@ -32,7 +32,7 @@
               class="btn btn-sm nav-link"
               exact-active-class="active"
               active-class="active"
-              to="/music"
+              to="/home/sounds"
             >
               <font-awesome-icon
                 icon="headphones"

@@ -45,7 +45,7 @@ export default {
       this.axios
         .get("/api/logs/1", {
           headers: { Authorization: window.$cookies.get("jwt") },
-          params: { day: this.day }
+          params: { day: this.day.toString() }
         })
         .then(response => {
           this.log = response.data;

@@ -14,12 +14,11 @@
   >
     <slot name="title">
       <a
-        class="dropdown-toggle nav-link"
+        class="dropdown-toggle nav-links"
         :class="{ 'no-caret': hideArrow }"
         data-toggle="dropdown"
       >
-        <i :class="icon"></i>
-        <span class="no-icon">{{ title }}</span>
+        {{ title }}
       </a>
     </slot>
     <ul
@@ -92,5 +91,9 @@ export default {
 
 .dropdown .dropdown-toggle {
   cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  content: none !important;
 }
 </style>

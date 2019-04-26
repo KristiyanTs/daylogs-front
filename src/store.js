@@ -10,7 +10,8 @@ export default new Vuex.Store({
     signedIn: false,
     admin: "",
     id: "",
-    alerts: []
+    alerts: [],
+    now: new Date()
   },
   mutations: {
     SIGNED_IN(state, [token, userId, admin]) {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     REMOVE_ALERT(state, message) {
       state.alerts = state.alerts.filter(([msg, _status]) => msg != message);
+    },
+    UPDATE_TIME(state) {
+      state.now = new Date;
     }
   },
   actions: {
@@ -58,6 +62,11 @@ export default new Vuex.Store({
         .catch(_error =>
           self.commit("ADD_ALERT", ["Something went wrong.", "warning"])
         );
+    },
+    start({ commit }) {
+      setInterval(() => {
+        commit("UPDATE_TIME");
+      }, 1000);
     }
   }
 });

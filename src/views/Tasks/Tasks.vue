@@ -45,8 +45,7 @@ export default {
     return {
       loading: true,
       tasks: [],
-      errored: false,
-      modal: false
+      errored: false
     };
   },
   mounted() {
@@ -63,6 +62,7 @@ export default {
         })
         .then(response => {
           this.tasks = response.data;
+          this.updateWorktime();
         })
         .catch(error => {
           this.errored = true;
@@ -77,24 +77,29 @@ export default {
       let index = this.tasks.findIndex(t => t.id == task.id);
       this.tasks.splice(index, 1, task);
       this.reorderTasks();
+      this.updateWorktime();
     },
     deleteTask(task) {
       let index = this.tasks.findIndex(t => t.id == task.id);
       this.tasks.splice(index, 1);
+      this.updateWorktime();
     },
     reorderTasks() {
       this.tasks = this.tasks.sort((a, b) =>
-        a.completed > b.completed
+        a.status > b.status
           ? 1
-          : a.completed === b.completed
+          : a.status === b.status
           ? a.title > b.title
             ? 1
             : -1
           : -1
       );
     },
-    closeModal() {
-      this.modal = false;
+    updateWorktime() {
+      let time = this.tasks.reduce((total, task) => {
+        return total + task.total_time;
+      }, 0);
+      this.$emit("worktimeUpdated", time);
     }
   },
   computed: {
