@@ -1,5 +1,5 @@
 <template>
-  <card id="date" body-classes="px-lg-5 py-lg-3">
+  <div id="date" class="px-lg-2 py-lg-5">
     <span class="icon icon-shape btn" round @click="shiftDate(-5)">
       <font-awesome-icon icon="angle-double-left" class="text-primary" />
     </span>
@@ -19,7 +19,7 @@
     <span class="icon icon-shape btn" round @click="shiftDate(5)">
       <font-awesome-icon icon="angle-double-right" class="text-primary" />
     </span>
-  </card>
+  </div>
 </template>
 
 <script>
@@ -76,6 +76,8 @@ export default {
 #date
   text-align: center
 
+  .date
+    color: #05668d
   .icon-shape
     padding: 5px
 

@@ -92,6 +92,9 @@ let router = new Router({
         header: AppHeader,
         default: Profile,
         footer: AppFooter
+      },
+      props: {
+        default: true
       }
     },
     {

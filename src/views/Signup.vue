@@ -1,16 +1,5 @@
 <template>
   <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-3 shape-default shape-skew">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
     <div class="container pt-lg-md">
       <div class="row justify-content-center">
         <div class="col-lg-5">
@@ -32,7 +21,7 @@
                 alternative
                 class="mb-3"
                 placeholder="Name"
-                addon-left-icon="ni ni-single-02"
+                addon-left-icon="user"
                 v-model="name"
               >
               </base-input>
@@ -40,28 +29,28 @@
                 alternative
                 autocomplete="off"
                 input_type="email"
-                class="mb-3"
+                class="mb-3 bg-white"
                 placeholder="Email"
-                addon-left-icon="ni ni-email-83"
+                addon-left-icon="at"
                 v-model="email"
-                style="background-color: white"
               >
               </base-input>
               <base-input
                 alternative
                 input_type="password"
+                class="mb-3 bg-white"
                 autocomplete="off"
                 placeholder="Password"
-                addon-left-icon="ni ni-lock-circle-open"
+                addon-left-icon="key"
                 v-model="password"
-                style="background-color: white"
               >
               </base-input>
               <base-input
                 alternative
                 input_type="password"
+                class="mb-3 bg-white"
                 placeholder="Confirm password"
-                addon-left-icon="ni ni-lock-circle-open"
+                addon-left-icon="key"
                 v-model="password_confirmation"
               >
               </base-input>

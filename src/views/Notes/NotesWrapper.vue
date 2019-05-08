@@ -1,28 +1,26 @@
 <template>
-  <div class="row">
-    <div class="col-lg-5 col-xs-12 p-0">
-      <card body-classes="bg-white px-lg-3 pt-lg-3 pb-lg-5" class="notes-card">
-        <span v-if="notes.length == 0" class="text-muted mb-3">
-          You have no notes yet.
-        </span>
-        <table class="notes-table w-100">
-          <tbody class="w-100">
-            <notes-row
-              v-for="note in notes"
-              :key="note.id"
-              :note="note"
-              :selected="selected_note_id == note.id"
-              @noteDeleted="deleteNote"
-              @noteUpdated="updateNote"
-              @noteSelected="selectNote"
-            />
-            <tr :key="1000" style="height: 30px"></tr>
-            <note-form :key="0" @noteAdded="addNote" />
-          </tbody>
-        </table>
-      </card>
+  <div class="row max-height">
+    <div class="col-lg-5 col-xs-12 px-0 notes-list">
+      <div v-if="notes.length == 0" class="text-muted mb-3 text-center">
+        You have no notes yet.
+      </div>
+      <table class="notes-table w-100">
+        <tbody class="w-100">
+          <notes-row
+            v-for="note in notes"
+            :key="note.id"
+            :note="note"
+            :selected="selected_note_id == note.id"
+            @noteDeleted="deleteNote"
+            @noteUpdated="updateNote"
+            @noteSelected="selectNote"
+          />
+          <tr :key="1000" style="height: 30px"></tr>
+          <note-form :key="0" @noteAdded="addNote" />
+        </tbody>
+      </table>
     </div>
-    <div class="col-lg-7 col-xs-12">
+    <div class="col-lg-7 col-xs-12 p-0">
       <Note :note_id="selected_note_id" />
     </div>
   </div>
@@ -89,9 +87,10 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.notes-card
-  .add-note
-    position: absolute
-    bottom: -24px
-    right: 10px
+.notes-list
+  max-height: 100vh
+  padding-top: 100px
+  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
+  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
+  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
 </style>

@@ -39,10 +39,15 @@ import {
   faEdit,
   faSave,
   faPlay,
-  faPause
+  faPause,
+  faLock,
+  faEllipsisV,
+  faAt,
+  faKey,
+  faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 
-import { faClipboard } from "@fortawesome/free-regular-svg-icons";
+import { faClipboard, faImage } from "@fortawesome/free-regular-svg-icons";
 
 library.add({
   faBold,
@@ -70,7 +75,13 @@ library.add({
   faEdit,
   faClipboard,
   faPlay,
-  faPause
+  faPause,
+  faLock,
+  faEllipsisV,
+  faAt,
+  faKey,
+  faSignOutAlt,
+  faImage
 });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

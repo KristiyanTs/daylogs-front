@@ -1,22 +1,18 @@
 <template>
-  <div class="row">
-    <div class="col-lg-5 col-xs-12 p-0">
-      <base-progress
+  <div class="row max-height">
+    <div class="col-lg-5 col-xs-12 px-4 tasks-wrapper">
+      <day-select :day="day" @dayChange="changeDay" />
+      <!-- <base-progress
         v-if="worktime > 0"
         type="default"
         id="progress"
         :value="ratio"
-        label="Hours worked"
-      ></base-progress>
-      <day-select :day="day" @dayChange="changeDay" />
-      <card
-        body-classes="bg-white px-lg-3 pt-lg-3 pb-lg-5"
-        class="mt-3 tasks-card"
-      >
+      ></base-progress> -->
+      <div class="scrolling">
         <tasks :day="day" @worktimeUpdated="updateWorktime" />
-      </card>
+      </div>
     </div>
-    <div class="col-lg-7 col-xs-12">
+    <div class="col-lg-7 col-xs-12 p-0">
       <log :day="day" />
     </div>
   </div>
@@ -58,21 +54,29 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #progress {
-  position: absolute;
-  top: -95px;
   width: 100%;
 
   .progress-label span {
     background: rgba(94, 114, 228, 0.5);
-    color: #f0f3bd;
+    color: #E8F6FF;
   }
   .progress-percentage span {
-    color: #f0f3bd;
+    color: #E8F6FF;
   }
   .progress {
-    background-color: #f0f3bd;
+    background-color: #E8F6FF;
   }
+}
+.tasks-wrapper {
+  max-height: 100vh;
+  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
+}
+.scrolling {
+  height: 100%;
+  overflow-y: scroll;
 }
 </style>

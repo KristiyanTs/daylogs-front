@@ -1,44 +1,58 @@
 <template>
   <tr class="w-100">
-    <td class="px-2 task" :class="{ 'text-muted': task.status == 'completed' }">
+    <td class="py-3 task" :class="{ 'text-muted': task.status == 'completed' }">
       {{ task.title }}
     </td>
-    <td>
-      {{ taskTime }}
+    <td class="time text-muted">
+      <span v-if="taskTime != '00:00:00'">{{ taskTime }}</span>
     </td>
     <td class="text-right actions">
-      <span
-        class="icon icon-shape btn"
-        round
-        @click="runTask"
-        v-if="task.status == 'created' || task.status == 'paused'"
-      >
-        <font-awesome-icon icon="play" class="text-muted" />
-      </span>
-      <span
-        class="icon icon-shape btn"
-        round
-        @click="pauseTask"
-        v-if="task.status == 'running'"
-      >
-        <font-awesome-icon icon="pause" class="text-success" />
-      </span>
       <span class="icon icon-shape btn" round @click="completeTask">
         <font-awesome-icon
           icon="check"
           :class="task.status == 'completed' ? 'text-success' : 'text-muted'"
         />
       </span>
-      <span class="icon icon-shape btn" round @click="deleteTask">
-        <font-awesome-icon icon="trash-alt" class="text-muted" />
-      </span>
+      <base-dropdown direction="left" position="right">
+        <span
+          slot="title"
+          round
+          type="link"
+          class="dropdown-toggle icon icon-shape btn mr-0 text-muted"
+        >
+          <font-awesome-icon icon="ellipsis-v" />
+        </span>
+        <span
+          class="dropdown-item"
+          @click="runTask"
+          v-if="task.status == 'created' || task.status == 'paused'"
+        >
+          <font-awesome-icon icon="play" class="text-muted" />
+          Start progress
+        </span>
+        <span
+          class="dropdown-item"
+          @click="pauseTask"
+          v-if="task.status == 'running'"
+        >
+          <font-awesome-icon icon="pause" class="text-success" />
+          Pause
+        </span>
+        <span class="dropdown-item" @click="deleteTask">
+          <font-awesome-icon icon="trash-alt" class="text-muted" />
+          Delete
+        </span>
+      </base-dropdown>
     </td>
   </tr>
 </template>
 
 <script>
+import BaseDropdown from "@/components/BaseDropdown";
 export default {
-  components: {},
+  components: {
+    BaseDropdown
+  },
   props: {
     task: {
       type: Object,
@@ -90,6 +104,13 @@ export default {
         });
 
       this.$emit("deleteTask", this.task);
+    },
+    formatTime(time) {
+      if (time < 3600) {
+        return `${Math.round(time / 1000)} m`;
+      } else {
+        return `${Math.round(time / 1000)} h`;
+      }
     }
   },
   computed: {
@@ -103,7 +124,7 @@ export default {
       } else {
         time = this.task.total_time;
       }
-      return this.moment.utc(time * 1000).format("HH:mm:ss");
+      return this.formatTime(time);
     }
   }
 };
@@ -113,7 +134,15 @@ export default {
 .table-row-move {
   transition: transform 0.2s;
 }
-.actions {
-  width: 170px;
+tr {
+  background-color: white;
+  border-bottom: 1px solid rgb(229, 240, 255);
+}
+td.time {
+  width: 80px;
+  text-align: center;
+}
+td.actions {
+  width: 150px;
 }
 </style>

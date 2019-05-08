@@ -1,13 +1,13 @@
 <template>
   <tr class="w-100">
-    <td class="px-2 task-title">
+    <td class="task-title px-3 py-3">
       <form @submit.prevent="submitForm">
-        <base-input v-model="title" placeholder="New note" />
+        <base-input v-model="title" placeholder="New note" alternative />
         <!-- The following line submits the form when pressing enter -->
         <input type="submit" value="Submit" class="d-none" />
       </form>
     </td>
-    <td class="text-right actions">
+    <td class="text-right actions pr-3">
       <span class="icon icon-shape btn" round @click="submitForm()">
         <font-awesome-icon icon="plus" class="text-success" />
       </span>

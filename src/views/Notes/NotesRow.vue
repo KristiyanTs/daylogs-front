@@ -1,6 +1,6 @@
 <template>
   <tr class="note-row w-100" :class="{ active: selected }">
-    <td class="title col-xs-8" @click="selectNote">
+    <td class="title col-xs-8 px-3 py-3" @click="selectNote">
       <form @submit.prevent="updateNote" v-if="updating" :focus="updating">
         <base-input
           alternative
@@ -13,19 +13,40 @@
       </form>
       <span v-else>{{ note.title }}</span>
     </td>
-    <td class="actions col-xs-4 text-right">
-      <span class="icon icon-shape btn" round @click="updateNote">
-        <font-awesome-icon icon="save" class="text-success" v-if="updating" />
-        <font-awesome-icon icon="edit" class="text-muted" v-else />
+    <td
+      class="actions col-xs-4 text-right pr-3"
+      :class="{ updating: updating }"
+    >
+      <span
+        class="icon icon-shape btn"
+        round
+        @click="updateNote"
+        v-if="updating"
+      >
+        <font-awesome-icon icon="save" class="text-success" />
       </span>
-      <span class="icon icon-shape btn" round @click="deleteNote">
-        <font-awesome-icon icon="trash-alt" class="text-muted" />
-      </span>
+      <base-dropdown direction="left" position="right">
+        <span
+          slot="title"
+          round
+          type="link"
+          class="dropdown-toggle icon icon-shape btn mr-0 text-muted"
+        >
+          <font-awesome-icon icon="ellipsis-v" />
+        </span>
+        <span class="dropdown-item" @click="updateNote">
+          <font-awesome-icon icon="edit" class="text-muted mr-3" />Rename
+        </span>
+        <span class="dropdown-item" @click="deleteNote">
+          <font-awesome-icon icon="trash-alt" class="text-muted mr-3" />Delete
+        </span>
+      </base-dropdown>
     </td>
   </tr>
 </template>
 
 <script>
+import BaseDropdown from "@/components/BaseDropdown";
 export default {
   props: {
     note: {
@@ -38,6 +59,9 @@ export default {
       default: false,
       description: "Is this note currently opened"
     }
+  },
+  components: {
+    BaseDropdown
   },
   data() {
     return {
@@ -90,14 +114,25 @@ export default {
 .form-group {
   margin: 0px !important;
 }
+tr.note-row {
+  background-color: white;
+  border-bottom: 1px solid rgb(229, 240, 255);
+}
+td.actions {
+  width: 55px;
+}
+td.actions.updating {
+  width: 110px;
+}
 tr td.title span {
   padding-left: 10px;
 }
-tr.note-row:hover {
+tr.note-row td.title:hover {
   cursor: pointer;
 }
 tr.active {
-  background-color: #f0f3bd !important;
+  border-radius: 5px;
+  background-color: #E8F6FF !important;
   font-weight: 500;
   td span {
     padding-left: 10px;

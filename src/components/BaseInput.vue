@@ -21,7 +21,7 @@
     <div v-if="addonLeftIcon || $slots.addonLeft" class="input-group-prepend">
       <span class="input-group-text">
         <slot name="addonLeft">
-          <i :class="addonLeftIcon"></i>
+          <font-awesome-icon :icon="addonLeftIcon"></font-awesome-icon>
         </slot>
       </span>
     </div>

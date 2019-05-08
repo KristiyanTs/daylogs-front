@@ -1,5 +1,5 @@
 <template>
-  <card class="editor">
+  <div class="editor max-height">
     <Editor
       @contentChange="contentChange"
       @onFocus="onFocus"
@@ -14,7 +14,7 @@
       <font-awesome-icon v-if="loading && !saved" icon="spinner" spin />
       <font-awesome-icon v-else icon="save" />
     </base-button>
-  </card>
+  </div>
 </template>
 
 <script>
@@ -91,6 +91,7 @@ export default {
     day: {
       immediate: true,
       handler() {
+        this.saveDayLog();
         this.getDayLog();
       }
     }
@@ -101,7 +102,7 @@ export default {
 <style lang="scss">
 .editor .save-log {
   position: absolute;
-  bottom: -24px;
+  bottom: 10px;
   right: 10px;
 }
 </style>

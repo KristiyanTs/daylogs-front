@@ -1,16 +1,5 @@
 <template>
   <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-3 shape-default shape-skew">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
     <div class="container pt-lg-md">
       <div class="row justify-content-center">
         <div class="col-lg-5">
@@ -30,15 +19,16 @@
                 alternative
                 class="mb-3"
                 placeholder="Email"
-                addon-left-icon="ni ni-email-83"
+                addon-left-icon="at"
                 v-model="email"
               >
               </base-input>
               <base-input
                 alternative
+                class="mb-3"
                 input_type="password"
                 placeholder="Password"
-                addon-left-icon="ni ni-lock-circle-open"
+                addon-left-icon="key"
                 v-model="password"
               >
               </base-input>
@@ -61,7 +51,7 @@
               </div>
               <div class="col-6 text-right">
                 <router-link to="/signup">
-                  <small>Create new account</small>
+                  <small>Register</small>
                 </router-link>
               </div>
             </div>

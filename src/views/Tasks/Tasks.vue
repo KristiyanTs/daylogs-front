@@ -49,7 +49,7 @@ export default {
     };
   },
   mounted() {
-    this.$smoothReflow();
+    // this.$smoothReflow();
     this.getDayTasks();
   },
   methods: {

@@ -81,3 +81,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.close {
+  position: absolute !important;
+  right: 5px !important;
+}
+</style>

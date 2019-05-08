@@ -1,5 +1,5 @@
 <template>
-  <card class="editor">
+  <div class="editor">
     <Editor
       @contentChange="contentChange"
       @onFocus="onFocus"
@@ -14,7 +14,7 @@
       <font-awesome-icon v-if="loading && !saved" icon="spinner" spin />
       <font-awesome-icon v-else icon="save" />
     </base-button>
-  </card>
+  </div>
 </template>
 
 <script>
@@ -88,7 +88,7 @@ export default {
     note_id: {
       immediate: true,
       handler() {
-        console.log("loading new");
+        this.saveNote();
         this.getNote();
       }
     }

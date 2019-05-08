@@ -18,25 +18,15 @@
 
       <ul class="navbar-nav ml-lg-auto">
         <li class="nav-item d-none d-lg-block">
-          <router-link
-            v-if="!signedIn"
-            to="/login"
-            class="btn btn-neutral btn-icon"
-          >
-            <span class="btn-inner--icon">
-              <i class="fa fa-sign-in mr-2"></i>
-            </span>
-            <span class="nav-link-inner--text">Log in</span>
+          <router-link v-if="!signedIn" to="/login" class="btn btn-neutral">
+            Log in
           </router-link>
           <router-link
             v-if="signedIn && isAdmin == 'true'"
             to="/"
             class="btn btn-primary btn-icon"
           >
-            <span class="btn-inner--icon">
-              <i class="fa fa-sign-in mr-2"></i>
-            </span>
-            <span class="nav-link-inner--text">Admin panel</span>
+            Admin panel
           </router-link>
         </li>
         <base-dropdown
@@ -52,7 +42,7 @@
             type="link"
             class="dropdown-toggle"
           >
-            <font-awesome-icon icon="user" size="2x" color="#f0f3bd" />
+            <font-awesome-icon icon="user" size="2x" color="#E8F6FF" />
           </base-button>
           <router-link class="dropdown-item" to="/profile">
             Profile
@@ -62,7 +52,11 @@
       </ul>
     </base-nav>
 
-    <div id="alerts" v-if="anyAlerts" class="text-center col-12">
+    <div
+      id="alerts"
+      v-if="anyAlerts"
+      class="text-center col-xs-12 col-md-6 offset-md-3"
+    >
       <base-alert
         v-for="[message, status] in $store.state.alerts"
         dismissible="true"
@@ -81,13 +75,15 @@ import BaseNav from "@/components/BaseNav";
 import CloseButton from "@/components/CloseButton";
 import BaseDropdown from "@/components/BaseDropdown";
 import BaseButton from "@/components/BaseButton";
+import BaseAlert from "@/components/BaseAlert";
 
 export default {
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
-    BaseButton
+    BaseButton,
+    BaseAlert
   },
   methods: {
     logOut() {
@@ -116,6 +112,7 @@ export default {
   .alert-message {
     max-width: 300px;
     min-width: 250px;
+    padding: 10px 30px;
     margin: 0 auto;
   }
 }

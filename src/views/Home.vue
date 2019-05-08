@@ -1,59 +1,56 @@
 <template>
-  <div>
-    <section class="section section-lg pt-lg-0 section-shaped">
-      <div class="container row w-100">
-        <div class="col-lg-1 p-0">
-          <div
-            class="nav flex-column nav-pills d-inline-block justify-content-center"
-            id="v-pills-tab"
-            role="tablist"
-            aria-orientation="vertical"
-          >
-            <router-link
-              class="btn btn-sm nav-link"
-              exact-active-class="active"
-              to="/home/tasks"
-            >
-              <font-awesome-icon icon="tasks" size="3x" class="text-primary" />
-            </router-link>
-            <router-link
-              class="btn btn-sm nav-link"
-              exact-active-class="active"
-              active-class="active"
-              to="/home/notes"
-            >
-              <font-awesome-icon
-                :icon="['far', 'clipboard']"
-                size="3x"
-                class="text-primary"
-              />
-            </router-link>
-            <router-link
-              class="btn btn-sm nav-link"
-              exact-active-class="active"
-              active-class="active"
-              to="/home/sounds"
-            >
-              <font-awesome-icon
-                icon="headphones"
-                size="3x"
-                class="text-primary"
-              />
-            </router-link>
-          </div>
-        </div>
-        <fade-transition
-          mode="out-in"
-          name="fade"
-          :duration="300"
-          class="col-lg-11 p-0"
+  <div class="row max-height">
+    <div
+      class="nav flex-column nav-pills col-md-1 main-nav p-0 text-center m-0"
+      id="v-pills-tab"
+      role="tablist"
+      aria-orientation="vertical"
+    >
+      <img src="../assets/images/logo.png" class="my-3 w-100 px-2" />
+      <router-link
+        class="nav-link"
+        exact-active-class="active"
+        to="/home/tasks"
+      >
+        <font-awesome-icon icon="tasks" size="3x" />
+      </router-link>
+      <router-link
+        class="nav-link"
+        exact-active-class="active"
+        active-class="active"
+        to="/home/notes"
+      >
+        <font-awesome-icon :icon="['far', 'clipboard']" size="3x" />
+      </router-link>
+      <router-link
+        class="nav-link"
+        exact-active-class="active"
+        active-class="active"
+        to="/home/sounds"
+      >
+        <font-awesome-icon icon="headphones" size="3x" />
+      </router-link>
+      <div class="account">
+        <router-link
+          class="nav-link"
+          exact-active-class="active"
+          active-class="active"
+          to="/profile"
         >
-          <keep-alive>
-            <router-view />
-          </keep-alive>
-        </fade-transition>
+          <font-awesome-icon icon="user" size="2x" />
+        </router-link>
+        <a class="nav-link">
+          <font-awesome-icon icon="sign-out-alt" size="2x" />
+        </a>
       </div>
-    </section>
+    </div>
+    <div class="col-md-11 p-0 m-0">
+      <fade-transition mode="out-in" name="fade" :duration="300">
+        <keep-alive>
+          <router-view />
+        </keep-alive>
+      </fade-transition>
+    </div>
   </div>
 </template>
 
@@ -72,28 +69,24 @@ export default {
 </script>
 
 <style>
-* /deep/ .card, * /deep/ .card-body {
-  /* border: 1px solid rgba(94,114,228, 0.4) !important; */
-  border: 0px !important;
-  border-radius: 5px !important;
+.max-height {
+  height: 100vh !important;
+  position: relative;
 }
-* /deep/ .container.row.w-100 {
-  margin: 0 auto;
-}
-.container.w-100 {
-  max-width: none;
-}
-.row{
-  margin: 0px;
-}
-#app {
-  /* background-image: linear-gradient(to right top, #bf9aca, #cfa4c9, #dbb0ca, #e4bdcc, #eacbd2); */
-  background-image: linear-gradient(to left top, #028090, #008a94, #009497, #009e97, #00a896);
+.row {
+  margin: 0px !important;
 }
 a.nav-link {
   background-color: transparent !important;
   box-shadow: none !important;
   margin: 0px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  width: 100%;
+  border-radius: 0px !important;
+}
+a.nav-link svg {
+  width: 40px !important;
 }
 /* a.nav-link.active {
   background-color: transparent !important;
@@ -107,6 +100,19 @@ a.nav-link:hover svg {
   transition-delay: 0.1s;
 }
 .nav-link svg {
-  color: #f0f3bd !important;
+  color: #E8F6FF !important;
+}
+.nav-link.active {
+  transition: all 2s;
+  background-color: #05668d !important;
+}
+.main-nav {
+  height: 100%;
+  background-color: #01A7C2;
+}
+.account {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
 }
 </style>

@@ -2,88 +2,96 @@
   <div class="editor">
     <editor-menu-bar :editor="editor">
       <div
-        class="menubar is-hidden"
+        class="menubar p-2"
         :class="{ 'is-focused': focused }"
         slot-scope="{ commands, isActive, focused }"
       >
         <base-button
-          :type="isActive.bullet_list() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.bullet_list() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.bullet_list"
         >
           <font-awesome-icon icon="list-ul" />
         </base-button>
 
         <base-button
-          :type="isActive.ordered_list() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.ordered_list() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.ordered_list"
         >
           <font-awesome-icon icon="list-ol" />
         </base-button>
 
         <base-button
-          :type="isActive.bold() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.bold() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.bold"
         >
           <font-awesome-icon icon="bold" />
         </base-button>
 
         <base-button
-          :type="isActive.italic() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.italic() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.italic"
         >
           <font-awesome-icon icon="italic" />
         </base-button>
 
         <base-button
-          :type="isActive.strike() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.strike() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.strike"
         >
           <font-awesome-icon icon="strikethrough" />
         </base-button>
 
         <base-button
-          :type="isActive.underline() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.underline() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.underline"
         >
           <font-awesome-icon icon="underline" />
         </base-button>
 
         <base-button
-          :type="isActive.heading({ level: 1 }) ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.heading({ level: 1 }) ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.heading({ level: 1 })"
         >
           H1
         </base-button>
 
         <base-button
-          :type="isActive.heading({ level: 2 }) ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.heading({ level: 2 }) ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.heading({ level: 2 })"
         >
           H2
         </base-button>
 
         <base-button
-          :type="isActive.heading({ level: 3 }) ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.heading({ level: 3 }) ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.heading({ level: 3 })"
         >
           H3
         </base-button>
 
         <base-button
-          :type="isActive.code_block() ? 'default' : 'secondary'"
-          class="menubar__button btn-sm"
+          :type="isActive.code_block() ? 'default' : 'link'"
+          class="menubar__button"
           @click="commands.code_block"
         >
           <font-awesome-icon icon="code" />
+        </base-button>
+
+        <base-button
+          :type="isActive.image() ? 'default' : 'link'"
+          class="menubar__button"
+          @click="showImagePrompt(commands.image)"
+        >
+          <font-awesome-icon :icon="['far', 'image']" />
         </base-button>
       </div>
     </editor-menu-bar>
@@ -109,7 +117,8 @@ import {
   Link,
   Strike,
   Underline,
-  History
+  History,
+  Image
 } from "tiptap-extensions";
 
 export default {
@@ -146,7 +155,8 @@ export default {
         new Link(),
         new Strike(),
         new Underline(),
-        new History()
+        new History(),
+        new Image()
       ],
       content: this.content,
       onUpdate: ({ getHTML }) => {
@@ -156,6 +166,14 @@ export default {
         this.$emit("onFocus", getHTML);
       }
     });
+  },
+  methods: {
+    showImagePrompt(command) {
+      const src = prompt('Enter the url of your image here')
+      if (src !== null) {
+        command({ src });
+      }
+    }
   },
   watch: {
     content(val) {
@@ -172,15 +190,13 @@ export default {
 
 <style scoped>
 .menubar {
-  position: absolute;
-  top: -40px;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
+  background-color: #F9F8FF;
 }
-.menubar.is-focused {
-  visibility: visible;
-  opacity: 1;
+.menubar .menubar__button {
+  border-radius: 0px;
+}
+.editor__content {
+  padding: 15px;
 }
 .editor__content /deep/ p {
   margin-bottom: 3px;
@@ -190,5 +206,9 @@ export default {
 }
 .editor__content /deep/ .ProseMirror:focus {
   outline: none;
+}
+.editor__content /deep/ img {
+  max-width: 100%;
+  max-height: 350px;
 }
 </style>

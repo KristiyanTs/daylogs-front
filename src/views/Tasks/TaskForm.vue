@@ -1,15 +1,14 @@
 <template>
   <tr class="w-100">
-    <td class="px-2 task-title">
-      <form @submit.prevent="submitForm">
-        <base-input v-model="title" placeholder="New task" />
+    <td class="task-title" colspan="2">
+      <form @submit.prevent="submit">
+        <base-input v-model="title" placeholder="New task" alternative />
         <!-- The following line submits the form when pressing enter -->
         <input type="submit" value="Submit" class="d-none" />
       </form>
     </td>
-    <td></td>
     <td class="text-right actions">
-      <span class="icon icon-shape btn" round @click="submitForm">
+      <span class="icon icon-shape btn" round @click="submit">
         <font-awesome-icon icon="plus" class="text-success" />
       </span>
     </td>
@@ -34,7 +33,9 @@ export default {
     resetTask() {
       this.title = "";
     },
-    submitForm() {
+    submit() {
+      if (this.title.length == 0) return;
+
       this.axios
         .post("/api/tasks", {
           task: {

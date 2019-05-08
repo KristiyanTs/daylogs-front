@@ -41,7 +41,8 @@ export default {};
 <style scoped>
 footer {
   color: white;
-  background-image: linear-gradient(to right, #028090, #027381, #016572, #015964, #014c56);
+  height: 250px;
+  background-image: linear-gradient(to right bottom, #22397b, #1e3771, #1d3568, #1c335e, #1d3154);
 }
 footer a {
   color: white;
