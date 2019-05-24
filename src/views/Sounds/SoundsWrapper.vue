@@ -6,11 +6,9 @@
 
 <script>
 export default {
+  name: "sounds",
   data() {
     return {};
   }
 }
 </script>
-
-<style scoped>
-</style>

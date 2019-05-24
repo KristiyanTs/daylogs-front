@@ -83,7 +83,7 @@ export default {
 
   .date
     font-size: 1.8em
-    width:200px
-    max-width:200px
+    width:210px
+    max-width:210px
     display: inline-block
 </style>

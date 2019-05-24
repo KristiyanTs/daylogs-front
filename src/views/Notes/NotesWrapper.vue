@@ -1,7 +1,10 @@
 <template>
   <div class="row max-height">
     <div class="col-lg-5 col-xs-12 px-0 notes-list">
-      <div v-if="notes.length == 0" class="text-muted mb-3 text-center">
+      <div
+        v-if="notes.length == 0 && !loading"
+        class="text-muted mb-3 text-center mt-5"
+      >
         You have no notes yet.
       </div>
       <table class="notes-table w-100">
@@ -32,6 +35,7 @@ import NoteForm from "./NoteForm";
 import Note from "./Note";
 
 export default {
+  name: "notes",
   components: {
     NotesRow,
     NoteForm,
@@ -89,7 +93,6 @@ export default {
 <style scoped lang="sass">
 .notes-list
   max-height: 100vh
-  padding-top: 100px
   -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
   -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
   box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)

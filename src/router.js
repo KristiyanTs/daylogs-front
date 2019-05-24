@@ -2,8 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
+import AppSidebar from "./layout/AppSidebar";
 import Landing from "./views/Landing";
-import Home from "./views/Home";
 import Login from "./views/Login";
 import Signup from "./views/Signup";
 import ResetPassword from "./views/ResetPassword";
@@ -18,6 +18,7 @@ Vue.use(Router);
 let router = new Router({
   mode: "history",
   linkExactActiveClass: "active",
+  linkActiveClass: "active",
   base: process.env.BASE_URL,
   routes: [
     {
@@ -30,29 +31,30 @@ let router = new Router({
       }
     },
     {
-      path: "/home",
-      name: "home",
+      path: "/tasks",
+      name: "tasks",
       components: {
-        header: AppHeader,
-        default: Home,
+        sidebar: AppSidebar,
+        default: TasksWrapper,
         footer: AppFooter
-      },
-      children: [
-        {
-          path: "tasks",
-          component: TasksWrapper
-        },
-        {
-          path: "notes",
-          component: NotesWrapper
-        },
-        {
-          path: "sounds",
-          component: SoundsWrapper
-        }
-      ],
-      props: {
-        default: true
+      }
+    },
+    {
+      path: "/notes",
+      name: "notes",
+      components: {
+        sidebar: AppSidebar,
+        default: NotesWrapper,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/sounds",
+      name: "sounds",
+      components: {
+        sidebar: AppSidebar,
+        default: SoundsWrapper,
+        footer: AppFooter
       }
     },
     {
@@ -62,9 +64,6 @@ let router = new Router({
         header: AppHeader,
         default: Login,
         footer: AppFooter
-      },
-      props: {
-        default: true
       }
     },
     {
@@ -89,12 +88,9 @@ let router = new Router({
       path: "/profile",
       name: "profile",
       components: {
-        header: AppHeader,
+        sidebar: AppSidebar,
         default: Profile,
         footer: AppFooter
-      },
-      props: {
-        default: true
       }
     },
     {
@@ -106,14 +102,7 @@ let router = new Router({
         footer: AppFooter
       }
     }
-  ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
-  }
+  ]
 });
 
 router.beforeEach((to, from, next) => {
@@ -136,7 +125,7 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.path == "/" && router.app.$store.state.signedIn) {
     next({
-      path: "/home/tasks"
+      path: "/tasks"
     });
   } else {
     next();

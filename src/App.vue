@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <!-- <router-view name="header"></router-view> -->
-    <main>
+    <router-view name="header"></router-view>
+    <router-view name="sidebar"></router-view>
+    <main :class="{ 'remove-width': sidebarOpened }">
       <fade-transition origin="center" mode="out-in" :duration="250">
         <router-view />
       </fade-transition>
@@ -13,8 +14,11 @@
 import { FadeTransition } from "vue2-transitions";
 
 export default {
-  components: {
-    FadeTransition
+  components: { FadeTransition },
+  computed: {
+    sidebarOpened() {
+      return ["tasks", "notes", "sounds", "profile"].includes(this.$route.name);
+    }
   }
 };
 </script>
@@ -22,5 +26,15 @@ export default {
 <style>
 main {
   min-height: 100vh !important;
+}
+main.remove-width {
+  width: calc(100vw - 120px);
+  margin-left: 120px;
+}
+.row {
+  margin: 0px !important;
+}
+.max-height {
+  height: 100vh;
 }
 </style>
