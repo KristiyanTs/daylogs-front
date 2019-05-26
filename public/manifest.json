@@ -1,6 +1,6 @@
 {
-  "name": "infbase-frontend",
-  "short_name": "infbase-frontend",
+  "name": "daylogs-frontend",
+  "short_name": "daylogs-frontend",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

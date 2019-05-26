@@ -5,7 +5,9 @@ import Vuex from "vuex";
 import router from "./router";
 import store from "./store";
 import Argon from "./plugins/argon-kit";
-import Axios from 'axios';
+import axios from 'axios';
+import { securedAxiosInstance, plainAxiosInstance } from "./backend/axios";
+import VueAxios from "vue-axios";
 import DisableAutocomplete from "vue-disable-autocomplete";
 import Vue2Filters from "vue2-filters";
 import vSelect from "vue-select";
@@ -81,10 +83,12 @@ library.add({
   faSignOutAlt,
   faImage
 });
+
 Vue.prototype.moment = moment;
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VueAxios, axios);
 Vue.use(Argon);
 Vue.use(require("vue-cookies"));
 Vue.use(DisableAutocomplete);
@@ -93,11 +97,18 @@ Vue.use(require("vue-moment"));
 Vue.component("v-select", vSelect);
 
 Vue.config.productionTip = false;
+Vue.use(VueAxios, {
+  secured: securedAxiosInstance,
+  plain: plainAxiosInstance
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   let v = new Vue({
     store,
     router,
+    securedAxiosInstance,
+    plainAxiosInstance,
+    axios,
     components: { App },
     template: "<App/>"
   }).$mount("#app");
