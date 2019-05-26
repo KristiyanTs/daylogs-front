@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:11
 WORKDIR /srv/daylogs
 ADD package* /srv/daylogs/
 RUN npm install
