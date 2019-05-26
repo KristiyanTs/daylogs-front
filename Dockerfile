@@ -1,11 +1,12 @@
 FROM node:latest
-WORKDIR /srv/infbase
-ADD package* /srv/infbase/
+WORKDIR /srv/daylogs
+ADD package* /srv/daylogs/
 RUN npm install
 ADD . .
 RUN npm run build --dest=dist
 RUN ls
 
 FROM nginx:latest
-WORKDIR /var/www/infbase
-COPY --from=0 /srv/infbase/dist/. .
+WORKDIR /var/www/daylogs
+COPY --from=0 /srv/daylogs/dist/. .
+COPY api-endpoint.conf /etc/nginx/conf.d/.
