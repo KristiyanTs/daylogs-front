@@ -1,12 +1,26 @@
 <template>
   <tr class="w-100">
-    <td class="py-3 task" :class="{ 'text-muted': task.status == 'completed' }">
+    <td
+      class="py-3 task"
+      :class="{ 'text-muted': task.status == 'completed' }"
+      v-if="!editing"
+    >
       {{ task.title }}
+    </td>
+    <td
+      class="py-3 task"
+      :class="{ 'text-muted': task.status == 'completed' }"
+      v-else
+    >
+      <form @submit.prevent="editTitle">
+        <base-input v-model="new_title" placeholder="New title" alternative />
+        <input type="submit" value="Submit" class="d-none" />
+      </form>
     </td>
     <td class="time text-muted">
       <span v-if="taskTime != '00:00:00'">{{ taskTime }}</span>
     </td>
-    <td class="text-right actions">
+    <td class="text-right actions" v-if="!editing">
       <span class="icon icon-shape btn" round @click="completeTask">
         <font-awesome-icon
           icon="check"
@@ -38,11 +52,23 @@
           <font-awesome-icon icon="pause" class="text-success" />
           Pause
         </span>
+        <span class="dropdown-item" @click="renameTask">
+          <font-awesome-icon icon="edit" class="text-muted" />
+          Rename
+        </span>
         <span class="dropdown-item" @click="deleteTask">
           <font-awesome-icon icon="trash-alt" class="text-muted" />
           Delete
         </span>
       </base-dropdown>
+    </td>
+    <td class="text-right actions" v-else>
+      <span class="icon icon-shape btn" round @click="editTitle">
+        <font-awesome-icon icon="check" class="text-muted" />
+      </span>
+      <span class="icon icon-shape btn" round @click="renameTask">
+        <font-awesome-icon icon="times" class="text-muted" />
+      </span>
     </td>
   </tr>
 </template>
@@ -67,7 +93,9 @@ export default {
   },
   data() {
     return {
-      last_updated: new Date()
+      last_updated: new Date(),
+      editing: false,
+      new_title: this.task.title
     };
   },
   methods: {
@@ -76,6 +104,12 @@ export default {
     },
     pauseTask() {
       this.updateTask({ status: "paused" });
+    },
+    renameTask() {
+      this.editing = !this.editing;
+    },
+    editTitle() {
+      this.updateTask({ title: this.new_title });
     },
     completeTask() {
       if (this.task.status != "completed") {
@@ -90,6 +124,7 @@ export default {
         .then(response => {
           this.$emit("updateTask", response.data);
           this.last_updated = new Date();
+          this.editing = false;
         })
         .catch(() => {
           this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);

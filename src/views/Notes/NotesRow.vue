@@ -18,7 +18,7 @@
       :class="{ updating: updating }"
     >
       <span
-        class="icon icon-shape btn"
+        class="icon icon-shape btn d-inline"
         round
         @click="updateNote"
         v-if="updating"
@@ -110,7 +110,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .form-group {
   margin: 0px !important;
 }
@@ -137,5 +137,8 @@ tr.active {
   td span {
     padding-left: 10px;
   }
+}
+.icon-shape svg {
+  height: auto;
 }
 </style>

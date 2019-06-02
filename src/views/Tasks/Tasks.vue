@@ -118,6 +118,5 @@ export default {
 <style lang="sass">
 .tasks .add-task
   position: absolute
-  bottom: -24px
   right: 10px
 </style>

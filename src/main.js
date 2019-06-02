@@ -44,7 +44,8 @@ import {
   faEllipsisV,
   faAt,
   faKey,
-  faSignOutAlt
+  faSignOutAlt,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faClipboard, faImage } from "@fortawesome/free-regular-svg-icons";
@@ -81,7 +82,8 @@ library.add({
   faAt,
   faKey,
   faSignOutAlt,
-  faImage
+  faImage,
+  faTimes
 });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

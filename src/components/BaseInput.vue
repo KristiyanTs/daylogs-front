@@ -5,7 +5,7 @@
       { 'input-group': hasIcon },
       { 'has-danger': error },
       { 'focused': focused },
-      { 'input-group-alternative': alternative },
+      { 'input-group-alternative m-0': alternative },
       { 'has-label': label || $slots.label },
       { 'has-success': valid === true },
       { 'has-danger': valid === false }

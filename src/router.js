@@ -1,119 +1,72 @@
 import Vue from "vue";
 import Router from "vue-router";
-import AppHeader from "./layout/AppHeader";
-import AppFooter from "./layout/AppFooter";
 import Landing from "./views/Landing";
-import Home from "./views/Home";
-import Login from "./views/Login";
-import Signup from "./views/Signup";
-import ResetPassword from "./views/ResetPassword";
-import Profile from "./views/Profile";
-import AdminPanel from "./views/admin/AdminPanel";
-import NotesWrapper from "./views/Notes/NotesWrapper";
-import TasksWrapper from "./views/Tasks/TasksWrapper";
-import SoundsWrapper from "./views/Sounds/SoundsWrapper";
+import Login from "./views/User/Login";
+import Signup from "./views/User/Signup";
+
+const ResetPassword = () => import("./views/User/ResetPassword");
+const Profile = () => import("./views/User/Profile");
+const NotesWrapper = () => import("./views/Notes/NotesWrapper");
+const TasksWrapper = () => import("./views/Tasks/TasksWrapper");
+const SoundsWrapper = () => import("./views/Sounds/SoundsWrapper");
 
 Vue.use(Router);
 
 let router = new Router({
   mode: "history",
   linkExactActiveClass: "active",
+  linkActiveClass: "active",
   base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
       name: "landing",
-      components: {
-        header: AppHeader,
-        default: Landing,
-        footer: AppFooter
-      }
+      component: Landing,
+      meta: { header: true }
     },
     {
-      path: "/home",
-      name: "home",
-      components: {
-        header: AppHeader,
-        default: Home,
-        footer: AppFooter
-      },
-      children: [
-        {
-          path: "tasks",
-          component: TasksWrapper
-        },
-        {
-          path: "notes",
-          component: NotesWrapper
-        },
-        {
-          path: "sounds",
-          component: SoundsWrapper
-        }
-      ],
-      props: {
-        default: true
-      }
+      path: "/tasks",
+      name: "tasks",
+      component: TasksWrapper,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/notes",
+      name: "notes",
+      component: NotesWrapper,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/sounds",
+      name: "sounds",
+      component: SoundsWrapper,
+      meta: { requiresAuth: true }
     },
     {
       path: "/login",
       name: "login",
-      components: {
-        header: AppHeader,
-        default: Login,
-        footer: AppFooter
-      },
-      props: {
-        default: true
-      }
+      component: Login,
+      meta: { header: true }
     },
     {
       path: "/signup",
       name: "signup",
-      components: {
-        header: AppHeader,
-        default: Signup,
-        footer: AppFooter
-      }
+      component: Signup,
+      meta: { header: true }
     },
     {
       path: "/password",
       name: "reset password",
-      components: {
-        header: AppHeader,
-        default: ResetPassword,
-        footer: AppFooter
-      }
+      component: ResetPassword,
+      meta: { header: true }
     },
     {
       path: "/profile",
       name: "profile",
-      components: {
-        header: AppHeader,
-        default: Profile,
-        footer: AppFooter
-      },
-      props: {
-        default: true
-      }
-    },
-    {
-      path: "/admin-panel",
-      name: "admin panel",
-      components: {
-        header: AppHeader,
-        default: AdminPanel,
-        footer: AppFooter
-      }
+      component: Profile,
+      meta: { requiresAuth: true }
     }
-  ],
-  scrollBehavior: to => {
-    if (to.hash) {
-      return { selector: to.hash };
-    } else {
-      return { x: 0, y: 0 };
-    }
-  }
+  ]
 });
 
 router.beforeEach((to, from, next) => {
@@ -136,7 +89,7 @@ router.beforeEach((to, from, next) => {
     }
   } else if (to.path == "/" && router.app.$store.state.signedIn) {
     next({
-      path: "/home/tasks"
+      path: "/tasks"
     });
   } else {
     next();

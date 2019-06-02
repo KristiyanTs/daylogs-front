@@ -1,5 +1,5 @@
 <template>
-  <header class="header-global">
+  <header class="header-global" v-if="isVisible">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
       <router-link slot="brand" to="/" class="navbar-brand mr-lg-5">
         <img src="../assets/images/logo.png" style="height:50px" />
@@ -85,6 +85,9 @@ export default {
     BaseButton,
     BaseAlert
   },
+  data() {
+    return {};
+  },
   methods: {
     logOut() {
       this.$store.dispatch("signedOut");
@@ -99,6 +102,9 @@ export default {
     },
     anyAlerts() {
       return this.$store.state.alerts.length;
+    },
+    isVisible() {
+      return this.$route.meta.header;
     }
   }
 };

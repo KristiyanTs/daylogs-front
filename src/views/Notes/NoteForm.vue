@@ -36,9 +36,7 @@ export default {
         })
         .catch(error => this.createFailed(error));
     },
-    createFailed(errors) {
-      console.log(errors);
-    }
+    createFailed(errors) {}
   }
 }
 </script>

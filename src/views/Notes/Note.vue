@@ -27,7 +27,7 @@ export default {
   props: {
     note_id: {
       type: Number,
-      default: 0,
+      default: -1,
       description: "Selected note id"
     }
   },
@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     getNote() {
+      if (this.note_id == -1) return;
       this.loading = true;
       this.axios
         .get(`/api/notes/${this.note_id}`, {
@@ -99,7 +100,6 @@ export default {
 <style lang="scss">
 .editor .save-log {
   position: absolute;
-  bottom: -24px;
   right: 10px;
 }
 </style>
