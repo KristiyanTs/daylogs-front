@@ -51,23 +51,6 @@
         </base-dropdown>
       </ul>
     </base-nav>
-
-    <div
-      id="alerts"
-      v-if="anyAlerts"
-      class="text-center col-xs-12 col-md-6 offset-md-3"
-    >
-      <base-alert
-        v-for="[message, status] in $store.state.alerts"
-        dismissible="true"
-        :type="status"
-        :message="message"
-        :key="message"
-        class="alert-message"
-      >
-        {{ message }}
-      </base-alert>
-    </div>
   </header>
 </template>
 <script>
@@ -75,18 +58,13 @@ import BaseNav from "@/components/BaseNav";
 import CloseButton from "@/components/CloseButton";
 import BaseDropdown from "@/components/BaseDropdown";
 import BaseButton from "@/components/BaseButton";
-import BaseAlert from "@/components/BaseAlert";
 
 export default {
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
-    BaseButton,
-    BaseAlert
-  },
-  data() {
-    return {};
+    BaseButton
   },
   methods: {
     logOut() {
@@ -99,9 +77,6 @@ export default {
     },
     isAdmin() {
       return this.$store.state.admin;
-    },
-    anyAlerts() {
-      return this.$store.state.alerts.length;
     },
     isVisible() {
       return this.$route.meta.header;

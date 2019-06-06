@@ -137,7 +137,7 @@ export default {
     },
     signupSuccessful() {
       this.$store.commit("ADD_ALERT", [
-        "Signup successfull. You may now login.",
+        "Signup successfull. Confirm your email before trying to log in.",
         "success"
       ]);
       this.$router.push("/login");

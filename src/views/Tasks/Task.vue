@@ -18,7 +18,7 @@
       </form>
     </td>
     <td class="time text-muted">
-      <span v-if="taskTime != '00:00:00'">{{ taskTime }}</span>
+      <span v-if="taskTime != '0m'">{{ taskTime }}</span>
     </td>
     <td class="text-right actions" v-if="!editing">
       <span class="icon icon-shape btn" round @click="completeTask">
@@ -27,7 +27,15 @@
           :class="task.status == 'completed' ? 'text-success' : 'text-muted'"
         />
       </span>
-      <base-dropdown direction="left" position="right">
+      <span
+        class="icon icon-shape btn"
+        round
+        @click="pauseTask"
+        v-if="task.status == 'running'"
+      >
+        <font-awesome-icon icon="pause" class="text-warning" />
+      </span>
+      <base-dropdown direction="left" position="right" v-else>
         <span
           slot="title"
           round
@@ -43,14 +51,6 @@
         >
           <font-awesome-icon icon="play" class="text-muted" />
           Start progress
-        </span>
-        <span
-          class="dropdown-item"
-          @click="pauseTask"
-          v-if="task.status == 'running'"
-        >
-          <font-awesome-icon icon="pause" class="text-success" />
-          Pause
         </span>
         <span class="dropdown-item" @click="renameTask">
           <font-awesome-icon icon="edit" class="text-muted" />
@@ -141,25 +141,25 @@ export default {
       this.$emit("deleteTask", this.task);
     },
     formatTime(time) {
-      if (time < 3600) {
-        return `${Math.round(time / 1000)} m`;
-      } else {
-        return `${Math.round(time / 1000)} h`;
+      let formatted = "";
+      if (time > 3600) {
+        formatted += `${Math.round(time / 3600)}h `;
+        formatted %= 3600;
       }
+      formatted += `${Math.round(time / 60)}m`;
+      return formatted;
     }
   },
   computed: {
     taskTime() {
-      let time;
       if (this.task.status == "running") {
-        time = (this.$store.state.now - this.last_updated) / 1000;
-        time = Math.round(this.task.total_time + time);
+        let time = (this.$store.state.now - this.last_updated) / 1000;
+        return this.formatTime(Math.round(this.task.total_time + time));
       } else if (this.task.status == "created") {
         return "";
       } else {
-        time = this.task.total_time;
+        return this.formatTime(this.task.total_time);
       }
-      return this.formatTime(time);
     }
   }
 };

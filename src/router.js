@@ -87,7 +87,10 @@ router.beforeEach((to, from, next) => {
         });
       }
     }
-  } else if (to.path == "/" && router.app.$store.state.signedIn) {
+  } else if (
+    to.matched.some(record => !record.meta.requiresAuth) &&
+    router.app.$store.state.signedIn
+  ) {
     next({
       path: "/tasks"
     });

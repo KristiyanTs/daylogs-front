@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Notifications />
     <Header />
     <Sidebar />
     <main :class="{ 'remove-width': sidebarOpened }">
@@ -12,6 +13,7 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
+import Notifications from "@/layout/AppNotifications";
 import Header from "@/layout/AppHeader";
 import Sidebar from "@/layout/AppSidebar";
 import Footer from "@/layout/AppFooter";
@@ -20,6 +22,7 @@ export default {
   components: {
     FadeTransition,
     Header,
+    Notifications,
     Sidebar,
     Footer
   },
