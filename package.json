@@ -27,6 +27,7 @@
     "vue-lazyload": "^1.2.6",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.1",
+    "vue-scroll-stop": "^0.1.5",
     "vue-select": "^2.5.1",
     "vue-smooth-reflow": "^0.1.12",
     "vue2-filters": "^0.4.1",

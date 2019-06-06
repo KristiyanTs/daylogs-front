@@ -1,18 +1,14 @@
 <template>
-  <tr class="w-100">
-    <td class="task-title" colspan="2">
-      <form @submit.prevent="submit">
-        <base-input v-model="title" placeholder="New task" alternative />
-        <!-- The following line submits the form when pressing enter -->
-        <input type="submit" value="Submit" class="d-none" />
-      </form>
-    </td>
-    <td class="text-right actions">
-      <span class="icon icon-shape btn" round @click="submit">
-        <font-awesome-icon icon="plus" class="text-success" />
-      </span>
-    </td>
-  </tr>
+  <div class="task-form">
+    <form @submit.prevent="submit">
+      <base-input v-model="title" placeholder="New task" alternative />
+      <!-- The following line submits the form when pressing enter -->
+      <input type="submit" value="Submit" class="d-none" />
+    </form>
+    <span class="icon icon-shape btn" round @click="submit">
+      <font-awesome-icon icon="plus" class="text-success" />
+    </span>
+  </div>
 </template>
 
 <script>
@@ -59,5 +55,12 @@ export default {
 <style scoped>
 * /deep/ .form-group {
   margin-bottom: 0px !important;
+}
+.task-form {
+  margin-top: 20px;
+  display: flex;
+}
+.task-form form {
+  flex-grow: 1;
 }
 </style>

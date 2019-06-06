@@ -144,9 +144,9 @@ export default {
       let formatted = "";
       if (time > 3600) {
         formatted += `${Math.round(time / 3600)}h `;
-        formatted %= 3600;
+        time %= 3600;
       }
-      formatted += `${Math.round(time / 60)}m`;
+      if (time > 60) formatted += `${Math.round(time / 60)}m`;
       return formatted;
     }
   },

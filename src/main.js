@@ -12,6 +12,7 @@ import VueAxios from "vue-axios";
 import Vue2Filters from "vue2-filters";
 import vSelect from "vue-select";
 import moment from "moment";
+import VueScrollStop from 'vue-scroll-stop'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -91,6 +92,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(Argon);
 Vue.use(VueAxios, axios);
+Vue.use(VueScrollStop)
 Vue.use(require("vue-cookies"));
 Vue.use(DisableAutocomplete);
 Vue.use(Vue2Filters);

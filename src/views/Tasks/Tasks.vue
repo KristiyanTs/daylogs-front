@@ -1,14 +1,10 @@
 <template>
-  <div class="tasks">
+  <div class="tasks" v-scroll-stop>
     <div class="text-center text-muted" v-if="tasks.length == 0 && !isRelevant">
       No tasks for today
     </div>
     <table class="col-12">
-      <component
-        :is="loading ? '' : 'transition-group'"
-        tag="tbody"
-        name="table-row"
-      >
+      <tbody name="table-row">
         <Task
           v-for="task in tasks"
           :task="task"
@@ -16,23 +12,16 @@
           @updateTask="updateTask"
           @deleteTask="deleteTask"
         />
-        <tr :key="1000" style="height: 30px" v-if="isRelevant"></tr>
-        <task-form :day="day" key="0" @addTask="addTask" v-if="isRelevant" />
-      </component>
+      </tbody>
     </table>
   </div>
 </template>
 
 <script>
 import Task from "./Task";
-import TaskForm from "./TaskForm";
-import smoothReflow from "vue-smooth-reflow";
 
 export default {
-  components: {
-    Task,
-    TaskForm
-  },
+  components: { Task },
   props: {
     day: {
       type: Date,
@@ -40,7 +29,6 @@ export default {
       description: "Current day"
     }
   },
-  mixins: [smoothReflow],
   data() {
     return {
       loading: true,
@@ -49,7 +37,6 @@ export default {
     };
   },
   mounted() {
-    // this.$smoothReflow();
     this.getDayTasks();
   },
   methods: {
@@ -62,6 +49,7 @@ export default {
         })
         .then(response => {
           this.tasks = response.data;
+          this.reorderTasks();
           this.updateWorktime();
         })
         .catch(error => {
@@ -86,7 +74,7 @@ export default {
     },
     reorderTasks() {
       this.tasks = this.tasks.sort((a, b) =>
-        a.status > b.status
+        a.status < b.status
           ? 1
           : a.status === b.status
           ? a.title > b.title
@@ -116,7 +104,11 @@ export default {
 </script>
 
 <style lang="sass">
-.tasks .add-task
-  position: absolute
-  right: 10px
+.tasks
+  overflow-y: auto
+  flex-grow: 1
+  padding-bottom: 200px
+  .add-task
+    position: absolute
+    right: 10px
 </style>
