@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="center">
     <h3>Feature under development</h3>
   </div>
 </template>
@@ -13,4 +13,10 @@ export default {
 </script>
 
 <style scoped>
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 </style>

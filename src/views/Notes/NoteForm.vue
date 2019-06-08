@@ -1,18 +1,14 @@
 <template>
-  <tr class="w-100">
-    <td class="task-title px-3 py-3">
-      <form @submit.prevent="submitForm">
-        <base-input v-model="title" placeholder="New note" alternative />
-        <!-- The following line submits the form when pressing enter -->
-        <input type="submit" value="Submit" class="d-none" />
-      </form>
-    </td>
-    <td class="text-right actions pr-3">
-      <span class="icon icon-shape btn" round @click="submitForm()">
-        <font-awesome-icon icon="plus" class="text-success" />
-      </span>
-    </td>
-  </tr>
+  <div class="note-form">
+    <form @submit.prevent="submitForm">
+      <base-input v-model="title" placeholder="New note" alternative />
+      <!-- The following line submits the form when pressing enter -->
+      <input type="submit" value="Submit" class="d-none" />
+    </form>
+    <span class="icon icon-shape btn" round @click="submitForm()">
+      <font-awesome-icon icon="plus" class="text-success" />
+    </span>
+  </div>
 </template>
 
 <script>
@@ -44,5 +40,13 @@ export default {
 <style scoped>
 * /deep/ .form-group {
   margin-bottom: 0px !important;
+}
+.note-form {
+  margin-top: 20px;
+  display: flex;
+  padding: 0px 1.5rem;
+}
+.note-form form {
+  flex-grow: 1;
 }
 </style>

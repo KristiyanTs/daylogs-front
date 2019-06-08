@@ -63,8 +63,4 @@ export default {
   flex-direction: column;
   padding-bottom: 40px;
 }
-.scrolling {
-  height: 100%;
-  overflow-y: scroll;
-}
 </style>

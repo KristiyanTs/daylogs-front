@@ -1,27 +1,29 @@
 <template>
   <div class="row max-height">
     <div class="col-lg-5 col-xs-12 px-0 notes-list">
-      <div
-        v-if="notes.length == 0 && !loading"
-        class="text-muted mb-3 text-center mt-5"
-      >
-        You have no notes yet.
+      <div class="notes-content" v-scroll-stop>
+        <div
+          v-if="notes.length == 0 && !loading"
+          class="text-muted mb-3 text-center mt-5"
+        >
+          You have no notes yet.
+        </div>
+        <table class="notes-table w-100">
+          <tbody class="w-100">
+            <notes-row
+              v-for="note in notes"
+              :key="note.id"
+              :note="note"
+              :selected="selected_note_id == note.id"
+              @noteDeleted="deleteNote"
+              @noteUpdated="updateNote"
+              @noteSelected="selectNote"
+            />
+            <tr :key="1000" style="height: 30px"></tr>
+          </tbody>
+        </table>
       </div>
-      <table class="notes-table w-100">
-        <tbody class="w-100">
-          <notes-row
-            v-for="note in notes"
-            :key="note.id"
-            :note="note"
-            :selected="selected_note_id == note.id"
-            @noteDeleted="deleteNote"
-            @noteUpdated="updateNote"
-            @noteSelected="selectNote"
-          />
-          <tr :key="1000" style="height: 30px"></tr>
-          <note-form :key="0" @noteAdded="addNote" />
-        </tbody>
-      </table>
+      <note-form :key="0" @noteAdded="addNote" />
     </div>
     <div class="col-lg-7 col-xs-12 p-0">
       <Note :note_id="selected_note_id" />
@@ -96,4 +98,14 @@ export default {
   -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
   -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
   box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  padding-bottom: 40px
+
+.notes-content
+  overflow-y: auto
+  flex-grow: 1
+  padding-bottom: 200px
+
 </style>
