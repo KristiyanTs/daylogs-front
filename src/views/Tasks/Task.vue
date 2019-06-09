@@ -4,6 +4,7 @@
       class="py-3 task"
       :class="{ 'text-muted': task.status == 'completed' }"
       v-if="!editing"
+      @dblclick="renameTask"
     >
       {{ task.title }}
     </td>
@@ -13,7 +14,12 @@
       v-else
     >
       <form @submit.prevent="editTitle">
-        <base-input v-model="new_title" placeholder="New title" alternative />
+        <base-input
+          v-model="new_title"
+          @focus="$event.target.select()"
+          placeholder="New title"
+          alternative
+        />
         <input type="submit" value="Submit" class="d-none" />
       </form>
     </td>

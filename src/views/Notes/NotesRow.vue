@@ -6,12 +6,13 @@
           alternative
           ref="newTitle"
           v-model="new_title"
+          @focus="$event.target.select()"
           placeholder="New note title"
         />
         <!-- The following line submits the form when pressing enter -->
         <input type="submit" value="Submit" class="d-none" />
       </form>
-      <span v-else>{{ note.title }}</span>
+      <div v-else @dblclick="updating = true">{{ note.title }}</div>
     </td>
     <td
       class="actions col-xs-4 text-right pr-3"
@@ -66,7 +67,7 @@ export default {
   data() {
     return {
       updating: false,
-      new_title: ""
+      new_title: this.note.title
     };
   },
   methods: {

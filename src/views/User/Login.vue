@@ -61,7 +61,7 @@ export default {
   props: {
     nextUrl: {
       type: String,
-      default: "/"
+      default: "/tasks"
     }
   },
   data() {
