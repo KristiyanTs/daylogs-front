@@ -12,7 +12,7 @@ import VueAxios from "vue-axios";
 import Vue2Filters from "vue2-filters";
 import vSelect from "vue-select";
 import moment from "moment";
-import VueScrollStop from 'vue-scroll-stop'
+import VueScrollStop from "vue-scroll-stop";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -46,7 +46,8 @@ import {
   faAt,
   faKey,
   faSignOutAlt,
-  faTimes
+  faTimes,
+  faGripVertical
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faClipboard, faImage } from "@fortawesome/free-regular-svg-icons";
@@ -84,7 +85,8 @@ library.add({
   faKey,
   faSignOutAlt,
   faImage,
-  faTimes
+  faTimes,
+  faGripVertical
 });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

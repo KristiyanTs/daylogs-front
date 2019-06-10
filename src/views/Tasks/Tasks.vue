@@ -1,27 +1,43 @@
 <template>
   <div class="tasks" v-scroll-stop>
-    <div class="text-center text-muted" v-if="tasks.length == 0 && !isRelevant">
+    <div
+      class="text-center text-muted"
+      v-if="tasks.length == 0 && isRelevant && !loading"
+    >
       No tasks for today
     </div>
     <table class="col-12">
-      <tbody name="table-row">
-        <Task
-          v-for="task in tasks"
-          :task="task"
-          :key="task.id"
-          @updateTask="updateTask"
-          @deleteTask="deleteTask"
-        />
-      </tbody>
+      <draggable
+        class="list-group"
+        v-model="tasks"
+        draggable=".task-row"
+        tag="tbody"
+        @start="drag = true"
+        @end="drag = false"
+        @change="updateOrder"
+        name="table-row"
+        v-bind="dragOptions"
+      >
+        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+          <Task
+            v-for="task in tasks"
+            :task="task"
+            :key="task.id"
+            @updateTask="updateTask"
+            @deleteTask="deleteTask"
+          />
+        </transition-group>
+      </draggable>
     </table>
   </div>
 </template>
 
 <script>
 import Task from "./Task";
+import draggable from "vuedraggable";
 
 export default {
-  components: { Task },
+  components: { Task, draggable },
   props: {
     day: {
       type: Date,
@@ -33,7 +49,8 @@ export default {
     return {
       loading: true,
       tasks: [],
-      errored: false
+      errored: false,
+      drag: false
     };
   },
   mounted() {
@@ -59,11 +76,9 @@ export default {
     },
     addTask(task) {
       this.tasks.push(task);
-      this.reorderTasks();
     },
     updateTask(task) {
-      let index = this.tasks.findIndex(t => t.id == task.id);
-      this.tasks.splice(index, 1, task);
+      this.tasks.splice(task.position, 1, task);
       this.reorderTasks();
       this.updateWorktime();
     },
@@ -74,13 +89,7 @@ export default {
     },
     reorderTasks() {
       this.tasks = this.tasks.sort((a, b) =>
-        a.status < b.status
-          ? 1
-          : a.status === b.status
-          ? a.title > b.title
-            ? 1
-            : -1
-          : -1
+        a.position > b.position ? 1 : -1
       );
     },
     updateWorktime() {
@@ -88,11 +97,30 @@ export default {
         return total + task.total_time;
       }, 0);
       this.$emit("worktimeUpdated", time);
+    },
+    updateOrder() {
+      this.axios
+        .post("/api/tasks/update_order", {
+          day: this.day,
+          tasks: this.tasks
+        })
+        .then(response => {
+          this.tasks = response.data.tasks;
+          this.reorderTasks();
+        })
     }
   },
   computed: {
     isRelevant() {
       return this.moment().subtract(1, "days") <= this.day;
+    },
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost"
+      };
     }
   },
   watch: {
@@ -111,4 +139,23 @@ export default {
   .add-task
     position: absolute
     right: 10px
+
+.flip-list-move
+  transition: transform 0.5s
+
+.no-move
+  transition: transform 0s
+
+.ghost
+  opacity: 0.5
+  background: #c8ebfb
+
+.list-group
+  min-height: 20px
+
+.list-group .list-group-item
+  display: flex
+  padding: 0px
+  border: 0px
+  background-color: white
 </style>

@@ -1,7 +1,10 @@
 <template>
-  <tr class="w-100">
+  <tr class="w-100 task-row list-group-item">
+    <td class="handle">
+      <font-awesome-icon icon="grip-vertical" class="text-muted" />
+    </td>
     <td
-      class="py-3 task"
+      class="py-3 task-title"
       :class="{ 'text-muted': task.status == 'completed' }"
       v-if="!editing"
       @dblclick="renameTask"
@@ -9,7 +12,7 @@
       {{ task.title }}
     </td>
     <td
-      class="py-3 task"
+      class="py-3 task-title"
       :class="{ 'text-muted': task.status == 'completed' }"
       v-else
     >
@@ -120,6 +123,8 @@ export default {
     completeTask() {
       if (this.task.status != "completed") {
         this.updateTask({ status: "completed" });
+      } else {
+        this.updateTask({ status: "created" });
       }
     },
     updateTask(params) {
@@ -171,19 +176,20 @@ export default {
 };
 </script>
 
-<style scoped>
-.table-row-move {
-  transition: transform 0.2s;
-}
-tr {
-  background-color: white;
-  border-bottom: 1px solid rgb(229, 240, 255);
-}
-td.time {
-  width: 80px;
-  text-align: center;
-}
-td.actions {
-  width: 150px;
-}
+<style scoped lang="sass">
+td.task-title
+  flex-grow: 1
+
+td.time,
+td.handle,
+td.actions
+  flex-grow: 0
+
+td.handle
+  padding-right: 20px
+  align-self: stretchs
+  cursor: ns-resize
+
+td.handle svg
+  height: 100%
 </style>

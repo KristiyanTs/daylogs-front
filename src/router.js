@@ -4,12 +4,13 @@ import Landing from "./views/Landing";
 import Login from "./views/User/Login";
 import Signup from "./views/User/Signup"
 
-const ResetPassword = () => import("./views/User/ResetPassword");
-const ConfirmEmail  = () => import("./views/User/ConfirmEmail");
-const Profile       = () => import("./views/User/Profile");
-const NotesWrapper  = () => import("./views/Notes/NotesWrapper");
-const TasksWrapper  = () => import("./views/Tasks/TasksWrapper");
-const SoundsWrapper = () => import("./views/Sounds/SoundsWrapper");
+const ForgotPassword = () => import("./views/User/ForgotPassword");
+const ResetPassword  = () => import("./views/User/ResetPassword");
+const ConfirmEmail   = () => import("./views/User/ConfirmEmail");
+const Profile        = () => import("./views/User/Profile");
+const NotesWrapper   = () => import("./views/Notes/NotesWrapper");
+const TasksWrapper   = () => import("./views/Tasks/TasksWrapper");
+const SoundsWrapper  = () => import("./views/Sounds/SoundsWrapper");
 
 Vue.use(Router);
 
@@ -58,13 +59,19 @@ let router = new Router({
     {
       path: "/password",
       name: "reset password",
-      component: ResetPassword,
+      component: ForgotPassword,
       meta: { header: true, requiresAuth: false }
     },
     {
       path: "/confirm_email/:key",
       name: "confirm email",
       component: ConfirmEmail,
+      meta: { header: true, requiresAuth: false }
+    },
+    {
+      path: "/reset_password/:key",
+      name: "reset password",
+      component: ResetPassword,
       meta: { header: true, requiresAuth: false }
     },
     {

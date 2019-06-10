@@ -80,6 +80,7 @@ export default {
     color: #05668d
   .icon-shape
     padding: 5px
+    font-size: 1.4em
 
   .date
     font-size: 1.8em

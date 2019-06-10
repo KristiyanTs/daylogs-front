@@ -3,53 +3,37 @@
     <card
       type="secondary"
       shadow
-      header-classes="pb-5"
+      header-classes="bg-white pb-5"
       body-classes="px-lg-1 py-lg-3"
       class="col-xs-10 col-md-6 col-lg-3"
     >
-      <div class="text-center text-muted mb-3">
-        <h3>Reset password</h3>
-      </div>
-      <base-alert type="success" v-if="success">
-        {{response}}
-      </base-alert>
-      <base-alert type="warning" v-if="failure">
-        {{response}}
-      </base-alert>
-      <form @submit.prevent="submit" v-cloak>
+      <h3 class="text-center">Reset password</h3>
+      <form @submit.prevent="submit" class="">
         <base-input
           alternative
-          class="mb-3 bg-white"
-          placeholder="Email"
-          addon-left-icon="at"
-          v-model="email"
-        >
-        </base-input>
-        <div class="text-center">
-          <base-button
-            type="primary"
-            class="my-4"
-            :class="{ disabled: success }"
-            @click="submit"
-          >
-            Send a link
-          </base-button>
-        </div>
+          class="mt-3"
+          v-model="password"
+          placeholder="New password"
+          input_type="password"
+          addon-left-icon="key"
+        />
+        <base-input
+          alternative
+          class="mt-3"
+          v-model="password_confirmation"
+          placeholder="Confirm password"
+          input_type="password"
+          addon-left-icon="key"
+        />
+        <base-button
+          class="float-right mt-3 mr-0"
+          type="primary"
+          @click="submit"
+          >Submit
+        </base-button>
         <!-- The following line submits the form when pressing enter -->
         <input type="submit" value="Submit" class="d-none" />
       </form>
-      <div class="row mt-3">
-        <div class="col-6">
-          <router-link to="/login">
-            <small>Log in</small>
-          </router-link>
-        </div>
-        <div class="col-6 text-right">
-          <router-link to="/signup">
-            <small>Register</small>
-          </router-link>
-        </div>
-      </div>
     </card>
   </div>
 </template>
@@ -58,43 +42,40 @@
 export default {
   data() {
     return {
-      email: "",
-      response: "",
-      success: false,
-      failure: false
+      password: "",
+      password_confirmation: ""
     };
   },
   methods: {
-    validEmail(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
-    },
     submit() {
-      this.response = "";
-      this.failure = false;
-      this.success = false;
-
-      if (!this.validEmail()) {
-        this.resetFailed("Please, use a real email.");
-        return;
-      }
-
       this.axios
-        .post("/api/password", {
+        .put("/api/password", {
           user: {
-            email: this.email
+            reset_password_token: this.$route.params.key,
+            password: this.password,
+            password_confirmation: this.password_confirmation
           }
         })
-        .then(response => this.resetSuccessful(response))
-        .catch(error => this.resetFailed(error));
+        .then(response => {
+          this.success(response);
+        })
+        .catch(error => {
+          this.failure(error);
+        });
     },
-    resetSuccessful(response) {
-      this.success = true;
-      this.response = response.data.message;
+    success(message) {
+      this.$store.commit("ADD_ALERT", [
+        "Your password was successfully changed. You may now log in.",
+        "success"
+      ]);
+      this.$router.push("login");
     },
-    resetFailed(error) {
-      this.failure = true;
-      this.response = error;
+    failure(message) {
+      this.$store.commit("ADD_ALERT", [
+        "There was a problem changnig your password.",
+        "danger"
+      ]);
+      this.$router.push("login");
     }
   }
 };
