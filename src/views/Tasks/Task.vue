@@ -177,13 +177,26 @@ export default {
 </script>
 
 <style scoped lang="sass">
-td.task-title
-  flex-grow: 1
+.list-group-item
+  display: flex
+  padding: 0px
+  border: 0px
+  background-color: white
 
-td.time,
-td.handle,
+td.task-title
+  width: calc(100% - 221px)
+
+td.time
+  display: flex
+  width: 70px
+  span
+    margin: auto
+
 td.actions
-  flex-grow: 0
+  width: 120px
+  display: flex
+  span, li
+    margin: auto
 
 td.handle
   padding-right: 20px

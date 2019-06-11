@@ -190,7 +190,7 @@ export default {
 
 <style scoped>
 .menubar {
-  background-color: #F9F8FF;
+  background-color: rgba(211, 227, 252, 0.4);
 }
 .menubar .menubar__button {
   border-radius: 0px;

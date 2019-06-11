@@ -52,15 +52,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.tasks-wrapper {
-  max-height: 100vh;
-  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 40px;
-}
+<style lang="sass" scoped>
+.tasks-wrapper
+  max-height: 100vh
+  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
+  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
+  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  padding-bottom: 40px
 </style>

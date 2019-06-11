@@ -99,10 +99,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.editor .save-log {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
+<style lang="sass">
+.editor .save-log
+  position: absolute
+  bottom: 10px
+  right: 10px
 </style>

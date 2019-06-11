@@ -78,7 +78,8 @@ export default {
       this.tasks.push(task);
     },
     updateTask(task) {
-      this.tasks.splice(task.position, 1, task);
+      let index = this.tasks.findIndex(t => t.id == task.id);
+      this.tasks.splice(index, 1, task);
       this.reorderTasks();
       this.updateWorktime();
     },
@@ -152,10 +153,4 @@ export default {
 
 .list-group
   min-height: 20px
-
-.list-group .list-group-item
-  display: flex
-  padding: 0px
-  border: 0px
-  background-color: white
 </style>

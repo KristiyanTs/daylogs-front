@@ -48,52 +48,50 @@ export default {
   }
 };
 </script>
-<style scoped>
-#sidebar {
-  height: 100vh !important;
-  position: fixed;
-  width: 120px;
-}
-.row {
-  margin: 0px !important;
-}
-a.nav-link {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  margin: 0px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  width: 100%;
-  border-radius: 0px !important;
-}
-a.nav-link svg {
-  width: 40px !important;
-}
-/* a.nav-link.active {
-  background-color: transparent !important;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-} */
-a.nav-link:hover {
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08) !important;
-}
-a.nav-link:hover svg {
-  transition: 0.5s;
-  transition-delay: 0.1s;
-}
-.nav-link svg {
-  color: #E8F6FF !important;
-}
-.nav-link.active {
-  transition: all 2s;
-  background-color: #05668d !important;
-}
-.main-nav {
-  height: 100%;
-  background-color: #01A7C2;
-}
-.account {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-}
+<style scoped lang="sass">
+#sidebar 
+  height: 100vh !important
+  position: fixed
+  width: 120px
+
+.row
+  margin: 0px !important
+
+a.nav-link
+  background-color: transparent !important
+  box-shadow: none !important
+  margin: 0px !important
+  padding-left: 0px !important
+  padding-right: 0px !important
+  width: 100%
+  border-radius: 0px !important
+
+a.nav-link svg
+  width: 40px !important
+
+a.nav-link:hover
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08) !important
+
+a.nav-link:hover svg
+  transition: 0.5s
+  transition-delay: 0.1s
+
+.nav-link svg
+  color: #E8F6FF
+
+.nav-link.active
+  transition: all 2s
+  background-color: #d3e3fc !important
+  svg
+    color: #77a6f7
+
+.main-nav
+  height: 100%
+  background-color: #77a6f7
+
+.account
+  position: absolute
+  bottom: 20px
+  width: 100%
+
 </style>

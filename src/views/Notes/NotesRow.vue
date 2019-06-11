@@ -117,7 +117,7 @@ export default {
 }
 tr.note-row {
   background-color: white;
-  border-bottom: 1px solid rgb(229, 240, 255);
+  border-bottom: 1px solid rgb(105, 117, 166, 0.2);
 }
 td.actions {
   width: 55px;
@@ -133,10 +133,12 @@ tr.note-row td.title:hover {
 }
 tr.active {
   border-radius: 5px;
-  background-color: #E8F6FF !important;
   font-weight: 500;
   td span {
     padding-left: 10px;
+  }
+  td.title {
+    font-weight: bold;
   }
 }
 .icon-shape svg {
