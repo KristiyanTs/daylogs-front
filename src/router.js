@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Landing from "./views/Landing";
+import Landing from "./views/Guest/Landing";
 import Login from "./views/User/Login";
-import Signup from "./views/User/Signup"
+import Signup from "./views/User/Signup";
 
 const ForgotPassword = () => import("./views/User/ForgotPassword");
 const ResetPassword  = () => import("./views/User/ResetPassword");
@@ -24,61 +24,87 @@ let router = new Router({
       path: "/",
       name: "landing",
       component: Landing,
-      meta: { header: true, requiresAuth: false }
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
     },
     {
       path: "/tasks",
       name: "tasks",
       component: TasksWrapper,
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/notes",
       name: "notes",
       component: NotesWrapper,
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/sounds",
       name: "sounds",
       component: SoundsWrapper,
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/login",
       name: "login",
       component: Login,
-      meta: { header: true, requiresAuth: false }
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
     },
     {
       path: "/signup",
       name: "signup",
       component: Signup,
-      meta: { header: true, requiresAuth: false }
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
     },
     {
       path: "/password",
       name: "reset password",
       component: ForgotPassword,
-      meta: { header: true, requiresAuth: false }
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
     },
     {
       path: "/confirm_email/:key",
       name: "confirm email",
       component: ConfirmEmail,
-      meta: { header: true, requiresAuth: false }
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
     },
     {
       path: "/reset_password/:key",
       name: "reset password",
       component: ResetPassword,
-      meta: { header: true, requiresAuth: false }
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
     },
     {
       path: "/profile",
       name: "profile",
       component: Profile,
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });

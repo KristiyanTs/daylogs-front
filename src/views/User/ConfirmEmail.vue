@@ -5,10 +5,13 @@
 <script>
 export default {
   mounted() {
+    alert("Mounted");
     this.attemptConfirmation();
   },
   methods: {
     attemptConfirmation() {
+      alert("Sending a request to the API");
+      console.log("Hey");
       this.axios
         .post(`/api/confirmation?confirmation_token=${this.$route.params.key}`)
         .then(response => {

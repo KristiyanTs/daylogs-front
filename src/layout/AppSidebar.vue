@@ -43,7 +43,12 @@ export default {
   },
   computed: {
     isVisible() {
-      return !this.$route.meta.header;
+      return (
+        !this.$route.meta.header &&
+        ((typeof this.$route.meta.sidenav != "undefined" &&
+          this.$route.meta.sidenav) ||
+          typeof this.$route.meta.sidenav === "undefined")
+      );
     }
   }
 };
