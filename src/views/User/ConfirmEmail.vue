@@ -5,15 +5,14 @@
 <script>
 export default {
   mounted() {
-    alert("Mounted");
     this.attemptConfirmation();
   },
   methods: {
     attemptConfirmation() {
-      alert("Sending a request to the API");
-      console.log("Hey");
       this.axios
-        .post(`/api/confirmation?confirmation_token=${this.$route.params.key}`)
+        .put("/api/confirmation", {
+          confirmation_token: this.$route.params.key
+        })
         .then(response => {
           this.success(response);
         })
@@ -21,19 +20,18 @@ export default {
           this.failure(error);
         });
     },
-    success(message) {
+    success(response) {
       this.$store.commit("ADD_ALERT", [
-        "Your email was confirmed. You may now log in.",
-        "success"
+        "Your email was confirmed. You could log in now."
       ]);
-      this.$router.push("login");
+      this.$router.push("/login");
     },
     failure(message) {
       this.$store.commit("ADD_ALERT", [
         "There was a problem with your email.",
         "danger"
       ]);
-      this.$router.push("signup");
+      this.$router.push("/signup");
     }
   }
 };
