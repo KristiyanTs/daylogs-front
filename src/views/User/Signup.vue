@@ -62,11 +62,40 @@
         <input type="submit" value="Submit" class="d-none" />
       </form>
     </card>
+    <modal
+      :show.sync="open"
+      gradient="success"
+      modal-classes="modal-success modal-dialog-centered">
+      <h6 slot="header" class="modal-title" id="modal-title-notification"></h6>
+      <div class="py-3 text-center">
+        <i class="ni ni-bell-55 ni-3x"></i>
+        <h4 class="heading mt-4">You signed up!</h4>
+        <p>
+          A link was sent to your email. Click on it to verify your account.
+        </p>
+      </div>
+      <template slot="footer">
+        <base-button @click="open = false" type="link">Close</base-button>
+        <base-button
+          type="link"
+          text-color="white"
+          class="ml-auto"
+          @click="$router.push('/login')"
+        >
+          Log in
+        </base-button>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from "@/components/Modal";
+
 export default {
+  components: {
+    Modal
+  },
   data() {
     return {
       name: "",
@@ -75,7 +104,8 @@ export default {
       password_confirmation: "",
       accept: false,
       failure: false,
-      errors: ""
+      errors: "",
+      open: false
     };
   },
   methods: {
@@ -129,11 +159,7 @@ export default {
         .catch(error => this.signupFailed(error));
     },
     signupSuccessful() {
-      this.$store.commit("ADD_ALERT", [
-        "Signup successfull. Confirm your email before trying to log in.",
-        "success"
-      ]);
-      this.$router.push("/login");
+      this.open = true;
     },
     signupFailed(error) {
       this.failure = true;

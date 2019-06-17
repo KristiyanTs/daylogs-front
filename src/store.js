@@ -34,7 +34,7 @@ export default new Vuex.Store({
       state.alerts.push([message, status]);
       setTimeout(
         () => self.commit("REMOVE_ALERT", message),
-        700 + message.length * 70
+        700 + message.length * 75
       );
     },
     REMOVE_ALERT(state, message) {
