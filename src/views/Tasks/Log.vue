@@ -44,15 +44,17 @@ export default {
       this.loading = true;
       this.axios
         .get("/api/logs/1", {
-          headers: { Authorization: window.$cookies.get("jwt") },
           params: { day: this.day.toString() }
         })
         .then(response => {
           this.log = response.data;
           if (this.log.content == null) this.log.content = "Start your log...";
         })
-        .catch(() => {
-          this.errored = true;
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.dispatch("signedOut");
+            this.$router.push("/");
+          }
         })
         .finally(() => (this.loading = false));
     },
@@ -68,7 +70,11 @@ export default {
             this.saved = true;
           }, 500);
         })
-        .catch(() => {
+        .catch(error => {
+          if (error.response.status == 401) {
+            this.$store.dispatch("signedOut");
+            this.$router.push("/");
+          }
           this.$store.commit("ADD_ALERT", [
             "Unable to save day's log.",
             "danger"

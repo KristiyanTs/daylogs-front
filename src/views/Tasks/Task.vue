@@ -137,19 +137,27 @@ export default {
           this.last_updated = new Date();
           this.editing = false;
         })
-        .catch(() => {
-          this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+        .catch(error => {
+          this.requestError(error);
         });
     },
     deleteTask() {
       this.axios
         .delete(`/api/tasks/${this.task.id}`)
         .then(() => {})
-        .catch(() => {
-          this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+        .catch(error => {
+          this.requestError(error);
         });
 
       this.$emit("deleteTask", this.task);
+    },
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
     },
     formatTime(time) {
       let formatted = "";

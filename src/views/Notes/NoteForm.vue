@@ -30,9 +30,18 @@ export default {
           this.$emit("noteAdded", response.data);
           this.title = "";
         })
-        .catch(error => this.createFailed(error));
+        .catch(error => {
+          this.requestError(error);
+        });
     },
-    createFailed(errors) {}
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
+    }
   }
 }
 </script>

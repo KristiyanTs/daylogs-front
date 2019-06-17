@@ -52,8 +52,8 @@ export default {
           if (this.note.content == null)
             this.note.content = "Start your note...";
         })
-        .catch(() => {
-          this.errored = true;
+        .catch(error => {
+          this.requestError(error);
         })
         .finally(() => (this.loading = false));
     },
@@ -69,8 +69,8 @@ export default {
             this.saved = true;
           }, 500);
         })
-        .catch(() => {
-          this.$store.commit("ADD_ALERT", ["Unable to save note.", "danger"]);
+        .catch(error => {
+          this.requestError(error);
         });
     },
     contentChange(newVal) {
@@ -83,6 +83,14 @@ export default {
     },
     onFocus() {
       if (this.note.content == "Start your note...") this.note.content = "";
+    },
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
     }
   },
   watch: {

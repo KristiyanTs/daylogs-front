@@ -1,6 +1,6 @@
 <template>
   <div id="date" class="px-lg-2 py-lg-5">
-    <span class="icon icon-shape btn" round @click="shiftDate(-5)">
+    <span class="icon icon-shape btn" round @click="shiftDate(-7)">
       <font-awesome-icon icon="angle-double-left" class="text-primary" />
     </span>
     <span class="icon icon-shape btn" round @click="shiftDate(-1)">
@@ -16,7 +16,7 @@
     <span class="icon icon-shape btn" round @click="shiftDate(1)">
       <font-awesome-icon icon="chevron-right" class="text-primary" size="2x" />
     </span>
-    <span class="icon icon-shape btn" round @click="shiftDate(5)">
+    <span class="icon icon-shape btn" round @click="shiftDate(7)">
       <font-awesome-icon icon="angle-double-right" class="text-primary" />
     </span>
   </div>

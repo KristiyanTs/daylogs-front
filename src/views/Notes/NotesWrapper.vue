@@ -63,8 +63,8 @@ export default {
           this.notes = response.data;
           this.selected_note_id = this.notes[0].id;
         })
-        .catch(() => {
-          this.errored = true;
+        .catch(error => {
+          this.requestError(error);
         })
         .finally(() => (this.loading = false));
     },
@@ -82,6 +82,14 @@ export default {
     },
     selectNote(note_id) {
       this.selected_note_id = note_id;
+    },
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
     }
   },
   computed: {

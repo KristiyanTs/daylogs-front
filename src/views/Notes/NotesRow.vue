@@ -86,8 +86,8 @@ export default {
           this.$store.commit("ADD_ALERT", ["Note updated.", "success"]);
           this.updating = false;
         })
-        .catch(() => {
-          this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+        .catch(error => {
+          this.requestError(error);
         });
     },
     deleteNote() {
@@ -96,8 +96,8 @@ export default {
         .then(() => {
           this.$store.commit("ADD_ALERT", ["Note deleted.", "success"]);
         })
-        .catch(() => {
-          this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+        .catch(error => {
+          this.requestError(error);
         });
 
       this.$emit("noteDeleted", this.note);
@@ -105,6 +105,14 @@ export default {
     selectNote() {
       if (!this.updating) {
         this.$emit("noteSelected", this.note.id);
+      }
+    },
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
       }
     }
   }

@@ -127,8 +127,15 @@ export default {
   }
 };
 </script>
-<style>
-.modal.show {
-  background-color: rgba(0, 0, 0, 0.3);
-}
+<style scoped lang="sass">
+.modal.show
+  background-color: rgba(0, 0, 0, 0.3)
+
+.modal .modal-header
+  display: flex
+  align-items: center
+  justify-content: center
+  .close
+    padding: 0px
+    margin: 0px
 </style>

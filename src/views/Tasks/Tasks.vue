@@ -49,7 +49,6 @@ export default {
     return {
       loading: true,
       tasks: [],
-      errored: false,
       drag: false
     };
   },
@@ -70,7 +69,7 @@ export default {
           this.updateWorktime();
         })
         .catch(error => {
-          this.errored = true;
+          this.requestError(error);
         })
         .finally(() => (this.loading = false));
     },
@@ -109,6 +108,17 @@ export default {
           this.tasks = response.data.tasks;
           this.reorderTasks();
         })
+        .catch(error => {
+          this.requestError(error);
+        });
+    },
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
     }
   },
   computed: {

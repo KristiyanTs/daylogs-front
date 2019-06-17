@@ -103,8 +103,7 @@ export default {
       password: "",
       password_confirmation: "",
       accept: false,
-      failure: false,
-      errors: "",
+      errors: [],
       open: false
     };
   },
@@ -162,7 +161,7 @@ export default {
       this.open = true;
     },
     signupFailed(error) {
-      this.failure = true;
+      this.errors = error.response.data;
     }
   },
   computed: {

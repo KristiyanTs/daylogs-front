@@ -31,22 +31,26 @@ export default {
     },
     submit() {
       if (this.title.length == 0) return;
-
       this.axios
         .post("/api/tasks", {
           task: {
             title: this.title,
-            day: this.day
+            day: this.day.toString()
           }
         })
         .then(response => {
           this.$emit("addTask", response.data);
           this.resetTask();
         })
-        .catch(error => this.createFailed(error));
+        .catch(error => this.requestError(error));
     },
-    createFailed(errors) {
-      console.log(errors);
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
     }
   }
 }
