@@ -42,7 +42,6 @@ main {
   min-height: 100vh !important;
 }
 main.remove-width {
-  width: calc(100vw - 120px);
   margin-left: 120px;
 }
 .row {
