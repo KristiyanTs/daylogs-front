@@ -31,7 +31,7 @@ export default {
   },
   computed: {
     sidebarOpened() {
-      return ["tasks", "notes", "sounds", "profile"].includes(this.$route.name);
+      return ["tasks", "notes", "profile"].includes(this.$route.name);
     }
   }
 };

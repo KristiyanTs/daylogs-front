@@ -26,7 +26,7 @@
       <note-form :key="0" @noteAdded="addNote" />
     </template>
     <template v-slot:right>
-      <Note :note_id="selected_note_id" />
+      <Note :note_id="selected_note_id" @noteUpdated="noteUpdated" />
     </template>
   </Screen>
 </template>
@@ -71,7 +71,7 @@ export default {
         .finally(() => (this.loading = false));
     },
     addNote(note) {
-      this.notes.push(note);
+      this.notes.unshift(note);
       this.selected_note_id = note.id;
     },
     updateNote(note) {
@@ -92,6 +92,10 @@ export default {
       } else {
         this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
       }
+    },
+    noteUpdated(note) {
+      this.deleteNote(note);
+      this.addNote(note);
     }
   },
   computed: {

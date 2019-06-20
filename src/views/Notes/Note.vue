@@ -74,6 +74,7 @@ export default {
         });
     },
     contentChange(newVal) {
+      this.$emit("noteUpdated", this.note);
       this.saved = false;
       this.note.content = newVal;
       clearTimeout(this.save_timer);
