@@ -119,37 +119,32 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.form-group {
-  margin: 0px !important;
-}
-tr.note-row {
-  background-color: white;
-  border-bottom: 1px solid rgb(105, 117, 166, 0.2);
-}
-td.actions {
-  width: 55px;
-}
-td.actions.updating {
-  width: 110px;
-}
-tr td.title span {
-  padding-left: 10px;
-}
-tr.note-row td.title:hover {
-  cursor: pointer;
-}
-tr.active {
-  border-radius: 5px;
-  font-weight: 500;
-  td span {
-    padding-left: 10px;
-  }
-  td.title {
-    font-weight: bold;
-  }
-}
-.icon-shape svg {
-  height: auto;
-}
+<style lang="sass" scoped>
+.form-group
+  margin: 0px !important
+
+tr.note-row
+  background-color: white
+
+td.actions
+  width: 55px
+  .updating
+    width: 110px
+
+tr td.title span
+  padding-left: 10px
+
+tr.note-row td.title:hover
+  cursor: pointer
+
+tr.active
+  border-radius: 5px
+  font-weight: 500
+  td span
+    padding-left: 10px
+  td.title
+    font-weight: bold
+
+.icon-shape svg
+  height: auto
 </style>

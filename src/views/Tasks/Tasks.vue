@@ -2,11 +2,11 @@
   <div class="tasks" v-scroll-stop>
     <div
       class="text-center text-muted"
-      v-if="tasks.length == 0 && isRelevant && !loading"
+      v-if="!loading && tasks.length == 0 && isRelevant"
     >
       No tasks for today
     </div>
-    <table class="col-12">
+    <table class="col-12" v-if="tasks.length">
       <draggable
         class="list-group"
         v-model="tasks"
@@ -25,6 +25,7 @@
             :key="task.id"
             @updateTask="updateTask"
             @deleteTask="deleteTask"
+            @selectTask="selectTask"
           />
         </transition-group>
       </draggable>
@@ -48,12 +49,9 @@ export default {
   data() {
     return {
       loading: true,
-      tasks: [],
+      tasks: () => [],
       drag: false
     };
-  },
-  mounted() {
-    this.getDayTasks();
   },
   methods: {
     getDayTasks() {
@@ -87,6 +85,9 @@ export default {
       this.tasks.splice(index, 1);
       this.updateWorktime();
     },
+    selectTask(task) {
+      let index = this.tasks.findIndex(t => t.id == task.id);
+    },
     reorderTasks() {
       this.tasks = this.tasks.sort((a, b) =>
         a.position > b.position ? 1 : -1
@@ -103,10 +104,6 @@ export default {
         .post("/api/tasks/update_order", {
           day: this.day,
           tasks: this.tasks
-        })
-        .then(response => {
-          this.tasks = response.data.tasks;
-          this.reorderTasks();
         })
         .catch(error => {
           this.requestError(error);
@@ -135,8 +132,11 @@ export default {
     }
   },
   watch: {
-    day() {
-      this.getDayTasks();
+    day: {
+      immediate: true,
+      handler() {
+        this.getDayTasks();
+      }
     }
   }
 };

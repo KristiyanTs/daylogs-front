@@ -1,28 +1,30 @@
 <template>
-  <div class="row max-height">
-    <div class="col-lg-5 col-xs-12 px-4 tasks-wrapper">
+  <Screen>
+    <template v-slot:left>
       <day-select :day="day" @dayChange="changeDay" />
       <tasks :day="day" @worktimeUpdated="updateWorktime" ref="tasks" />
-      <task-form :day="day" @addTask="addTask" v-if="isRelevant" />
-    </div>
-    <div class="col-lg-7 col-xs-12 p-0">
+      <task-new :day="day" @addTask="addTask" v-if="isRelevant" />
+    </template>
+    <template v-slot:right>
       <log :day="day" />
-    </div>
-  </div>
+    </template>
+  </Screen>
 </template>
 
 <script>
 import Log from "./Log";
 import Tasks from "./Tasks";
-import TaskForm from "./TaskForm";
+import TaskNew from "./TaskNew";
 import DaySelect from "./Navigation/DaySelect";
+import Screen from "@/views/components/Screen";
 
 export default {
   components: {
     Log,
     Tasks,
-    TaskForm,
-    DaySelect
+    TaskNew,
+    DaySelect,
+    Screen
   },
   data() {
     return {
@@ -53,13 +55,5 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.tasks-wrapper
-  max-height: 100vh
-  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
-  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
-  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
-  box-sizing: border-box
-  display: flex
-  flex-direction: column
-  padding-bottom: 40px
+
 </style>

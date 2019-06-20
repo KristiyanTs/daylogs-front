@@ -7,6 +7,7 @@
       class="py-3 task-title"
       :class="{ 'text-muted': task.status == 'completed' }"
       v-if="!editing"
+      @click="selectTask"
       @dblclick="renameTask"
     >
       {{ task.title }}
@@ -108,6 +109,9 @@ export default {
     };
   },
   methods: {
+    selectTask() {
+      this.$emit("selectTask", this.task);
+    },
     runTask() {
       this.updateTask({ status: "running" });
     },

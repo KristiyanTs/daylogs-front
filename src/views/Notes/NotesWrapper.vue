@@ -1,6 +1,6 @@
 <template>
-  <div class="row max-height">
-    <div class="col-lg-5 col-xs-12 px-0 notes-list">
+  <Screen>
+    <template v-slot:left>
       <div class="notes-content" v-scroll-stop>
         <div
           v-if="notes.length == 0 && !loading"
@@ -24,24 +24,26 @@
         </table>
       </div>
       <note-form :key="0" @noteAdded="addNote" />
-    </div>
-    <div class="col-lg-7 col-xs-12 p-0">
+    </template>
+    <template v-slot:right>
       <Note :note_id="selected_note_id" />
-    </div>
-  </div>
+    </template>
+  </Screen>
 </template>
 
 <script>
 import NotesRow from "./NotesRow";
 import NoteForm from "./NoteForm";
 import Note from "./Note";
+import Screen from "@/views/components/Screen";
 
 export default {
   name: "notes",
   components: {
     NotesRow,
     NoteForm,
-    Note
+    Note,
+    Screen
   },
   data() {
     return {
@@ -101,16 +103,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.notes-list
-  max-height: 100vh
-  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
-  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
-  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75)
-  box-sizing: border-box
-  display: flex
-  flex-direction: column
-  padding-bottom: 40px
-
 .notes-content
   overflow-y: auto
   flex-grow: 1

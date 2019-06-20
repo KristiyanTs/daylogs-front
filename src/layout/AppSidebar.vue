@@ -13,9 +13,6 @@
     <router-link class="nav-link" :class="isActive('notes')" to="/notes">
       <font-awesome-icon :icon="['far', 'clipboard']" size="3x" />
     </router-link>
-    <router-link class="nav-link" :class="isActive('sounds')" to="/sounds">
-      <font-awesome-icon icon="headphones" size="3x" />
-    </router-link>
     <div class="account">
       <router-link class="nav-link" :class="isActive('profile')" to="/profile">
         <font-awesome-icon icon="user" size="2x" />
@@ -54,7 +51,7 @@ export default {
 };
 </script>
 <style scoped lang="sass">
-#sidebar 
+#sidebar
   height: 100vh !important
   position: fixed
   width: 120px
@@ -85,10 +82,11 @@ a.nav-link:hover svg
   color: #E8F6FF
 
 .nav-link.active
-  transition: all 2s
+  transition: background-color 0.5s
   background-color: #d3e3fc !important
   svg
     color: #77a6f7
+    transition: color 0s
 
 .main-nav
   height: 100%

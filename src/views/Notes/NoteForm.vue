@@ -53,7 +53,6 @@ export default {
 .note-form {
   margin-top: 20px;
   display: flex;
-  padding: 0px 1.5rem;
 }
 .note-form form {
   flex-grow: 1;
