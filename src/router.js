@@ -10,7 +10,6 @@ const ConfirmEmail   = () => import("./views/User/ConfirmEmail");
 const Profile        = () => import("./views/User/Profile");
 const NotesWrapper   = () => import("./views/Notes/NotesWrapper");
 const TasksWrapper   = () => import("./views/Tasks/TasksWrapper");
-const SoundsWrapper  = () => import("./views/Sounds/SoundsWrapper");
 
 Vue.use(Router);
 
@@ -41,14 +40,6 @@ let router = new Router({
       path: "/notes",
       name: "notes",
       component: NotesWrapper,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/sounds",
-      name: "sounds",
-      component: SoundsWrapper,
       meta: {
         requiresAuth: true
       }
