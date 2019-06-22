@@ -33,6 +33,7 @@
     "vue2-filters": "^0.4.1",
     "vue2-transitions": "^0.2.3",
     "vuedraggable": "^2.21.0",
+    "vuetify": "^1.5.16",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
   },

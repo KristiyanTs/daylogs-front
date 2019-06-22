@@ -3,6 +3,13 @@
     <div class="col-lg-5 col-xs-12 px-4 profile-wrapper">
       <h3 class="text-center">Profile</h3>
       <form @submit.prevent="submit" class="">
+        <v-flex xs12 md4>
+          <v-text-field
+            v-model="user.name"
+            label="Name"
+            required
+          ></v-text-field>
+        </v-flex>
         <base-input v-model="user.name" alternative addon-left-icon="user">
         </base-input>
         <base-input
@@ -45,12 +52,7 @@
             </base-input>
           </div>
         </transition>
-        <base-button
-          class="float-right mt-3 mr-0"
-          type="primary"
-          @click="submit"
-          >Submit
-        </base-button>
+        <v-btn color="success" @click="submit">Save</v-btn>
         <!-- The following line submits the form when pressing enter -->
         <input type="submit" value="Submit" class="d-none" />
       </form>

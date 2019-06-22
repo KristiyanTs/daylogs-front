@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Landing from "./views/Guest/Landing";
 import Login from "./views/User/Login";
 import Signup from "./views/User/Signup";
+import store from "./store";
 
 const ForgotPassword = () => import("./views/User/ForgotPassword");
 const ResetPassword  = () => import("./views/User/ResetPassword");
@@ -81,15 +82,6 @@ let router = new Router({
       }
     },
     {
-      path: "/reset_password/:key",
-      name: "reset password",
-      component: ResetPassword,
-      meta: {
-        header: true,
-        requiresAuth: false
-      }
-    },
-    {
       path: "/profile",
       name: "profile",
       component: Profile,
@@ -102,14 +94,14 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (router.app.$store.state.signedIn) {
+    if (store.state.signedIn) {
       next();
     } else {
       if (window.$cookies.get("jwt")) {
         let token = window.$cookies.get("jwt");
         let userId = window.$cookies.get("userId");
         let admin = window.$cookies.get("admin");
-        router.app.$store.commit("SIGNED_IN", [token, userId, admin]);
+        store.commit("SIGNED_IN", [token, userId, admin]);
         next();
       } else {
         next({

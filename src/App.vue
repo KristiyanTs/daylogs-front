@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <Notifications />
     <Header />
     <Sidebar />
@@ -9,7 +9,7 @@
       </fade-transition>
     </main>
     <Footer />
-  </div>
+  </v-app>
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
@@ -37,17 +37,19 @@ export default {
 };
 </script>
 
-<style>
-main {
-  min-height: 100vh !important;
-}
-main.remove-width {
-  margin-left: 120px;
-}
-.row {
-  margin: 0px !important;
-}
-.max-height {
-  height: 100vh;
-}
+<style lang="sass">
+@import '../node_modules/vuetify/dist/vuetify.css'
+
+main
+  min-height: 100vh !important
+
+main.remove-width
+  margin-left: 120px
+
+.row
+  margin: 0px !important
+
+.max-height
+  height: 100vh
+
 </style>
