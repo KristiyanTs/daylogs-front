@@ -86,7 +86,7 @@ export default {
       this.updateWorktime();
     },
     selectTask(task) {
-      let index = this.tasks.findIndex(t => t.id == task.id);
+      this.$emit("selectTask", task);
     },
     reorderTasks() {
       this.tasks = this.tasks.sort((a, b) =>

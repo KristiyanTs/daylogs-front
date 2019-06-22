@@ -2,11 +2,17 @@
   <Screen>
     <template v-slot:left>
       <day-select :day="day" @dayChange="changeDay" />
-      <tasks :day="day" @worktimeUpdated="updateWorktime" ref="tasks" />
+      <tasks
+        :day="day"
+        @worktimeUpdated="updateWorktime"
+        @selectTask="openEditBar"
+        ref="tasks"
+      />
       <task-new :day="day" @addTask="addTask" v-if="isRelevant" />
     </template>
     <template v-slot:right>
-      <log :day="day" />
+      <TaskForm :task_prop="task" v-if="taskSelected" @closeEditBar="closeEditBar" />
+      <log :day="day" v-else />
     </template>
   </Screen>
 </template>
@@ -17,6 +23,7 @@ import Tasks from "./Tasks";
 import TaskNew from "./TaskNew";
 import DaySelect from "./Navigation/DaySelect";
 import Screen from "@/views/components/Screen";
+import TaskForm from "./TaskForm";
 
 export default {
   components: {
@@ -24,12 +31,15 @@ export default {
     Tasks,
     TaskNew,
     DaySelect,
-    Screen
+    Screen,
+    TaskForm
   },
   data() {
     return {
       day: new Date(),
-      worktime: 0
+      worktime: 0,
+      taskSelected: false,
+      task: () => {}
     };
   },
   mounted() {
@@ -44,6 +54,13 @@ export default {
     },
     addTask(task) {
       this.$refs.tasks.addTask(task);
+    },
+    openEditBar(task) {
+      this.task = task;
+      this.taskSelected = true;
+    },
+    closeEditBar() {
+      this.taskSelected = false;
     }
   },
   computed: {

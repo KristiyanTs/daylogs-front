@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-menu-bar :editor="editor">
+    <editor-menu-bar :editor="editor" :class="format">
       <div
         class="menubar p-2"
         :class="{ 'is-focused': focused }"
@@ -96,7 +96,11 @@
       </div>
     </editor-menu-bar>
 
-    <editor-content class="editor__content" :editor="editor"></editor-content>
+    <editor-content
+      :class="format"
+      class="editor__content"
+      :editor="editor"
+    ></editor-content>
   </div>
 </template>
 
@@ -131,6 +135,11 @@ export default {
       type: String,
       default: "",
       description: "Editor content"
+    },
+    format: {
+      type: String,
+      default: "expanded",
+      description: "Format of the menu bar - small/expanded"
     }
   },
   data() {
@@ -191,6 +200,11 @@ export default {
 <style scoped>
 .menubar {
   background-color: rgba(211, 227, 252, 0.4);
+  display: flex;
+  justify-content: space-between;
+}
+.menubar.small button {
+  padding: 3px;
 }
 .menubar .menubar__button {
   border-radius: 0px;
@@ -198,11 +212,28 @@ export default {
 .editor__content {
   padding: 15px;
 }
+.editor__content.small {
+  border: 1px solid rgba(211, 227, 252, 0.8);
+  border-top: 0px;
+}
 .editor__content /deep/ p {
   margin-bottom: 3px;
 }
+.editor__content {
+  height: calc(100vh - 60px);
+}
 .editor__content /deep/ .ProseMirror {
-  min-height: 500px;
+  height: calc(100vh - 100px);
+  overflow: scroll;
+}
+.editor__content.small {
+  height: 200px;
+}
+.editor__content.small /deep/ .ProseMirror {
+  height: 170px;
+  min-height: 170px;
+  max-height: 170px;
+  overflow: scroll;
 }
 .editor__content /deep/ .ProseMirror:focus {
   outline: none;

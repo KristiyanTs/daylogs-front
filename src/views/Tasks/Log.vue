@@ -79,7 +79,7 @@ export default {
             "Unable to save day's log.",
             "danger"
           ]);
-        })
+        });
     },
     contentChange(newVal) {
       this.saved = false;
