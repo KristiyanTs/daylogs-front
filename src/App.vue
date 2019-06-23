@@ -42,6 +42,7 @@ export default {
 
 main
   min-height: 100vh !important
+  color: #525f7f
 
 main.remove-width
   margin-left: 120px

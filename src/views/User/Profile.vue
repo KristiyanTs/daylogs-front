@@ -1,71 +1,63 @@
 <template>
-  <div class="row max-height">
-    <div class="col-lg-5 col-xs-12 px-4 profile-wrapper">
+  <Screen>
+    <template v-slot:left>
       <h3 class="text-center">Profile</h3>
-      <form @submit.prevent="submit" class="">
-        <v-flex xs12 md4>
+      <form @submit.prevent="submit">
+        <v-flex xs12 class="text-right m-0">
+          <v-text-field v-model="user.name" label="Name" required
+            ><font-awesome-icon :icon="['fa', 'user']" slot="prepend"
+          /></v-text-field>
+          <v-text-field disabled v-model="user.email" label="Email" required
+            ><font-awesome-icon :icon="['fa', 'at']" slot="prepend"
+          /></v-text-field>
           <v-text-field
-            v-model="user.name"
-            label="Name"
-            required
-          ></v-text-field>
+            type="password"
+            v-model="user.password"
+            label="New password"
+            ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+          /></v-text-field>
+          <transition name="fade" :duration="300">
+            <div v-if="user.password">
+              <v-text-field
+                type="password"
+                v-model="user.password_confirmation"
+                label="Confirm new password"
+                ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+              /></v-text-field>
+              <v-text-field
+                type="password"
+                v-model="user.current_password"
+                label="Current password"
+                ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+              /></v-text-field>
+            </div>
+          </transition>
+          <v-btn
+            class="m-0"
+            depressed
+            color="success"
+            @click="submit"
+            :loading="loading"
+            >Save</v-btn
+          >
         </v-flex>
-        <base-input v-model="user.name" alternative addon-left-icon="user">
-        </base-input>
-        <base-input
-          alternative
-          v-model="user.email"
-          class="mt-3"
-          disabled
-          addon-left-icon="at"
-        >
-        </base-input>
-
-        <base-input
-          alternative
-          class="mt-3"
-          v-model="user.password"
-          placeholder="Change password"
-          input_type="password"
-          addon-left-icon="key"
-        >
-        </base-input>
-        <transition name="fade" :duration="300">
-          <div v-if="user.password">
-            <base-input
-              alternative
-              class="mt-3"
-              v-model="user.password_confirmation"
-              placeholder="Confirm new password"
-              input_type="password"
-              addon-left-icon="key"
-            >
-            </base-input>
-            <base-input
-              alternative
-              class="mt-3"
-              v-model="user.current_password"
-              placeholder="Current password"
-              input_type="password"
-              addon-left-icon="key"
-            >
-            </base-input>
-          </div>
-        </transition>
-        <v-btn color="success" @click="submit">Save</v-btn>
         <!-- The following line submits the form when pressing enter -->
         <input type="submit" value="Submit" class="d-none" />
       </form>
-    </div>
-  </div>
+    </template>
+  </Screen>
 </template>
 <script>
+import Screen from "@/views/components/Screen";
+
 export default {
+  components: {
+    Screen
+  },
   data() {
     return {
-      loading: true,
-      user: { name: "", email: "" },
-      errors: null
+      loading: false,
+      user: { name: "", email: "" }
     };
   },
   mounted() {
@@ -80,13 +72,12 @@ export default {
         })
         .then(response => {
           this.user = response.data;
+          this.loading = false;
         })
-        .catch(() => {
-          this.errored = true;
-        })
-        .finally(() => (this.loading = false));
+        .catch(() => {});
     },
     submit() {
+      this.loading = true;
       this.axios
         .put("/api/profile/update", {
           user: this.user
@@ -97,21 +88,17 @@ export default {
             "Your profile was updated successfully",
             "success"
           ]);
+          this.loading = false;
         })
         .catch(error => {
           this.$store.commit("ADD_ALERT", ["An error occurred.", "danger"]);
-          this.errors = error;
         });
     }
   }
 };
 </script>
 <style>
-.profile-wrapper {
+h3 {
   padding-top: 100px;
-  max-height: 100vh;
-  -webkit-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 18px -14px rgba(0,0,0,0.75);
 }
 </style>
