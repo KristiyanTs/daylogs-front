@@ -97,8 +97,11 @@ export default {
   }
 };
 </script>
-<style>
-h3 {
-  padding-top: 100px;
-}
+<style scoped lang="sass">
+h3
+  padding-top: 100px
+form
+  padding: 0px 15px
+  button
+    margin: 0px
 </style>

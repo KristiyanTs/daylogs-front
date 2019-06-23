@@ -27,7 +27,8 @@ export default {
   box-sizing: border-box
   display: flex
   flex-direction: column
-  padding-bottom: 40px
+  padding: 0px 0px 40px 0px
+  background-color: white
 
 .col-right
   padding: 0px

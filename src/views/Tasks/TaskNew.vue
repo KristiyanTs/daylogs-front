@@ -60,8 +60,7 @@ export default {
 }
 </script>
 
-<style scoped>
-* /deep/ .form-group {
-  margin-bottom: 0px !important;
-}
+<style scoped lang="sass">
+form
+  padding: 0px 15px
 </style>

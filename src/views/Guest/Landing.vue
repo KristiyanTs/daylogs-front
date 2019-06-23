@@ -1,7 +1,9 @@
 <template>
   <div class="body">
     <div class="attention">
-      <h1>What will you accomplish today?</h1>
+      <h1>Some memories are worth rememberinig.</h1>
+      <h2>Write down your day and keep it private</h2>
+      <h3>Functional, private, personal</h3>
     </div>
   </div>
 </template>

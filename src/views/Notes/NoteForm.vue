@@ -2,7 +2,7 @@
   <form @submit.prevent="submit">
     <v-layout row>
       <v-flex grow>
-        <v-text-field label="Note title" v-model="title"></v-text-field>
+        <v-text-field label="Add a new note" v-model="title"></v-text-field>
       </v-flex>
       <v-flex shrink>
         <v-btn fab dark small color="success" depressed @click="submit">
@@ -50,15 +50,7 @@ export default {
 }
 </script>
 
-<style scoped>
-* /deep/ .form-group {
-  margin-bottom: 0px !important;
-}
-.note-form {
-  margin-top: 20px;
-  display: flex;
-}
-.note-form form {
-  flex-grow: 1;
-}
+<style scoped lang="sass">
+form
+  padding: 0px 15px
 </style>
