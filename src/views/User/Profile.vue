@@ -33,7 +33,7 @@
             </div>
           </transition>
           <v-btn
-            class="m-0"
+            m-0
             depressed
             color="success"
             @click="submit"

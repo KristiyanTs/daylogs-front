@@ -1,14 +1,18 @@
 <template>
-  <div class="task-form">
-    <form @submit.prevent="submit">
-      <base-input v-model="title" placeholder="New task" alternative />
+  <form @submit.prevent="submit">
+    <v-layout row>
+      <v-flex grow>
+        <v-text-field label="Task title" v-model="title"></v-text-field>
+      </v-flex>
+      <v-flex shrink>
+        <v-btn fab dark small color="success" depressed @click="submit">
+          <font-awesome-icon icon="plus" color="white" />
+        </v-btn>
+      </v-flex>
       <!-- The following line submits the form when pressing enter -->
       <input type="submit" value="Submit" class="d-none" />
-    </form>
-    <span class="icon icon-shape btn" round @click="submit">
-      <font-awesome-icon icon="plus" class="text-success" />
-    </span>
-  </div>
+    </v-layout>
+  </form>
 </template>
 
 <script>
@@ -59,12 +63,5 @@ export default {
 <style scoped>
 * /deep/ .form-group {
   margin-bottom: 0px !important;
-}
-.task-form {
-  margin-top: 20px;
-  display: flex;
-}
-.task-form form {
-  flex-grow: 1;
 }
 </style>

@@ -1,14 +1,18 @@
 <template>
-  <div class="note-form">
-    <form @submit.prevent="submitForm">
-      <base-input v-model="title" placeholder="New note" alternative />
+  <form @submit.prevent="submit">
+    <v-layout row>
+      <v-flex grow>
+        <v-text-field label="Note title" v-model="title"></v-text-field>
+      </v-flex>
+      <v-flex shrink>
+        <v-btn fab dark small color="success" depressed @click="submit">
+          <font-awesome-icon icon="plus" color="white" />
+        </v-btn>
+      </v-flex>
       <!-- The following line submits the form when pressing enter -->
       <input type="submit" value="Submit" class="d-none" />
-    </form>
-    <span class="icon icon-shape btn" round @click="submitForm()">
-      <font-awesome-icon icon="plus" class="text-success" />
-    </span>
-  </div>
+    </v-layout>
+  </form>
 </template>
 
 <script>
@@ -19,7 +23,7 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    submit() {
       this.axios
         .post("/api/notes", {
           note: {
