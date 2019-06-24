@@ -6,30 +6,55 @@
     >
       No tasks for today
     </div>
-    <table class="col-12" v-if="tasks.length">
+    <v-list subheader v-else>
+      <v-subheader inset>Tasks</v-subheader>
       <draggable
-        class="list-group"
         v-model="tasks"
-        draggable=".task-row"
-        tag="tbody"
+        handle=".v-list__tile__content"
+        ghost-class="ghost"
         @start="drag = true"
         @end="drag = false"
         @change="updateOrder"
-        name="table-row"
         v-bind="dragOptions"
       >
-        <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-          <Task
-            v-for="task in tasks"
-            :task="task"
-            :key="task.id"
-            @updateTask="updateTask"
-            @deleteTask="deleteTask"
-            @selectTask="selectTask"
-          />
-        </transition-group>
+        <Task
+          v-for="task in tasks"
+          :task="task"
+          :key="task.id"
+          @updateTask="updateTask"
+          @deleteTask="deleteTask"
+          @editTask="editTask"
+        />
       </draggable>
-    </table>
+    </v-list>
+    <v-dialog v-model="editDialog" persistent width="500">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Edit task</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <form @submit.prevent="updateTaskModal">
+                  <v-text-field
+                    autofocus
+                    label="Title"
+                    v-model="new_title"
+                  ></v-text-field>
+                  <input type="submit" value="Submit" class="d-none" />
+                </form>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="editDialog = false">Close</v-btn>
+          <v-btn color="success" @click="updateTaskModal">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -48,6 +73,9 @@ export default {
   },
   data() {
     return {
+      new_title: "",
+      task: () => {},
+      editDialog: false,
       loading: true,
       tasks: () => [],
       drag: false
@@ -55,6 +83,7 @@ export default {
   },
   methods: {
     getDayTasks() {
+      this.tasks = [];
       this.loading = true;
       this.axios
         .get("/api/tasks", {
@@ -63,7 +92,6 @@ export default {
         })
         .then(response => {
           this.tasks = response.data;
-          this.reorderTasks();
           this.updateWorktime();
         })
         .catch(error => {
@@ -74,24 +102,24 @@ export default {
     addTask(task) {
       this.tasks.push(task);
     },
+    editTask(task) {
+      this.task = task;
+      this.editDialog = true;
+      this.new_title = task.title;
+    },
     updateTask(task) {
       let index = this.tasks.findIndex(t => t.id == task.id);
       this.tasks.splice(index, 1, task);
-      this.reorderTasks();
       this.updateWorktime();
+    },
+    updateTaskModal() {
+      this.task.title = this.new_title;
+      this.editDialog = false;
     },
     deleteTask(task) {
       let index = this.tasks.findIndex(t => t.id == task.id);
       this.tasks.splice(index, 1);
       this.updateWorktime();
-    },
-    selectTask(task) {
-      this.$emit("selectTask", task);
-    },
-    reorderTasks() {
-      this.tasks = this.tasks.sort((a, b) =>
-        a.position > b.position ? 1 : -1
-      );
     },
     updateWorktime() {
       let time = this.tasks.reduce((total, task) => {
@@ -151,16 +179,7 @@ export default {
     position: absolute
     right: 10px
 
-.flip-list-move
-  transition: transform 0.5s
-
-.no-move
-  transition: transform 0s
-
 .ghost
-  opacity: 0.5
+  opacity: 0.2
   background: #c8ebfb
-
-.list-group
-  min-height: 20px
 </style>

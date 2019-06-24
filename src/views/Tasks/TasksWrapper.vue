@@ -2,17 +2,11 @@
   <Screen>
     <template v-slot:left>
       <day-select :day="day" @dayChange="changeDay" />
-      <tasks
-        :day="day"
-        @worktimeUpdated="updateWorktime"
-        @selectTask="openEditBar"
-        ref="tasks"
-      />
+      <tasks :day="day" @worktimeUpdated="updateWorktime" ref="tasks" />
       <task-new :day="day" @addTask="addTask" v-if="isRelevant" />
     </template>
     <template v-slot:right>
-      <TaskForm :task_prop="task" v-if="taskSelected" @closeEditBar="closeEditBar" />
-      <log :day="day" v-else />
+      <log :day="day" />
     </template>
   </Screen>
 </template>
@@ -23,7 +17,6 @@ import Tasks from "./Tasks";
 import TaskNew from "./TaskNew";
 import DaySelect from "./Navigation/DaySelect";
 import Screen from "@/views/components/Screen";
-import TaskForm from "./TaskForm";
 
 export default {
   components: {
@@ -31,15 +24,12 @@ export default {
     Tasks,
     TaskNew,
     DaySelect,
-    Screen,
-    TaskForm
+    Screen
   },
   data() {
     return {
       day: new Date(),
-      worktime: 0,
-      taskSelected: false,
-      task: () => {}
+      worktime: 0
     };
   },
   mounted() {
@@ -54,13 +44,6 @@ export default {
     },
     addTask(task) {
       this.$refs.tasks.addTask(task);
-    },
-    openEditBar(task) {
-      this.task = task;
-      this.taskSelected = true;
-    },
-    closeEditBar() {
-      this.taskSelected = false;
     }
   },
   computed: {
@@ -71,6 +54,4 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
-</style>
+<style lang="sass" scoped></style>

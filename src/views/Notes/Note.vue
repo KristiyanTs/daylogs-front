@@ -39,6 +39,9 @@ export default {
       loading: true
     };
   },
+  beforeDestroy() {
+    this.saveNote();
+  },
   methods: {
     getNote() {
       if (this.note_id == -1) return;

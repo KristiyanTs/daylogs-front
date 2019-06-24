@@ -39,6 +39,9 @@ export default {
       loading: true
     };
   },
+  beforeDestroy() {
+    this.saveDayLog();
+  },
   methods: {
     getDayLog() {
       this.loading = true;
@@ -48,7 +51,9 @@ export default {
         })
         .then(response => {
           this.log = response.data;
-          if (this.log.content == null) this.log.content = "Start your log...";
+          if (this.log.content == null) {
+            this.log.content = "Describe your day in 500 words...";
+          }
         })
         .catch(error => {
           if (error.response.status == 401) {
@@ -90,7 +95,9 @@ export default {
       }, 5000);
     },
     onFocus() {
-      if (this.log.content == "Start your log...") this.log.content = "";
+      if (this.log.content == "Describe your day in 500 words...") {
+        this.log.content = "";
+      }
     }
   },
   watch: {

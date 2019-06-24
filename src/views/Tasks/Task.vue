@@ -1,94 +1,59 @@
 <template>
-  <tr class="w-100 task-row list-group-item">
-    <td class="handle">
-      <font-awesome-icon icon="grip-vertical" class="text-muted" />
-    </td>
-    <td
-      class="py-3 task-title"
-      :class="{ 'text-muted': task.status == 'completed' }"
-      v-if="!editing"
-      @click="selectTask"
-      @dblclick="renameTask"
-    >
-      {{ task.title }}
-    </td>
-    <td
-      class="py-3 task-title"
-      :class="{ 'text-muted': task.status == 'completed' }"
-      v-else
-    >
-      <form @submit.prevent="editTitle">
-        <base-input
-          v-model="new_title"
-          @focus="$event.target.select()"
-          placeholder="New title"
-          alternative
-        />
-        <input type="submit" value="Submit" class="d-none" />
-      </form>
-    </td>
-    <td class="time text-muted">
-      <span v-if="taskTime != '0m'">{{ taskTime }}</span>
-    </td>
-    <td class="text-right actions" v-if="!editing">
-      <span class="icon icon-shape btn" round @click="completeTask">
-        <font-awesome-icon
-          icon="check"
-          :class="task.status == 'completed' ? 'text-success' : 'text-muted'"
-        />
-      </span>
-      <span
-        class="icon icon-shape btn"
-        round
-        @click="pauseTask"
-        v-if="task.status == 'running'"
+  <v-list-tile avatar>
+    <v-list-tile-avatar>
+      <font-awesome-icon
+        @click="completeTask"
+        icon="check"
+        :color="task.status == 'completed' ? '#2dce89' : 'grey'"
+      />
+    </v-list-tile-avatar>
+
+    <v-list-tile-content>
+      <v-list-tile-title>{{ task.title }}</v-list-tile-title>
+    </v-list-tile-content>
+
+    <v-list-tile-action>
+      <v-menu
+        bottom
+        origin="center center"
+        transition="scale-transition"
+        left
+        nudge-bottom="40"
       >
-        <font-awesome-icon icon="pause" class="text-warning" />
-      </span>
-      <base-dropdown direction="left" position="right" v-else>
-        <span
-          slot="title"
-          round
-          type="link"
-          class="dropdown-toggle icon icon-shape btn mr-0 text-muted"
-        >
-          <font-awesome-icon icon="ellipsis-v" />
-        </span>
-        <span
-          class="dropdown-item"
-          @click="runTask"
-          v-if="task.status == 'created' || task.status == 'paused'"
-        >
-          <font-awesome-icon icon="play" class="text-muted" />
-          Start progress
-        </span>
-        <span class="dropdown-item" @click="renameTask">
-          <font-awesome-icon icon="edit" class="text-muted" />
-          Rename
-        </span>
-        <span class="dropdown-item" @click="deleteTask">
-          <font-awesome-icon icon="trash-alt" class="text-muted" />
-          Delete
-        </span>
-      </base-dropdown>
-    </td>
-    <td class="text-right actions" v-else>
-      <span class="icon icon-shape btn" round @click="editTitle">
-        <font-awesome-icon icon="check" class="text-muted" />
-      </span>
-      <span class="icon icon-shape btn" round @click="renameTask">
-        <font-awesome-icon icon="times" class="text-muted" />
-      </span>
-    </td>
-  </tr>
+        <template v-slot:activator="{ on }">
+          <v-btn icon ripple color="transparent" v-on="on">
+            <font-awesome-icon icon="ellipsis-v" color="grey" />
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-tile avatar @click="editTask">
+            <v-list-tile-avatar
+              ><font-awesome-icon icon="edit" class="text-muted mr-3"
+            /></v-list-tile-avatar>
+            <v-list-tile-content
+              ><v-list-tile-title
+                >Rename</v-list-tile-title
+              ></v-list-tile-content
+            >
+          </v-list-tile>
+          <v-list-tile avatar @click="deleteTask">
+            <v-list-tile-avatar
+              ><font-awesome-icon icon="trash-alt" class="text-muted mr-3"
+            /></v-list-tile-avatar>
+            <v-list-tile-content
+              ><v-list-tile-title
+                >Delete</v-list-tile-title
+              ></v-list-tile-content
+            >
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+    </v-list-tile-action>
+  </v-list-tile>
 </template>
 
 <script>
-import BaseDropdown from "@/components/BaseDropdown";
 export default {
-  components: {
-    BaseDropdown
-  },
   props: {
     task: {
       type: Object,
@@ -103,26 +68,18 @@ export default {
   },
   data() {
     return {
-      last_updated: new Date(),
-      editing: false,
-      new_title: this.task.title
+      last_updated: new Date()
     };
   },
   methods: {
-    selectTask() {
-      this.$emit("selectTask", this.task);
-    },
     runTask() {
       this.updateTask({ status: "running" });
     },
     pauseTask() {
       this.updateTask({ status: "paused" });
     },
-    renameTask() {
-      this.editing = !this.editing;
-    },
-    editTitle() {
-      this.updateTask({ title: this.new_title });
+    editTask() {
+      this.$emit("editTask", this.task);
     },
     completeTask() {
       if (this.task.status != "completed") {
@@ -183,6 +140,14 @@ export default {
       } else {
         return this.formatTime(this.task.total_time);
       }
+    },
+    title() {
+      return this.task.title;
+    }
+  },
+  watch: {
+    title() {
+      this.updateTask({ title: this.task.title });
     }
   }
 };
@@ -217,4 +182,7 @@ td.handle
 
 td.handle svg
   height: 100%
+
+.v-btn:focus
+  outline: 0
 </style>
