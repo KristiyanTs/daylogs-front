@@ -70,6 +70,7 @@ export default {
     height: 40px
   .btn
     padding: 12px
+    font-size: 14px
   .btn:hover
     box-shadow: none
   .login

@@ -1,14 +1,15 @@
 <template>
   <div class="tasks" v-scroll-stop>
-    <div
-      class="text-center text-muted"
-      v-if="!loading && tasks.length == 0 && isRelevant"
-    >
-      No tasks for today
-    </div>
-    <v-list subheader v-else>
+    <v-list subheader>
       <v-subheader inset>Tasks</v-subheader>
+      <div
+        class="v-subheader v-subheader--inset"
+        v-if="!loading && tasks.length == 0 && isRelevant"
+      >
+        No tasks for today
+      </div>
       <draggable
+        v-else
         v-model="tasks"
         handle=".v-list__tile__content"
         ghost-class="ghost"

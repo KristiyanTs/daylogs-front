@@ -8,7 +8,7 @@
   >
     <img src="../assets/images/logo.png" class="my-3 w-100 px-2" />
     <router-link class="nav-link" :class="isActive('tasks')" to="/tasks">
-      <font-awesome-icon icon="tasks" size="3x" />
+      <font-awesome-icon icon="pencil-alt" size="3x" />
     </router-link>
     <router-link class="nav-link" :class="isActive('notes')" to="/notes">
       <font-awesome-icon :icon="['far', 'clipboard']" size="3x" />

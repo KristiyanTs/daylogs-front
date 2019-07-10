@@ -178,7 +178,7 @@ export default {
   },
   methods: {
     showImagePrompt(command) {
-      const src = prompt('Enter the url of your image here')
+      const src = prompt("Enter the url of your image here");
       if (src !== null) {
         command({ src });
       }
@@ -225,6 +225,11 @@ export default {
 .editor__content /deep/ .ProseMirror {
   height: calc(100vh - 100px);
   overflow: scroll;
+}
+.editor__content /deep/ .ProseMirror p,
+.editor__content /deep/ .ProseMirror li,
+.editor__content /deep/ .ProseMirror code {
+  font-size: 1.3rem;
 }
 .editor__content.small {
   height: 200px;
