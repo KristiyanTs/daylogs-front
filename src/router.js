@@ -11,6 +11,8 @@ const ConfirmEmail   = () => import("./views/User/ConfirmEmail");
 const Profile        = () => import("./views/User/Profile");
 const NotesWrapper   = () => import("./views/Notes/NotesWrapper");
 const TasksWrapper   = () => import("./views/Tasks/TasksWrapper");
+const Terms          = () => import("./views/Guest/Terms");
+const Privacy        = () => import("./views/Guest/Privacy");
 
 Vue.use(Router);
 
@@ -87,6 +89,24 @@ let router = new Router({
       component: Profile,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: "/terms",
+      name: "terms",
+      component: Terms,
+      meta: {
+        header: true,
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/privacy",
+      name: "privacy",
+      component: Privacy,
+      meta: {
+        header: true,
+        requiresAuth: false
       }
     }
   ]

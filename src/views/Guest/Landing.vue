@@ -5,8 +5,7 @@
         <div class="attention">
           <h1 class="text-uppercase">Plan it, keep it</h1>
           <h4>
-            DayLogs is the perfect platform for privately logging your day and
-            keeping it organized. We listen to your feedback and needs!
+            DayLogs is a personal journal and task manager. It makes organizing your day and logging the memories and ideas you want to keep easier.
           </h4>
           <v-btn
             large
@@ -29,10 +28,6 @@ export default {
   name: "landing",
   data() {
     return {};
-  },
-  mounted() {
-  },
-  methods: {
   }
 }
 </script>

@@ -51,7 +51,7 @@
         >
         </base-input>
         <base-checkbox v-model="accept">
-          I agree with the <a href="#">Privacy Policy</a>
+          I agree with the <router-link to="/privacy">Privacy Policy</router-link>
         </base-checkbox>
         <div class="text-center">
           <base-button type="primary" class="my-4" @click="validateForm">
