@@ -1,59 +1,46 @@
 <template>
-  <div class="form-wrapper">
-    <card
-      type="secondary"
-      shadow
-      header-classes="bg-white pb-5"
-      body-classes="px-lg-1 py-lg-3"
-      class="col-xs-10 col-md-6 col-lg-3"
-    >
-      <h3 class="text-center mb-3">Sign in</h3>
-      <base-alert type="danger" v-if="failure">
-        {{response}}
-      </base-alert>
-      <form @submit.prevent="submit">
-        <base-input
-          alternative
-          class="mb-3 bg-white"
-          placeholder="Email"
-          addon-left-icon="at"
-          v-model="email"
-        >
-        </base-input>
-        <base-input
-          alternative
-          class="mb-3 bg-white"
-          input_type="password"
-          placeholder="Password"
-          addon-left-icon="key"
-          v-model="password"
-        >
-        </base-input>
-        <base-checkbox v-model="remember_me">
-          Remember me
-        </base-checkbox>
-        <div class="text-center">
-          <base-button type="primary" class="my-4" @click="submit">
-            Sign In
-          </base-button>
-        </div>
-        <!-- The following line submits the form when pressing enter -->
-        <input type="submit" value="Submit" class="d-none" />
-      </form>
-      <div class="row mt-3">
-        <div class="col-6">
-          <router-link to="/password">
-            <small>Forgot password?</small>
-          </router-link>
-        </div>
-        <div class="col-6 text-right">
-          <router-link to="/signup">
-            <small>Register</small>
-          </router-link>
-        </div>
-      </div>
-    </card>
-  </div>
+  <v-layout>
+    <v-flex xs10 sm6 offset-sm3 md4 offset-md4 class="card-wrapper">
+      <v-card>
+        <v-card-title class="text-center">
+          <div class="text-center display-1">Log in</div>
+        </v-card-title>
+
+        <v-card-text>
+          <v-alert :value="failure" color="error" outline>
+            {{ response }}
+          </v-alert>
+          <form @submit.prevent="submit">
+            <v-text-field type="email" v-model="email" label="Email"
+              ><font-awesome-icon :icon="['fa', 'at']" slot="prepend"
+            /></v-text-field>
+            <v-text-field type="password" v-model="password" label="Password"
+              ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+            /></v-text-field>
+            <v-checkbox
+              v-model="remember_me"
+              label="Remember me"
+              type="checkbox"
+            ></v-checkbox>
+            <div class="text-center">
+              <v-btn large color="primary" @click="submit">
+                Sign In
+              </v-btn>
+            </div>
+            <!-- The following line submits the form when pressing enter -->
+            <input type="submit" value="Submit" class="d-none" />
+          </form>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-layout align-space-between justify-space-between row fill-height>
+            <v-btn flat round to="/password">Forgot password?</v-btn>
+            <v-btn flat round to="/signup">Register</v-btn>
+          </v-layout>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -107,11 +94,22 @@ export default {
 };
 </script>
 
-<style scoped>
-.form-wrapper {
+<style>
+.card-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+.v-card {
+  width: 100%;
+}
+
+label.v-label.theme--light {
+  margin-bottom: 0px;
+}
+
+.display-1 {
+  width: 100%;
 }
 </style>

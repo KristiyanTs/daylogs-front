@@ -1,67 +1,50 @@
 <template>
-  <div class="form-wrapper">
-    <card
-      type="secondary"
-      shadow
-      header-classes="pb-5"
-      body-classes="px-lg-1 py-lg-3"
-      class="col-xs-10 col-md-6 col-lg-3"
-    >
-      <h3 class="text-center mb-4">Sign up</h3>
-      <base-alert type="warning" v-if="errors.length">
-        <b>Please correct the following error(s):</b>
-        <ul>
-          <li v-for="error in errors" :key="error">{{ error }}</li>
-        </ul>
-      </base-alert>
-      <form @submit.prevent="validateForm">
-        <base-input
-          alternative
-          class="mb-3 bg-white"
-          placeholder="Name"
-          addon-left-icon="user"
-          v-model="name"
-        >
-        </base-input>
-        <base-input
-          alternative
-          input_type="email"
-          class="mb-3 bg-white"
-          placeholder="Email"
-          addon-left-icon="at"
-          v-model="email"
-        >
-        </base-input>
-        <base-input
-          alternative
-          input_type="password"
-          class="mb-3 bg-white"
-          placeholder="Password"
-          addon-left-icon="key"
-          v-model="password"
-        >
-        </base-input>
-        <base-input
-          alternative
-          input_type="password"
-          class="mb-3 bg-white"
-          placeholder="Confirm password"
-          addon-left-icon="key"
-          v-model="password_confirmation"
-        >
-        </base-input>
-        <base-checkbox v-model="accept">
-          I agree with the <router-link to="/privacy">Privacy Policy</router-link>
-        </base-checkbox>
-        <div class="text-center">
-          <base-button type="primary" class="my-4" @click="validateForm">
-            Create account
-          </base-button>
-        </div>
-        <!-- The following line submits the form when pressing enter -->
-        <input type="submit" value="Submit" class="d-none" />
-      </form>
-    </card>
+  <v-layout>
+    <v-flex xs10 sm6 offset-sm3 md4 offset-md4 class="card-wrapper">
+      <v-card>
+        <v-card-title class="text-center">
+          <div class="text-center display-1">Sign up</div>
+        </v-card-title>
+        <v-card-text>
+          <base-alert type="warning" v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+            <ul>
+              <li v-for="error in errors" :key="error">{{ error }}</li>
+            </ul>
+          </base-alert>
+          <form @submit.prevent="validateForm">
+            <v-text-field type="text" v-model="name" label="Name"
+              ><font-awesome-icon :icon="['fa', 'user']" slot="prepend"
+            /></v-text-field>
+            <v-text-field type="email" v-model="email" label="Email"
+              ><font-awesome-icon :icon="['fa', 'at']" slot="prepend"
+            /></v-text-field>
+            <v-text-field type="password" v-model="password" label="Password"
+              ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+            /></v-text-field>
+            <v-text-field
+              type="password"
+              v-model="password_confirmation"
+              label="Password confirmation"
+              ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+            /></v-text-field>
+            <v-checkbox v-model="accept" type="checkbox">
+              <span slot="label">
+                I agree with the
+                <router-link to="/privacy">Privacy Policy</router-link>
+              </span>
+            </v-checkbox>
+            <div class="text-center">
+              <v-btn large color="primary" @click="validateForm">
+                Create account
+              </v-btn>
+            </div>
+            <!-- The following line submits the form when pressing enter -->
+            <input type="submit" value="Submit" class="d-none" />
+          </form>
+        </v-card-text>
+      </v-card>
+    </v-flex>
     <modal
       :show.sync="open"
       gradient="success"
@@ -86,7 +69,7 @@
         </base-button>
       </template>
     </modal>
-  </div>
+  </v-layout>
 </template>
 
 <script>
