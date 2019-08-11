@@ -6,34 +6,34 @@ import router from "./router";
 import store from "./store";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
-import Argon from "./plugins/argon-kit";
 import axios from "axios";
-import DisableAutocomplete from "vue-disable-autocomplete";
 import { securedAxiosInstance, plainAxiosInstance } from "./backend/axios";
 import VueAxios from "vue-axios";
 import Vue2Filters from "vue2-filters";
 import vSelect from "vue-select";
 import moment from "moment";
-import VueScrollStop from "vue-scroll-stop";
+import Default from "@/layout/Default";
+import NoSidebar from "@/layout/NoSidebar";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faListUl, faListOl, faQuoteRight, faCode, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faPlus, faCheck, faRedo, faTrashAlt, faSpinner, faHeadphones, faUser, faEdit, faSave, faPlay, faPause, faLock, faEllipsisV, faAt, faKey, faSignOutAlt, faTimes, faGripVertical, faStickyNote, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faListUl, faListOl, faQuoteRight, faCode, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faPlus, faCheck, faRedo, faTrashAlt, faSpinner, faUser, faEdit, faSave, faPlay, faPause, faLock, faEllipsisV, faAt, faKey, faSignOutAlt, faTimes, faGripVertical, faStickyNote, faPencilAlt, faCodeBranch, faTasks, faCog, faStar, faRedoAlt, faInfoCircle, faBug, faArrowLeft, faShieldAlt, faBell } from "@fortawesome/free-solid-svg-icons";
 import { faClipboard, faImage } from "@fortawesome/free-regular-svg-icons";
-library.add({faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faListUl, faListOl, faQuoteRight, faCode, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faPlus, faCheck, faRedo, faTrashAlt, faSave, faSpinner, faHeadphones, faUser, faEdit, faClipboard, faPlay, faPause, faLock, faEllipsisV, faAt, faKey, faSignOutAlt, faImage, faTimes, faGripVertical, faStickyNote, faPencilAlt});
+library.add({faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faListUl, faListOl, faQuoteRight, faCode, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faPlus, faCheck, faRedo, faTrashAlt, faSave, faSpinner, faUser, faEdit, faClipboard, faPlay, faPause, faLock, faEllipsisV, faAt, faKey, faSignOutAlt, faImage, faTimes, faGripVertical, faStickyNote, faPencilAlt, faCodeBranch, faTasks, faCog, faStar, faRedoAlt, faInfoCircle, faBug, faArrowLeft, faShieldAlt, faBell });
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.use(VueRouter);
 Vue.use(Vuex);
-Vue.use(Argon);
 Vue.use(VueAxios, axios);
-Vue.use(VueScrollStop);
 Vue.use(require("vue-cookies"));
-Vue.use(DisableAutocomplete);
 Vue.use(Vue2Filters);
 Vue.use(require("vue-moment"));
 Vue.component("v-select", vSelect);
+Vue.component("default-layout", Default);
+Vue.component("no-sidebar-layout", NoSidebar);
 Vue.prototype.moment = moment;
+const opts = {};
+Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, {
@@ -41,21 +41,14 @@ Vue.use(VueAxios, {
   plain: plainAxiosInstance
 });
 
-Vue.use(Vuetify, {
-  theme: {
-    success: "#2dce89",
-    error: "#f5365c"
-  }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
   let v = new Vue({
     store,
     router,
-    Vuetify,
     securedAxiosInstance,
     plainAxiosInstance,
     components: { App },
+    vuetify: new Vuetify(opts),
     template: "<App/>"
   }).$mount("#app");
   store.$axios = v.axios;

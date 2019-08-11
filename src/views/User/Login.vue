@@ -2,20 +2,24 @@
   <v-layout>
     <v-flex xs10 sm6 offset-sm3 md4 offset-md4 class="card-wrapper">
       <v-card>
-        <v-card-title class="text-center">
+        <v-card-title class="text-center mb-4">
           <div class="text-center display-1">Log in</div>
         </v-card-title>
 
         <v-card-text>
-          <v-alert :value="failure" color="error" outline>
+          <v-alert :value="failure" color="error" class="mb-4" outlined>
             {{ response }}
           </v-alert>
           <form @submit.prevent="submit">
-            <v-text-field type="email" v-model="email" label="Email"
-              ><font-awesome-icon :icon="['fa', 'at']" slot="prepend"
+            <v-text-field type="email" v-model="email" label="Email" outlined
+              ><font-awesome-icon :icon="['fa', 'at']" slot="prepend-inner"
             /></v-text-field>
-            <v-text-field type="password" v-model="password" label="Password"
-              ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
+            <v-text-field
+              type="password"
+              v-model="password"
+              label="Password"
+              outlined
+              ><font-awesome-icon :icon="['fa', 'key']" slot="prepend-inner"
             /></v-text-field>
             <v-checkbox
               v-model="remember_me"
@@ -34,8 +38,8 @@
 
         <v-card-actions>
           <v-layout align-space-between justify-space-between row fill-height>
-            <v-btn flat round to="/password">Forgot password?</v-btn>
-            <v-btn flat round to="/signup">Register</v-btn>
+            <v-btn text rounded to="/password">Forgot password?</v-btn>
+            <v-btn text rounded to="/signup">Register</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>

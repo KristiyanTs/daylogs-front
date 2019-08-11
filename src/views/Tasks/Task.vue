@@ -1,18 +1,18 @@
 <template>
-  <v-list-tile avatar>
-    <v-list-tile-avatar>
+  <v-list-item>
+    <v-list-item-avatar>
       <font-awesome-icon
         @click="completeTask"
         icon="check"
         :color="task.status == 'completed' ? '#2dce89' : 'grey'"
       />
-    </v-list-tile-avatar>
+    </v-list-item-avatar>
 
-    <v-list-tile-content>
-      <v-list-tile-title>{{ task.title }}</v-list-tile-title>
-    </v-list-tile-content>
+    <v-list-item-content>
+      <v-list-item-title>{{ task.title }}</v-list-item-title>
+    </v-list-item-content>
 
-    <v-list-tile-action>
+    <v-list-item-action>
       <v-menu
         bottom
         origin="center center"
@@ -26,30 +26,30 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-tile avatar @click="editTask">
-            <v-list-tile-avatar
+          <v-list-item @click="editTask">
+            <v-list-item-avatar
               ><font-awesome-icon icon="edit" class="text-muted mr-3"
-            /></v-list-tile-avatar>
-            <v-list-tile-content
-              ><v-list-tile-title
-                >Rename</v-list-tile-title
-              ></v-list-tile-content
+            /></v-list-item-avatar>
+            <v-list-item-content
+              ><v-list-item-title
+                >Rename</v-list-item-title
+              ></v-list-item-content
             >
-          </v-list-tile>
-          <v-list-tile avatar @click="deleteTask">
-            <v-list-tile-avatar
+          </v-list-item>
+          <v-list-item @click="deleteTask">
+            <v-list-item-avatar
               ><font-awesome-icon icon="trash-alt" class="text-muted mr-3"
-            /></v-list-tile-avatar>
-            <v-list-tile-content
-              ><v-list-tile-title
-                >Delete</v-list-tile-title
-              ></v-list-tile-content
+            /></v-list-item-avatar>
+            <v-list-item-content
+              ><v-list-item-title
+                >Delete</v-list-item-title
+              ></v-list-item-content
             >
-          </v-list-tile>
+          </v-list-item>
         </v-list>
       </v-menu>
-    </v-list-tile-action>
-  </v-list-tile>
+    </v-list-item-action>
+  </v-list-item>
 </template>
 
 <script>
@@ -159,10 +159,7 @@ export default {
   padding: 0px
   border: 0px
   background-color: white
-
-td.task-title
-  width: calc(100% - 221px)
-
+  
 td.time
   display: flex
   width: 70px

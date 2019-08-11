@@ -9,7 +9,7 @@
           </h4>
           <v-btn
             large
-            round
+            rounded
             color="primary"
             class="call-to-action"
             to="/signup"

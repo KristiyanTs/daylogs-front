@@ -1,25 +1,41 @@
 <template>
-  <div id="date" class="px-lg-2 py-lg-5">
-    <span class="icon icon-shape btn" round @click="shiftDate(-7)">
-      <font-awesome-icon icon="angle-double-left" class="text-primary" />
-    </span>
-    <span class="icon icon-shape btn" round @click="shiftDate(-1)">
-      <font-awesome-icon icon="chevron-left" class="text-primary" size="2x" />
-    </span>
-    <span
-      ref="dateInput"
-      class="date align-bottom"
-      :class="{ 'text-muted': is_other_date }"
-    >
-      {{ moment(day).format("ddd, MMM Do") }}
-    </span>
-    <span class="icon icon-shape btn" round @click="shiftDate(1)">
-      <font-awesome-icon icon="chevron-right" class="text-primary" size="2x" />
-    </span>
-    <span class="icon icon-shape btn" round @click="shiftDate(7)">
-      <font-awesome-icon icon="angle-double-right" class="text-primary" />
-    </span>
-  </div>
+  <v-sheet height="64">
+    <v-toolbar flat color="white">
+      <v-btn outlined class="mr-3" @click="setToday">
+        Today
+      </v-btn>
+      <v-btn fab text small @click="prev">
+        <v-icon small>arrow_back_ios</v-icon>
+      </v-btn>
+      <v-btn fab text small @click="next">
+        <v-icon small>arrow_forward_ios</v-icon>
+      </v-btn>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu bottom right>
+        <template v-slot:activator="{ on }">
+          <v-btn outlined v-on="on">
+            <span>{{ typeToLabel[type] }}</span>
+            <v-icon right>arrow_drop_down</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="type = 'day'">
+            <v-list-item-title>Day</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="type = 'week'">
+            <v-list-item-title>Week</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="type = 'month'">
+            <v-list-item-title>Month</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="type = '4day'">
+            <v-list-item-title>4 days</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-toolbar>
+  </v-sheet>
 </template>
 
 <script>

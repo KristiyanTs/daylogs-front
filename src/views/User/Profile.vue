@@ -1,54 +1,49 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <h3 class="text-center">Profile</h3>
-      <form @submit.prevent="submit">
-        <v-flex xs12 class="text-right m-0">
-          <v-text-field v-model="user.name" label="Name" required
-            ><font-awesome-icon :icon="['fa', 'user']" slot="prepend"
-          /></v-text-field>
-          <v-text-field disabled v-model="user.email" label="Email" required
-            ><font-awesome-icon :icon="['fa', 'at']" slot="prepend"
-          /></v-text-field>
-          <v-text-field
-            type="password"
-            v-model="user.password"
-            label="New password"
-            ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
-          /></v-text-field>
-          <transition name="fade" :duration="300">
-            <div v-if="user.password">
-              <v-text-field
-                type="password"
-                v-model="user.password_confirmation"
-                label="Confirm new password"
-                ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
-              /></v-text-field>
-              <v-text-field
-                type="password"
-                v-model="user.current_password"
-                label="Current password"
-                ><font-awesome-icon :icon="['fa', 'key']" slot="prepend"
-              /></v-text-field>
-            </div>
-          </transition>
-          <v-btn
-            m-0
-            depressed
-            color="success"
-            @click="submit"
-            :loading="loading"
-            >Save</v-btn
-          >
+      <v-layout wrap>
+        <v-flex xs12>
+          <v-toolbar flat dense>
+            <v-toolbar-title>
+              Profile
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-list>
+            <v-list-item to="general">
+              <v-list-item-avatar>
+                <font-awesome-icon icon="cog" class="grey--text" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>Basic Settings</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="security">
+              <v-list-item-avatar>
+                <font-awesome-icon icon="shield-alt" class="grey--text" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>Security</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item to="notifications">
+              <v-list-item-avatar>
+                <font-awesome-icon icon="bell" class="grey--text" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>Notifications</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
         </v-flex>
-        <!-- The following line submits the form when pressing enter -->
-        <input type="submit" value="Submit" class="d-none" />
-      </form>
+      </v-layout>
+    </template>
+    <template v-slot:right>
+      <router-view></router-view>
     </template>
   </Screen>
 </template>
 <script>
-import Screen from "@/views/components/Screen";
+import Screen from "@/components/Screen";
 
 export default {
   components: {
@@ -56,52 +51,10 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      user: { name: "", email: "" }
     };
   },
-  mounted() {
-    this.getUser();
-  },
   methods: {
-    getUser() {
-      this.loading = true;
-      this.axios
-        .get("/api/profile", {
-          headers: { Authorization: window.$cookies.get("jwt") }
-        })
-        .then(response => {
-          this.user = response.data;
-          this.loading = false;
-        })
-        .catch(() => {});
-    },
-    submit() {
-      this.loading = true;
-      this.axios
-        .put("/api/profile/update", {
-          user: this.user
-        })
-        .then(response => {
-          this.user = response.data;
-          this.$store.commit("ADD_ALERT", [
-            "Your profile was updated successfully",
-            "success"
-          ]);
-          this.loading = false;
-        })
-        .catch(error => {
-          this.$store.commit("ADD_ALERT", ["An error occurred.", "danger"]);
-        });
-    }
+
   }
 };
 </script>
-<style scoped lang="sass">
-h3
-  padding-top: 100px
-form
-  padding: 0px 15px
-  button
-    margin: 0px
-</style>

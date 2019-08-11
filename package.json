@@ -22,18 +22,17 @@
     "vue": "^2.5.22",
     "vue-axios": "^2.1.4",
     "vue-cookies": "^1.5.12",
-    "vue-disable-autocomplete": "0.0.4",
     "vue-flatpickr-component": "^8.1.2",
+    "vue-image-crop-upload": "^2.5.0",
     "vue-lazyload": "^1.2.6",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.1",
-    "vue-scroll-stop": "^0.1.5",
     "vue-select": "^2.5.1",
     "vue-smooth-reflow": "^0.1.12",
     "vue2-filters": "^0.4.1",
     "vue2-transitions": "^0.2.3",
     "vuedraggable": "^2.21.0",
-    "vuetify": "^1.5.16",
+    "vuetify": "^2.0.0-beta.0",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
   },
@@ -47,10 +46,12 @@
     "eslint": "^5.13.0",
     "eslint-plugin-vue": "^5.1.0",
     "fibers": "^3.1.1",
-    "sass": "^1.16.0",
+    "sass": "^1.17.4",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-template-compiler": "^2.5.21"
+    "vue-cli-plugin-vuetify": "git+https://github.com/vuetifyjs/vue-cli-plugin-vuetify.git#dev",
+    "vue-template-compiler": "^2.5.21",
+    "vuetify-loader": "^1.2.2"
   }
 }

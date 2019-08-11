@@ -1,24 +1,31 @@
 <template>
-  <div class="editor">
-    <Editor
-      @contentChange="contentChange"
-      @onFocus="onFocus"
-      :content="note.content"
-    />
-    <base-button
-      round
-      @click="saveNote"
-      :type="saved ? 'success' : 'warning'"
-      class="icon icon-shape p-0 save-log"
-    >
-      <font-awesome-icon v-if="loading && !saved" icon="spinner" spin />
-      <font-awesome-icon v-else icon="save" />
-    </base-button>
-  </div>
+  <v-layout wrap column m-0 class="note-wrapper">
+    <v-flex class="editor white" grow>
+      <Editor
+        @contentChange="contentChange"
+        @onFocus="onFocus"
+        :content="note.content"
+      >
+        <v-btn
+          absolute
+          bottom
+          right
+          fab
+          large
+          @click="saveNote"
+          :color="saved ? 'success' : 'warning'"
+          class="save-log"
+        >
+          <font-awesome-icon v-if="loading && !saved" icon="spinner" spin />
+          <font-awesome-icon v-else icon="save" />
+        </v-btn>
+      </Editor>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import Editor from "@/views/components/Editor";
+import Editor from "@/components/Editor";
 
 export default {
   components: {
@@ -109,9 +116,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.editor .save-log {
-  position: absolute;
-  right: 10px;
-}
+<style lang="sass">
+
 </style>

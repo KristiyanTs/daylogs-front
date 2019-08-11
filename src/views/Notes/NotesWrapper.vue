@@ -1,58 +1,43 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <div class="notes-content" v-scroll-stop>
-        <div
-          v-if="notes.length == 0 && !loading"
-          class="text-muted mb-3 text-center mt-5"
-        >
-          You have no notes yet.
-        </div>
-        <v-list two-line subheader>
-          <v-subheader inset>Notes</v-subheader>
-          <notes-row
-            v-for="note in notes"
-            :key="note.id"
-            :note="note"
-            :selected="selected_note_id == note.id"
-            @noteDeleted="deleteNote"
-            @noteSelected="selectNote"
-            @openEditDialog="openEditNote"
-          />
-        </v-list>
-      </div>
-      <note-form :key="0" @noteAdded="addNote" />
-      <v-dialog v-model="editDialog" persistent width="500">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Edit note</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12>
-                  <form @submit.prevent="updateNote">
-                    <v-text-field
-                      autofocus
-                      label="Title"
-                      v-model="new_title"
-                    ></v-text-field>
-                    <input type="submit" value="Submit" class="d-none" />
-                  </form>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
+      <v-layout wrap>
+        <v-flex xs12>
+          <v-toolbar flat dense>
+            <v-toolbar-title>Notes</v-toolbar-title>
+
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="editDialog = false">Close</v-btn>
-            <v-btn color="success" @click="updateNote">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+
+            <template v-if="$vuetify.breakpoint.smAndUp">
+              <v-btn icon @click="formOpen = true">
+                <font-awesome-icon icon="plus" color="grey" />
+              </v-btn>
+            </template>
+          </v-toolbar>
+
+          <v-list two-line height="calc(100vh - 112px)" class="scroll-y">
+            <notes-row
+              v-for="note in notes"
+              :key="note.id"
+              :note="note"
+              :selected="selected_note_id == note.id"
+              @noteSelected="selectNote"
+              @updateNote="openUpdate"
+              @noteDeleted="deleteNote"
+            />
+          </v-list>
+          <NoteForm
+            :update="updating"
+            :open="formOpen"
+            :note="selectedNote"
+            @noteUpdated="updateNote"
+            @closeDialog="closeNewDialog"
+          />
+        </v-flex>
+      </v-layout>
     </template>
     <template v-slot:right>
-      <Note :note_id="selected_note_id" @noteUpdated="noteUpdated" />
+      <Note :note_id="selected_note_id" @noteUpdated="updateNote" />
     </template>
   </Screen>
 </template>
@@ -61,24 +46,23 @@
 import NotesRow from "./NotesRow";
 import NoteForm from "./NoteForm";
 import Note from "./Note";
-import Screen from "@/views/components/Screen";
+import Screen from "@/components/Screen";
 
 export default {
-  name: "notes",
+  name: "Notes",
   components: {
     NotesRow,
-    NoteForm,
     Note,
-    Screen
+    Screen,
+    NoteForm
   },
   data() {
     return {
-      selected_note_id: -1,
+      selected_note_id: null,
       notes: [],
-      note: () => {},
       loading: true,
-      editDialog: false,
-      new_title: ""
+      formOpen: false,
+      updating: false
     };
   },
   mounted() {
@@ -92,41 +76,35 @@ export default {
         })
         .then(response => {
           this.notes = response.data;
-          this.selected_note_id = this.notes[0].id;
+          let selected = this.$route.params.id;
+          let note_id = selected ? selected : this.notes[0].id;
+          this.selectNote(note_id);
         })
         .catch(error => {
           this.requestError(error);
         })
         .finally(() => (this.loading = false));
     },
-    updateNote() {
-      this.axios
-        .put(`/api/notes/${this.note.id}`, {
-          note: { title: this.new_title }
-        })
-        .then(response => {
-          this.editDialog = false;
-          this.noteUpdated(response.data);
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
+    updateNote(note) {
+      this.deleteNote(note);
+      this.addNote(note);
+      this.selectNote(note.id);
     },
     deleteNote(note) {
       let index = this.notes.findIndex(n => n.id == note.id);
       this.notes.splice(index, 1);
-      this.selected_note_id = this.notes[0].id;
+      this.selectNote(this.notes[0].id);
     },
     addNote(note) {
       this.notes.unshift(note);
-      this.selected_note_id = note.id;
-    },
-    noteUpdated(note) {
-      this.deleteNote(note);
-      this.addNote(note);
     },
     selectNote(note_id) {
-      this.selected_note_id = note_id;
+      this.selected_note_id = Number(note_id);
+      this.$router.push({ name: "Notes", params: { id: Number(note_id) } });
+    },
+    openUpdate() {
+      this.updating = true;
+      this.formOpen = true;
     },
     requestError(error) {
       if (error.response.status == 401) {
@@ -136,10 +114,9 @@ export default {
         this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
       }
     },
-    openEditNote(note) {
-      this.editDialog = true;
-      this.new_title = note.title;
-      this.note = note;
+    closeNewDialog() {
+      this.updating = false;
+      this.formOpen = false;
     }
   },
   computed: {
@@ -150,9 +127,5 @@ export default {
 }
 </script>
 
-<style scoped lang="sass">
-.notes-content
-  overflow-y: auto
-  flex-grow: 1
-  padding-bottom: 200px
+<style lang="sass">
 </style>

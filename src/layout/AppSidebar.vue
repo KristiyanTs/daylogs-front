@@ -1,100 +1,140 @@
 <template>
-  <div
-    class="nav flex-column nav-pills main-nav p-0 text-center m-0"
-    id="sidebar"
-    role="tablist"
-    aria-orientation="vertical"
-    v-if="isVisible"
-  >
-    <img src="../assets/images/logo.png" class="my-3 w-100 px-2" />
-    <router-link class="nav-link" :class="isActive('tasks')" to="/tasks">
-      <font-awesome-icon icon="pencil-alt" size="3x" />
-    </router-link>
-    <router-link class="nav-link" :class="isActive('notes')" to="/notes">
-      <font-awesome-icon :icon="['far', 'clipboard']" size="3x" />
-    </router-link>
-    <div class="account">
-      <router-link class="nav-link" :class="isActive('profile')" to="/profile">
-        <font-awesome-icon icon="user" size="2x" />
-      </router-link>
-      <a class="nav-link" @click="logOut">
-        <font-awesome-icon icon="sign-out-alt" size="2x" />
-      </a>
-    </div>
-  </div>
+  <v-navigation-drawer v-model="sidebar" fixed clipped app>
+    <v-layout column fill-height align-content-start>
+      <v-flex shrink>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="https://randomuser.me/api/portraits/men/81.jpg" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-btn text small to="/profile/general">K. Tsvetanov</v-btn>
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <v-btn color="grey" text small @click="logOut">Log out</v-btn>
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-flex>
+      <v-flex shrink>
+        <v-divider dark class="my-0"></v-divider>
+        <v-list dense>
+          <v-list-item to="/calendar">
+            <v-list-item-action>
+              <font-awesome-icon icon="tasks" class="grey--text" />
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                Today
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/notes">
+            <v-list-item-action>
+              <font-awesome-icon icon="sticky-note" class="grey--text" />
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                Notes
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-flex>
+      <v-flex shrink>
+        <v-divider dark class="my-0"></v-divider>
+        <v-layout row align-center>
+          <v-flex xs6>
+            <v-subheader>
+              Projects
+            </v-subheader>
+          </v-flex>
+          <v-flex xs6 class="text-xs-right pr-2">
+            <v-btn @click="projectDialog = true" text fab>
+              <font-awesome-icon icon="plus" class="grey--text" />
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <v-flex class="projects-wrapper" shrink>
+        <v-list dense class="p-0">
+          <v-list-item
+            v-for="(node, k) in nodes"
+            :key="k"
+            :to="`/nodes/${node.id}`"
+          >
+            <v-list-item-action>
+              <font-awesome-icon icon="code-branch" class="grey--text" />
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ node.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-flex>
+    </v-layout>
+    <NewProject
+      :open="projectDialog"
+      @reload="getNodes"
+      @closeDialog="closeProjectDialog"
+    />
+  </v-navigation-drawer>
 </template>
+
 <script>
+import NewProject from "@/views/Nodes/NewProject/NewProject";
+
 export default {
-  name: "sidebar",
+  components: {
+    NewProject
+  },
+  props: {
+    sidebar: {
+      type: Boolean,
+      default: false,
+      description: "Is the sidebar open?"
+    }
+  },
   data() {
-    return {};
+    return {
+      nodes: [],
+      projectDialog: false
+    };
+  },
+  mounted() {
+    this.getNodes();
   },
   methods: {
     logOut() {
       this.$store.dispatch("signedOut");
       this.$router.push("/");
     },
-    isActive(route) {
-      return route == this.$route.name ? "active" : "";
-    }
-  },
-  computed: {
-    isVisible() {
-      return (
-        !this.$route.meta.header &&
-        ((typeof this.$route.meta.sidenav != "undefined" &&
-          this.$route.meta.sidenav) ||
-          typeof this.$route.meta.sidenav === "undefined")
-      );
+    getNodes() {
+      this.axios
+        .get("/api/favorites", {
+          headers: { Authorization: window.$cookies.get("jwt") }
+        })
+        .then(response => {
+          this.nodes = response.data;
+        })
+        .catch(error => {});
+    },
+    closeProjectDialog() {
+      this.projectDialog = false;
     }
   }
 };
 </script>
+
 <style scoped lang="sass">
-#sidebar
-  height: 100vh !important
-  position: fixed
-  width: 120px
-
-.row
-  margin: 0px !important
-
-a.nav-link
-  background-color: transparent !important
-  box-shadow: none !important
-  margin: 0px !important
-  padding-left: 0px !important
-  padding-right: 0px !important
-  width: 100%
-  border-radius: 0px !important
-
-a.nav-link svg
-  width: 40px !important
-
-a.nav-link:hover
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08) !important
-
-a.nav-link:hover svg
-  transition: 0.5s
-  transition-delay: 0.1s
-
-.nav-link svg
-  color: #E8F6FF
-
-.nav-link.active
-  transition: background-color 0.5s
-  background-color: #d3e3fc !important
-  svg
-    color: #77a6f7
-    transition: color 0s
-
-.main-nav
+.v-navigation-drawer
+  padding: 4px 0px 4px 4px
+.flex.grow .v-list.v-sheet
   height: 100%
-  background-color: #77a6f7
-
-.account
-  position: absolute
-  bottom: 20px
-  width: 100%
-
+.projects-wrapper
+  max-height: 200px
+  overflow-y: scroll
 </style>
