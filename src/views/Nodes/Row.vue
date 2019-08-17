@@ -4,10 +4,13 @@
       <font-awesome-icon
         icon="code-branch"
         class="grey--text"
-        v-if="node.category_id == null"
+        v-if="node.category == null"
       />
-      <v-btn fab v-else :color="buttonColor" depressed>
-        <font-awesome-icon :icon="buttonIcon" :color="buttonIconColor" />
+      <v-btn fab v-else :color="node.category.color" depressed>
+        <font-awesome-icon
+          :icon="node.category.icon"
+          :color="node.category.icon_color"
+        />
       </v-btn>
     </v-list-item-avatar>
 
@@ -63,16 +66,6 @@ export default {
     node: {
       type: Object,
       default: () => {}
-    },
-    categories: {
-      type: Array,
-      default: () => [],
-      description: "All categories"
-    },
-    statuses: {
-      type: Array,
-      default: () => [],
-      description: "All statuses"
     }
   },
   data() {
@@ -102,23 +95,6 @@ export default {
           this.errors = error.response.data;
           this.loading = false;
         });
-    },
-    status() {
-      return this.statuses.find(s => s.id == this.node.status_id);
-    },
-    category() {
-      return this.categories.find(c => c.id == this.node.category_id);
-    }
-  },
-  computed: {
-    buttonColor() {
-      return this.category().color;
-    },
-    buttonIcon() {
-      return this.category().icon;
-    },
-    buttonIconColor() {
-      return this.category().icon_color;
     }
   }
 }

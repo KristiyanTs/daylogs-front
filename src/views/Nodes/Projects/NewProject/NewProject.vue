@@ -32,8 +32,8 @@
 
 <script>
 import FormTemplate from "@/components/FormStepperScreen";
-import StatusList from "@/views/Nodes/NewProject/Statuses/StatusList";
-import CategoryList from "@/views/Nodes/NewProject/Categories/CategoryList";
+import StatusList from "./Statuses/StatusList";
+import CategoryList from "./Categories/CategoryList";
 
 export default {
   components: {

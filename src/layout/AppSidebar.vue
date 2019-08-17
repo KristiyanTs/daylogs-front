@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import NewProject from "@/views/Nodes/NewProject/NewProject";
+import NewProject from "@/views/Nodes/Project/NewProject/NewProject";
 
 export default {
   components: {
@@ -114,7 +114,7 @@ export default {
     },
     getNodes() {
       this.axios
-        .get("/api/favorites", {
+        .get("/api/nodes", {
           headers: { Authorization: window.$cookies.get("jwt") }
         })
         .then(response => {

@@ -65,7 +65,25 @@ let router = new Router({
     {
       path: "/nodes/:id?",
       name: "Nodes",
-      component: () => import("@/views/Nodes/Node")
+      component: () => import("@/views/Nodes/Wrapper"),
+      children: [
+        {
+          path: "general",
+          component: () => import("@/views/Nodes/Projects/Menu/General")
+        },
+        {
+          path: "team",
+          component: () => import("@/views/Nodes/Projects/Menu/RolesTeam")
+        },
+        {
+          path: "categories",
+          component: () => import("@/views/Nodes/Projects/Menu/Categories")
+        },
+        {
+          path: "statuses",
+          component: () => import("@/views/Nodes/Projects/Menu/Statuses")
+        }
+      ]
     }
   ]
 });

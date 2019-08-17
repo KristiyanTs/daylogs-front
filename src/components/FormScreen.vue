@@ -1,9 +1,9 @@
 <template>
   <v-layout justify-center>
     <v-dialog
+      persistent
       v-model="open"
       :width="width"
-      @click:outside="closeDialog"
       @keydown.esc="closeDialog"
     >
       <v-card>

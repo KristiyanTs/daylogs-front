@@ -115,13 +115,21 @@ export default {
       type: Boolean,
       default: false,
       description: "Is the modal open"
+    },
+    statuses: {
+      type: Array,
+      default: () => [],
+      description: "A list of all available statuses"
+    },
+    categories: {
+      type: Array,
+      default: () => [],
+      description: "A list of all available categories"
     }
   },
   data() {
     return {
       valid: true,
-      statuses: [],
-      categories: [],
       task: {}
     };
   },
@@ -156,28 +164,6 @@ export default {
           this.requestError(error);
         });
     },
-    getStatuses() {
-      this.axios
-        .get(`/api/nodes/${this.parent.id}/statuses`)
-        .then(response => {
-          this.statuses = response.data;
-          this.task.status_id = response.data[0].id;
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
-    },
-    getCategories() {
-      this.axios
-        .get(`/api/nodes/${this.parent.id}/categories`)
-        .then(response => {
-          this.categories = response.data;
-          this.task.category_id = response.data[0].id;
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
-    },
     descriptionChange(new_description) {
       this.task.description = new_description;
     },
@@ -195,8 +181,6 @@ export default {
       immediate: true,
       handler() {
         this.resetForm();
-        this.getStatuses();
-        this.getCategories();
       }
     }
   }
