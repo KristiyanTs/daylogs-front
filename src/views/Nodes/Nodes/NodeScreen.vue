@@ -7,11 +7,10 @@
             <v-toolbar-title>
               <v-layout align-center>
                 <v-btn
-                  v-if="parent"
                   rounded
                   depressed
                   class="mr-2"
-                  :to="`/nodes/${parent.id}`"
+                  :to="`/nodes/${node.parent.id}`"
                 >
                   <font-awesome-icon
                     icon="arrow-left"

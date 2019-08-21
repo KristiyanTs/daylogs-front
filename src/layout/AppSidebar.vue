@@ -50,11 +50,10 @@
               Projects
             </v-subheader>
           </v-flex>
-          <v-flex xs6 class="text-xs-right pr-2">
-            <v-btn @click="projectDialog = true" text fab>
-              <font-awesome-icon icon="plus" class="grey--text" />
-            </v-btn>
-          </v-flex>
+          <v-spacer />
+          <v-btn @click="projectDialog = true" text fab small>
+            <font-awesome-icon icon="plus" class="grey--text" />
+          </v-btn>
         </v-layout>
       </v-flex>
       <v-flex class="projects-wrapper" shrink>
@@ -85,7 +84,7 @@
 </template>
 
 <script>
-import NewProject from "@/views/Nodes/Project/NewProject/NewProject";
+import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 
 export default {
   components: {

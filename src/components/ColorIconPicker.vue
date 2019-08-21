@@ -6,14 +6,14 @@
     offset-x
   >
     <template v-slot:activator="{ on }">
-      <v-btn fab elevation="0" :color="color" v-on="on">
+      <v-btn small depressed fab :color="color" v-on="on">
         <font-awesome-icon :icon="icon" :color="icon_color" />
       </v-btn>
     </template>
 
     <v-card>
       <v-layout justify-center class="py-3">
-        <v-btn fab elevation="0" :color="local_color" large>
+        <v-btn fab depressed :color="local_color" large>
           <font-awesome-icon
             :icon="local_icon"
             :color="local_icon_color"
@@ -152,5 +152,5 @@ export default {
       }
     }
   }
-}
+};
 </script>

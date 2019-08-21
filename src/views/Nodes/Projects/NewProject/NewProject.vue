@@ -1,46 +1,22 @@
 <template>
-  <FormTemplate
-    :open="open"
-    :steps="steps"
-    :stepValid="stepValid"
-    @closeDialog="closeDialog"
-    @stepUpdated="updateStep"
-    @submit="submitProject"
-  >
-    <template v-slot:General>
-      <v-text-field
-        outlined
-        v-model="project.title"
-        placeholder="Project title"
-        :rules="rules.title"
-        required
-      />
-      <v-textarea
-        outlined
-        v-model="project.short_description"
-        placeholder="A short description of this project"
-      />
-    </template>
-    <template v-slot:Workflow>
-      <StatusList @updated="updateStatusList" />
-    </template>
-    <template v-slot:NodeTypes>
-      <CategoryList @updated="updateCategoryList" />
-    </template>
-  </FormTemplate>
+  <v-dialog :value="open" @closeDialog="closeDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-card>
+      <v-form @submit="submitProject">
+        <v-text-field
+          outlined
+          v-model="project.title"
+          placeholder="Project title"
+          :rules="rules.title"
+          required
+        />
+        <v-btn class="primary" @click="submitProject">Create</v-btn>
+      </v-form>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
-import FormTemplate from "@/components/FormStepperScreen";
-import StatusList from "./Statuses/StatusList";
-import CategoryList from "./Categories/CategoryList";
-
 export default {
-  components: {
-    FormTemplate,
-    StatusList,
-    CategoryList
-  },
   props: {
     open: {
       type: Boolean,
@@ -49,14 +25,9 @@ export default {
   },
   data() {
     return {
-      step: 1,
-      steps: ["General", "Workflow", "Node Types"],
       project: {
-        title: "",
-        short_description: ""
+        title: ""
       },
-      category_list: {},
-      status_list: {},
       rules: {
         title: [
           v => !!v || "Title is required",
@@ -69,22 +40,11 @@ export default {
     closeDialog() {
       this.$emit("closeDialog");
     },
-    updateStep(step) {
-      this.step = step;
-    },
-    updateStatusList(status_list) {
-      this.status_list = status_list;
-    },
-    updateCategoryList(category_list) {
-      this.category_list = category_list;
-    },
     submitProject() {
       this.axios
         .post("/api/nodes", {
           node: {
-            ...this.project,
-            statuses_attributes: this.status_list.statuses,
-            categories_attributes: this.category_list.categories
+            ...this.project
           }
         })
         .then(() => {
@@ -97,26 +57,9 @@ export default {
         });
     },
     resetForm() {
-      this.step = 1;
       this.project = {
-        title: "",
-        short_description: ""
+        title: ""
       };
-      this.category_list = {};
-      this.status_list = {};
-    }
-  },
-  computed: {
-    stepValid() {
-      if (this.step == 1) {
-        return this.project.title.length && this.project.title.length < 13;
-      } else if (this.step == 2) {
-        return this.status_list.statuses.length > 0;
-      } else if (this.step == 3) {
-        return this.category_list.categories.length > 0;
-      } else {
-        return false;
-      }
     }
   }
 }

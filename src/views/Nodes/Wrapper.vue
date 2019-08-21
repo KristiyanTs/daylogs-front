@@ -1,6 +1,6 @@
 <template>
   <ProjectScreen
-    v-if="!node.root_id"
+    v-if="!node.root"
     :project="node"
     :child_nodes="child_nodes"
     :child_tasks="child_tasks"

@@ -6,7 +6,7 @@
     offset-x
   >
     <template v-slot:activator="{ on }">
-      <v-btn fab elevation="0" :color="color" v-on="on"></v-btn>
+      <v-btn small depressed fab elevation="0" :color="color" v-on="on"></v-btn>
     </template>
 
     <v-card>

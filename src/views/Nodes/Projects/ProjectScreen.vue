@@ -4,7 +4,7 @@
       <v-layout wrap>
         <v-flex xs12>
           <v-toolbar flat dense>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-toolbar-items>
               <v-tabs @change="filter">
                 <v-tab>Menu</v-tab>
@@ -12,11 +12,9 @@
                 <v-tab>Tasks ({{ child_tasks.length }})</v-tab>
               </v-tabs>
             </v-toolbar-items>
-            <template>
-              <v-btn icon>
-                <font-awesome-icon icon="plus" color="grey" />
-              </v-btn>
-            </template>
+            <v-btn icon v-if="type != 'menu'" @click="addInstance">
+              <font-awesome-icon icon="plus" color="grey" />
+            </v-btn>
           </v-toolbar>
           <ProjectMenu v-if="type == 'menu'" :project="project" />
           <v-list two-line subheader v-else>
@@ -76,15 +74,48 @@ export default {
     getNodes() {
       this.$emit("getNodes");
     },
+    addInstance() {
+      if (this.type == "nodes") {
+        this.addNode();
+      } else if (this.type == "tasks") {
+        this.addTask();
+      }
+    },
+    addNode() {
+      this.children.push({
+        
+      });
+    },
+    addTask() {
+      this.children.push({
+
+      });
+    },
     filter(type) {
       if (type == 0) {
         this.type = "menu";
+        this.$router.push({ path: `/nodes/${this.rootId}/general` });
       } else if (type == 1) {
         this.type = "nodes";
         this.children = this.child_nodes;
       } else if (type == 2) {
         this.type = "tasks";
         this.children = this.child_tasks;
+      }
+    }
+  },
+  computed: {
+    rootId() {
+      return this.$route.params.id;
+    }
+  },
+  watch: {
+    rootId: {
+      immediate: true,
+      handler() {
+        if (this.type == "menu" && this.rootId) {
+          this.$router.push({ path: `/nodes/${this.rootId}/general` });
+        }
       }
     }
   }

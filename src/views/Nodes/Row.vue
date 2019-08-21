@@ -1,5 +1,5 @@
 <template>
-  <v-list-item color="primary" :to="`/nodes/${node.id}`">
+  <v-list-item color="primary" @click="previewNode">
     <v-list-item-avatar>
       <font-awesome-icon
         icon="code-branch"
@@ -15,7 +15,7 @@
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title v-text="node.title" />
+      <v-list-item-title v-text="node.title" :to="`/nodes/${node.id}`" />
       <v-list-item-subtitle :v-text="node.descripion" />
     </v-list-item-content>
 
@@ -27,33 +27,9 @@
             :class="`${node.favorite ? 'primary' : 'grey'}--text`"
           />
         </v-btn>
-        <v-menu
-          open-on-hover
-          close-delay="30"
-          bottom
-          origin="center center"
-          transition="scale-transition"
-          left
-          nudge-bottom="40"
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn icon ripple color="transparent" v-on="on">
-              <font-awesome-icon icon="ellipsis-v" color="grey" />
-            </v-btn>
-          </template>
-          <v-list dense>
-            <v-list-item @click="deleteNode" dense>
-              <v-list-item-avatar>
-                <font-awesome-icon icon="trash-alt" class="text-muted"/>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>
-                  Delete
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-btn icon @click.prevent="deleteNode">
+          <font-awesome-icon icon="trash-alt" class="grey--text" />
+        </v-btn>
       </v-flex>
     </v-list-item-action>
   </v-list-item>
@@ -84,6 +60,9 @@ export default {
           this.errors = error.response.data;
           this.loading = false;
         });
+    },
+    previewNode() {
+      this.$emit("previewNode", this.node);
     },
     deleteNode() {
       this.axios

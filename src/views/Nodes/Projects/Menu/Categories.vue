@@ -9,8 +9,9 @@
       <v-btn icon @click="resetCategories" color="grey">
         <font-awesome-icon icon="redo-alt" />
       </v-btn>
-      <v-btn icon @click="saveCategories" color="success">
-        <font-awesome-icon icon="save" />
+      <v-btn rounded @click="saveCategories" color="success" class="mr-1" depressed>
+        <font-awesome-icon icon="save" class="mr-2" />
+        Save
       </v-btn>
     </v-toolbar>
     <v-list two-line v-if="categories.length">
@@ -37,7 +38,10 @@
           <v-btn
             v-if="item.editing"
             fab
-            color="success"
+            depressed
+            outlined
+            small
+            color="primary"
             @click="deactivateAllCategories"
           >
             <font-awesome-icon icon="check" />
@@ -87,7 +91,12 @@ export default {
             categories_attributes: this.categories
           }
         })
-        .then(() => {})
+        .then(response => {
+          this.$store.commit("ADD_ALERT", [
+            "Categories saved succcessfully",
+            "success"
+          ]);
+        })
         .catch(error => {
           this.requestError(error);
         });

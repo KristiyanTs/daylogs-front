@@ -77,22 +77,21 @@ export default {
           }
         })
         .then(response => {
-          this.loginSuccessful(response);
+          this.$store.dispatch("signedIn", [
+            response.headers.authorization,
+            response.data.id,
+            response.data.role
+          ]);
+          this.$store.commit("ADD_ALERT", [
+            "You are now logged in.",
+            "success"
+          ]);
+          this.$router.push(this.nextUrl);
         })
-        .catch(error => this.loginFailed(error));
-    },
-    loginSuccessful(response) {
-      this.$store.dispatch("signedIn", [
-        response.headers.authorization,
-        response.data.id,
-        response.data.role
-      ]);
-      this.$store.commit("ADD_ALERT", ["You are now logged in.", "success"]);
-      this.$router.push(this.nextUrl);
-    },
-    loginFailed(error) {
-      this.failure = true;
-      this.response = "Your email or password is incorrect";
+        .catch(error => {
+          this.failure = true;
+          this.response = "Your email or password is incorrect";
+        });
     }
   }
 };

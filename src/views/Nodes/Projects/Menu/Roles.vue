@@ -1,22 +1,40 @@
 <template>
-  <v-flex xs12>
-    <v-toolbar flat dense>
-      <v-toolbar-title>Roles</v-toolbar-title>
-      <v-spacer />
-      <v-btn icon @click="addRole" color="grey">
-        <font-awesome-icon icon="plus" />
-      </v-btn>
-      <v-btn icon @click="resetRoles" color="grey">
-        <font-awesome-icon icon="redo-alt" />
-      </v-btn>
-      <v-btn icon @click="saveRoles" color="success">
-        <font-awesome-icon icon="save" />
-      </v-btn>
-    </v-toolbar>
-    <v-layout wrap>
-      
-    </v-layout>
-  </v-flex>
+  <v-list v-if="roles.length">
+    <v-list-item v-for="(item, i) in roles" :key="i">
+      <v-list-item-avatar>
+        <font-awesome-icon icon="user" color="grey" />
+      </v-list-item-avatar>
+
+      <v-list-item-content v-if="item.editing">
+        <v-text-field v-model="item.title" placeholder="Role title" />
+      </v-list-item-content>
+      <v-list-item-content v-else>
+        <v-list-item-title v-text="item.title" />
+      </v-list-item-content>
+
+      <v-list-item-action>
+        <v-btn
+          v-if="item.editing"
+          fab
+          depressed
+          outlined
+          small
+          color="primary"
+          @click="deactivateAllRoles"
+        >
+          <font-awesome-icon icon="check" />
+        </v-btn>
+        <v-flex v-else>
+          <v-btn icon @click="activateRole(i)" color="grey">
+            <font-awesome-icon icon="edit" />
+          </v-btn>
+          <v-btn icon @click="deleteRole(i)" color="grey">
+            <font-awesome-icon icon="trash-alt" />
+          </v-btn>
+        </v-flex>
+      </v-list-item-action>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
@@ -32,12 +50,26 @@ export default {
       roles: []
     };
   },
+  created: function() {
+    this.$parent.$on("addRole", this.addRole);
+    this.$parent.$on("resetRoles", this.resetRoles);
+    this.$parent.$on("saveRoles", this.saveRoles);
+  },
   methods: {
+    getRoles() {
+      this.axios
+        .get(`/api/nodes/${this.project.id}/roles`)
+        .then(response => {
+          this.roles = response.data;
+        })
+        .catch(error => {
+          this.requestError(error);
+        });
+    },
     saveRoles() {
       this.axios
         .put(`/api/nodes/${this.project.id}`, {
           node: {
-            ...this.project,
             roles_attributes: this.roles
           }
         })
@@ -75,6 +107,14 @@ export default {
         title: "",
         editing: true
       });
+    }
+  },
+  watch: {
+    project: {
+      immediate: true,
+      handler() {
+        this.getRoles();
+      }
     }
   }
 };

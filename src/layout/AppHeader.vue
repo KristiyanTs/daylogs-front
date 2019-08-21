@@ -12,11 +12,17 @@
       prepend-inner-icon="search"
     ></v-text-field>
     <v-spacer></v-spacer>
+    <Alerts />
   </v-app-bar>
 </template>
 
 <script>
+import Alerts from "./Alerts";
+
 export default {
+  components: {
+    Alerts
+  },
   props: {
     sidebar: {
       type: Boolean,

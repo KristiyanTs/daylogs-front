@@ -9,8 +9,16 @@
       <v-btn icon @click="resetStatuses" color="grey">
         <font-awesome-icon icon="redo-alt" />
       </v-btn>
-      <v-btn icon @click="saveStatuses" color="success">
-        <font-awesome-icon icon="save" />
+      <v-btn
+        rounded
+        @click="saveStatuses"
+        color="success"
+        class="mr-1"
+        depressed
+        :loading="saving"
+      >
+        <font-awesome-icon icon="save" class="mr-2" />
+        Save
       </v-btn>
     </v-toolbar>
     <v-list two-line v-if="statuses.length">
@@ -42,7 +50,10 @@
             <v-btn
               v-if="item.editing"
               fab
-              color="success"
+              depressed
+              outlined
+              small
+              color="primary"
               @click="deactivateAllStatuses"
             >
               <font-awesome-icon icon="check" />
@@ -79,35 +90,45 @@ export default {
         disabled: false,
         ghostClass: "ghost"
       },
-      project: {},
-      statuses: []
+      statuses: [],
+      saved_statuses: [],
+      loading: true,
+      saving: false
     };
   },
   methods: {
-    getProject() {
+    getStatuses() {
+      this.loading = true;
       this.axios
-        .get(`/api/nodes/${this.rootId}`)
+        .get(`/api/nodes/${this.rootId}/statuses`)
         .then(response => {
-          this.project = response.data;
+          this.loading = false;
+          this.saved_statuses = response.data;
           this.resetStatuses();
         })
         .catch(error => {});
     },
     saveStatuses() {
+      this.saving = true;
       this.axios
-        .put(`/api/nodes/${this.project.id}`, {
+        .put(`/api/nodes/${this.rootId}`, {
           node: {
-            ...this.project,
             statuses_attributes: this.statuses
           }
         })
-        .then(() => {})
+        .then(() => {
+          this.saving = false;
+          this.$store.commit("ADD_ALERT", [
+            "Statuses saved successfully",
+            "success"
+          ]);
+        })
         .catch(error => {
           this.requestError(error);
         });
     },
     resetStatuses() {
-      this.statuses = JSON.parse(JSON.stringify(this.project.statuses));
+      this.statuses = JSON.parse(JSON.stringify(this.saved_statuses));
     },
     deactivateAllStatuses() {
       let status;
@@ -142,6 +163,14 @@ export default {
       let status = this.statuses[idx];
       status.color = color;
       this.statuses.splice(idx, 1, status);
+    },
+    requestError(error) {
+      if (error.response.status == 401) {
+        this.$store.dispatch("signedOut");
+        this.$router.push("/");
+      } else {
+        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
+      }
     }
   },
   computed: {
@@ -154,7 +183,7 @@ export default {
       immediate: true,
       handler() {
         if (this.rootId) {
-          this.getProject();
+          this.getStatuses();
         }
       }
     }
