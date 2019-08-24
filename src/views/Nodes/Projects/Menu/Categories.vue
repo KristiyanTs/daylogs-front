@@ -98,7 +98,6 @@ export default {
           ]);
         })
         .catch(error => {
-          this.requestError(error);
         });
     },
     resetCategories() {

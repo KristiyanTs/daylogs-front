@@ -5,7 +5,10 @@
       :key="idx"
       v-model="snackbar"
       :timeout="6000"
-      right
+      :top="position.includes('top')"
+      :right="position.includes('right')"
+      :bottom="position.includes('bottom')"
+      :left="position.includes('left')"
       :color="alert[1]"
     >
       {{ alert[0] }}
@@ -21,6 +24,12 @@ import { mapGetters } from "vuex";
 import { CLOSE_ALERT } from "@/store/actions.type";
 
 export default {
+  props: {
+    position: {
+      type: Array,
+      default: () => ["top", "right"]
+    }
+  },
   data() {
     return {
       snackbar: true

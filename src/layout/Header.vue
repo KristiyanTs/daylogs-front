@@ -5,6 +5,7 @@
         <span class="font-weight-light">Day</span>Logs
       </span>
     </v-toolbar-title>
+    <Alerts :position="['top']"/>
 
     <v-spacer></v-spacer>
 
@@ -27,7 +28,12 @@
 </template>
 
 <script>
+import Alerts from "./Alerts";
+
 export default{
-  name: "GuestHeader"
+  name: "GuestHeader",
+  components: {
+    Alerts
+  }
 }
 </script>

@@ -109,7 +109,8 @@ export default {
   },
   methods: {
     logOut() {
-      this.$store.dispatch(LOGOUT);
+      this.$store.dispatch(LOGOUT)
+        .then(() => this.$router.push('/'));
     },
     getNodes() {
       this.axios

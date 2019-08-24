@@ -1,12 +1,12 @@
 import {
-  PUSH_ALERT,
-  REMOVE_ALERT
-} from "./mutations.type";
-
-import {
   ADD_ALERT,
   CLOSE_ALERT
 } from "./actions.type";
+
+import {
+  PUSH_ALERT,
+  REMOVE_ALERT
+} from "./mutations.type";
 
 const state = {
   alerts: []

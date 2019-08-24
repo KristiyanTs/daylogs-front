@@ -95,14 +95,6 @@ export default {
         .catch(error => {
           this.requestError(error);
         });
-    },
-    requestError(error) {
-      if (error.response.status == 401) {
-        this.$store.dispatch("signedOut");
-        this.$router.push("/");
-      } else {
-        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
-      }
     }
   }
 }

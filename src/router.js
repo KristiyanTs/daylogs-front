@@ -43,6 +43,7 @@ let router = new Router({
     {
       path: "/profile",
       name: "Profile",
+      meta: { requiresAuth: true },
       component: () => import("@/views/User/Profile"),
       children: [
         {
@@ -62,11 +63,13 @@ let router = new Router({
     {
       path: "/notes/:id?",
       name: "Notes",
+      meta: { requiresAuth: true },
       component: () => import("@/views/Notes/NotesWrapper")
     },
     {
       path: "/nodes/:id?",
       name: "Nodes",
+      meta: { requiresAuth: true },
       component: () => import("@/views/Nodes/Wrapper"),
       children: [
         {
@@ -90,26 +93,26 @@ let router = new Router({
   ]
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.signedIn) {
-      next();
-    } else {
-      if (window.$cookies.get("jwt")) {
-        let token = window.$cookies.get("jwt");
-        let user = window.$cookies.get("user");
-        store.dispatch(LOGIN, [token, user]);
-        next();
-      } else {
-        next({
-          name: "login",
-          params: { nextUrl: to.fullPath }
-        });
-      }
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (store.state.signedIn) {
+//       next();
+//     } else {
+//       if (window.$cookies.get("jwt")) {
+//         let token = window.$cookies.get("jwt");
+//         let user = window.$cookies.get("user");
+//         store.dispatch(LOGIN, [token, user]);
+//         next();
+//       } else {
+//         next({
+//           name: "login",
+//           params: { nextUrl: to.fullPath }
+//         });
+//       }
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
