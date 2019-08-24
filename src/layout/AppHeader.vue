@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { ADD_ALERT } from "@/store/actions.type";
 import Alerts from "./Alerts";
 
 export default {
@@ -36,6 +37,12 @@ export default {
   methods: {
     toggleSidebar() {
       this.$emit("toggleSidebar", !this.sidebar);
+    },
+    addAlert() {
+      this.$store.dispatch(ADD_ALERT, [
+        "Statuses saved successfully",
+        "success"
+      ]);
     }
   }
 }

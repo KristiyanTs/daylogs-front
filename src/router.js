@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { LOGIN } from "@/store/actions.type";
 
 Vue.use(Router);
 
@@ -96,9 +97,8 @@ router.beforeEach((to, from, next) => {
     } else {
       if (window.$cookies.get("jwt")) {
         let token = window.$cookies.get("jwt");
-        let userId = window.$cookies.get("userId");
-        let admin = window.$cookies.get("admin");
-        store.commit("SIGNED_IN", [token, userId, admin]);
+        let user = window.$cookies.get("user");
+        store.dispatch(LOGIN, [token, user]);
         next();
       } else {
         next({

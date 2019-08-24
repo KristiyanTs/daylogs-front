@@ -123,9 +123,6 @@ export default {
             "success"
           ]);
         })
-        .catch(error => {
-          this.requestError(error);
-        });
     },
     resetStatuses() {
       this.statuses = JSON.parse(JSON.stringify(this.saved_statuses));
@@ -163,14 +160,6 @@ export default {
       let status = this.statuses[idx];
       status.color = color;
       this.statuses.splice(idx, 1, status);
-    },
-    requestError(error) {
-      if (error.response.status == 401) {
-        this.$store.dispatch("signedOut");
-        this.$router.push("/");
-      } else {
-        this.$store.commit("ADD_ALERT", ["An error ocurred.", "danger"]);
-      }
     }
   },
   computed: {

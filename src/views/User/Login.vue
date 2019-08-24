@@ -48,6 +48,9 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { LOGIN } from "@/store/actions.type";
+
 export default {
   props: {
     nextUrl: {
@@ -66,32 +69,10 @@ export default {
   },
   methods: {
     submit() {
-      this.failure = false;
-
-      this.axios
-        .post("/api/login", {
-          user: {
-            email: this.email,
-            password: this.password,
-            remember_me: this.remember_me ? 1 : 0
-          }
-        })
-        .then(response => {
-          this.$store.dispatch("signedIn", [
-            response.headers.authorization,
-            response.data.id,
-            response.data.role
-          ]);
-          this.$store.commit("ADD_ALERT", [
-            "You are now logged in.",
-            "success"
-          ]);
-          this.$router.push(this.nextUrl);
-        })
-        .catch(error => {
-          this.failure = true;
-          this.response = "Your email or password is incorrect";
-        });
+      let email = this.email;
+      let password = this.password;
+      this.$store.dispatch(LOGIN, {email, password})
+      .then(() => this.$router.push(this.nextUrl));
     }
   }
 };

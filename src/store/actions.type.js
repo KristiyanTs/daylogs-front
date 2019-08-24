@@ -1,0 +1,11 @@
+export const CHECK_AUTH = "checkAuth";
+export const LOGIN = "login";
+export const LOGOUT = "logout";
+export const REGISTER = "register";
+export const UPDATE_USER = "updateUser";
+export const ADD_ALERT = "addAlert";
+export const CLOSE_ALERT = "closeAlert";
+export const FAVORITE_ADD = "addFavorite";
+export const FAVORITE_REMOVE = "removeFavorite";
+export const FETCH_PROFILE = "fetchProfile";
+export const FETCH_TAGS = "fetchTags";

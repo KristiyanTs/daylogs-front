@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { LOGOUT } from "@/store/actions.type";
 import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 
 export default {
@@ -108,8 +109,7 @@ export default {
   },
   methods: {
     logOut() {
-      this.$store.dispatch("signedOut");
-      this.$router.push("/");
+      this.$store.dispatch(LOGOUT);
     },
     getNodes() {
       this.axios
