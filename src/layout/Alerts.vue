@@ -21,7 +21,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { CLOSE_ALERT } from "@/store/actions.type";
+import { DESTROY_ALERT } from "@/store/actions.type";
 
 export default {
   props: {
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     closeAlert(message) {
-      this.$store.dispatch(CLOSE_ALERT, message);
+      this.$store.dispatch(DESTROY_ALERT, message);
     }
   },
   computed: {

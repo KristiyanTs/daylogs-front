@@ -4,13 +4,15 @@ import Vuex from "vuex";
 
 import alerts from "./alerts.module";
 import auth from "./auth.module";
+import nodes from "./nodes.module";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     alerts,
-    auth
+    auth,
+    nodes
   },
   // plugins: [createPersistedState()]
 })

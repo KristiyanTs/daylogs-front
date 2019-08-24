@@ -6,7 +6,7 @@ import {
   LOGOUT,
   CHECK_AUTH,
   UPDATE_USER,
-  ADD_ALERT
+  CREATE_ALERT
 } from "./actions.type";
 
 import {
@@ -28,7 +28,7 @@ const actions = {
     return new Promise(resolve => {
       ApiService.post("login", { user: credentials })
         .then(response => {
-          context.dispatch(ADD_ALERT, ["You logged in successfully.", "success"]);
+          context.dispatch(CREATE_ALERT, ["You logged in successfully.", "success"]);
           context.commit(SET_AUTH, [response.headers.authorization, response.data]);
           resolve(response.data);
         })
@@ -41,7 +41,7 @@ const actions = {
     return new Promise(resolve => {
       ApiService.delete("logout")
         .then(() => {
-          context.dispatch(ADD_ALERT, ["You logged out successfully.", "success"]);
+          context.dispatch(CREATE_ALERT, ["You logged out successfully.", "success"]);
           context.commit(PURGE_AUTH);
           resolve();
         })

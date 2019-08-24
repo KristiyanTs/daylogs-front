@@ -1,10 +1,10 @@
 import {
-  ADD_ALERT,
-  CLOSE_ALERT
+  CREATE_ALERT,
+  DESTROY_ALERT
 } from "./actions.type";
 
 import {
-  PUSH_ALERT,
+  ADD_ALERT,
   REMOVE_ALERT
 } from "./mutations.type";
 
@@ -19,20 +19,20 @@ const getters = {
 }
 
 const actions = {
-  [ADD_ALERT](context, [message, status]) {
-    context.commit(PUSH_ALERT, [message, status]);
+  [CREATE_ALERT](context, [message, status]) {
+    context.commit(ADD_ALERT, [message, status]);
     setTimeout(
       () => context.commit(REMOVE_ALERT, message),
       700 + message.length * 75
     );
   },
-  [CLOSE_ALERT](context, message) {
+  [DESTROY_ALERT](context, message) {
     context.commit(REMOVE_ALERT, message);
   }
 }
 
 const mutations = {
-  [PUSH_ALERT](state, alert) {
+  [ADD_ALERT](state, alert) {
     let alerts = state.alerts;
     alerts.push(alert);
     state.alerts = alerts;

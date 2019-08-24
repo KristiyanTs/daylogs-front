@@ -16,22 +16,16 @@ const ApiService = {
     ] = JwtService.getToken();
   },
 
-  async query(resource, params) {
-    try {
-      return Vue.axios.get(resource, params);
-    }
-    catch (error) {
+  query(resource, params) {
+    return Vue.axios.get(resource, params).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
-    }
+    });
   },
 
-  async get(resource, slug = "") {
-    try {
-      return Vue.axios.get(`${resource}/${slug}`);
-    }
-    catch (error) {
+  get(resource, slug = "") {
+    return Vue.axios.get(`${resource}/${slug}`).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
-    }
+    });
   },
 
   post(resource, params) {
@@ -46,14 +40,23 @@ const ApiService = {
     return Vue.axios.put(`${resource}`, params);
   },
 
-  async delete(resource) {
-    try {
-      return Vue.axios.delete(resource);
-    }
-    catch (error) {
+  delete(resource) {
+    return Vue.axios.delete(resource).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
-    }
+    });
   }
 };
 
 export default ApiService;
+
+export const FavoritesService = {
+  all() {
+    return ApiService.get("favorites");
+  },
+  create(params) {
+    return ApiService.post("favorites", { favorite: params });
+  },
+  destroy(slug) {
+    return ApiService.delete(`favorites/${slug}`);
+  }
+};

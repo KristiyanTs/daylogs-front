@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     render: h => h(App),
     store
   });
-  store.$axios = v.axios;
   global.vm = v; //Define you app variable globally
   v.$mount("#app");
 });

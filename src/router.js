@@ -93,26 +93,4 @@ let router = new Router({
   ]
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     if (store.state.signedIn) {
-//       next();
-//     } else {
-//       if (window.$cookies.get("jwt")) {
-//         let token = window.$cookies.get("jwt");
-//         let user = window.$cookies.get("user");
-//         store.dispatch(LOGIN, [token, user]);
-//         next();
-//       } else {
-//         next({
-//           name: "login",
-//           params: { nextUrl: to.fullPath }
-//         });
-//       }
-//     }
-//   } else {
-//     next();
-//   }
-// });
-
 export default router;

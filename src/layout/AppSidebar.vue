@@ -59,7 +59,7 @@
       <v-flex class="projects-wrapper" shrink>
         <v-list dense class="p-0">
           <v-list-item
-            v-for="(node, k) in nodes"
+            v-for="(node, k) in favorites"
             :key="k"
             :to="`/nodes/${node.id}`"
           >
@@ -77,14 +77,14 @@
     </v-layout>
     <NewProject
       :open="projectDialog"
-      @reload="getNodes"
       @closeDialog="closeProjectDialog"
     />
   </v-navigation-drawer>
 </template>
 
 <script>
-import { LOGOUT } from "@/store/actions.type";
+import { mapGetters } from "vuex";
+import { LOGOUT, FETCH_FAVORITES } from "@/store/actions.type";
 import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 
 export default {
@@ -105,26 +105,19 @@ export default {
     };
   },
   mounted() {
-    this.getNodes();
+    this.$store.dispatch(FETCH_FAVORITES);
   },
   methods: {
     logOut() {
       this.$store.dispatch(LOGOUT)
         .then(() => this.$router.push('/'));
     },
-    getNodes() {
-      this.axios
-        .get("/api/nodes", {
-          headers: { Authorization: window.$cookies.get("jwt") }
-        })
-        .then(response => {
-          this.nodes = response.data;
-        })
-        .catch(error => {});
-    },
     closeProjectDialog() {
       this.projectDialog = false;
     }
+  },
+  computed: {
+    ...mapGetters(["favorites"])
   }
 };
 </script>

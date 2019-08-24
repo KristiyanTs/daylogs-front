@@ -1,11 +1,11 @@
+export const FETCH_PROFILE = "fetchProfile";
 export const CHECK_AUTH = "checkAuth";
 export const LOGIN = "login";
 export const LOGOUT = "logout";
 export const REGISTER = "register";
 export const UPDATE_USER = "updateUser";
-export const ADD_ALERT = "addAlert";
-export const CLOSE_ALERT = "closeAlert";
-export const FAVORITE_ADD = "addFavorite";
-export const FAVORITE_REMOVE = "removeFavorite";
-export const FETCH_PROFILE = "fetchProfile";
-export const FETCH_TAGS = "fetchTags";
+export const CREATE_ALERT = "createAlert";
+export const DESTROY_ALERT = "destroyAlert";
+export const FETCH_FAVORITES = "fetchFavorites";
+export const CREATE_FAVORITE = "createFavorite";
+export const DESTROY_FAVORITE = "destroyFavorite";
