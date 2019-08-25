@@ -35,8 +35,8 @@
           <v-list-item-action>
             <v-flex>
               <v-btn
-                @click="saveStatus(idx)"
                 v-if="item.editing"
+                @click="saveStatus(idx)"
                 fab
                 depressed
                 outlined
@@ -45,7 +45,7 @@
               >
                 <font-awesome-icon icon="check" />
               </v-btn>
-              <v-btn @click="editStatus(idx)" icon color="grey" v-else>
+              <v-btn v-else @click="editStatus(idx)" icon color="grey">
                 <font-awesome-icon icon="edit" />
               </v-btn>
               <v-btn @click="deleteStatus(idx)" icon color="grey">
@@ -111,10 +111,10 @@ export default {
       status.editing = true;
       store.commit(SET_STATUS, status);
     },
-    changeColor(color, idx) { // redo
+    changeColor(color, idx) {
       let status = this.statuses[idx];
       status.color = color;
-      this.statuses.splice(idx, 1, status);
+      store.commit(SET_STATUS, status);
     }
   },
   computed: {

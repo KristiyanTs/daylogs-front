@@ -6,22 +6,15 @@
       <v-btn icon @click="addCategory" color="grey">
         <font-awesome-icon icon="plus" />
       </v-btn>
-      <v-btn icon @click="resetCategories" color="grey">
-        <font-awesome-icon icon="redo-alt" />
-      </v-btn>
-      <v-btn rounded @click="saveCategories" color="success" class="mr-1" depressed>
-        <font-awesome-icon icon="save" class="mr-2" />
-        Save
-      </v-btn>
     </v-toolbar>
     <v-list two-line v-if="categories.length">
-      <v-list-item v-for="(item, i) in categories" :key="i">
+      <v-list-item v-for="(item, idx) in categories" :key="idx">
         <v-list-item-avatar>
           <ColorIconPicker
             :color="item.color"
             :icon="item.icon"
             :icon_color="item.icon_color"
-            @changeColorIcon="(bg, ic, col) => changeColorIcon(bg, ic, col, i)"
+            @changeColorIcon="(bg, ic, col) => changeColorIcon(bg, ic, col, idx)"
           />
         </v-list-item-avatar>
 
@@ -35,22 +28,22 @@
         </v-list-item-content>
 
         <v-list-item-action>
-          <v-btn
-            v-if="item.editing"
-            fab
-            depressed
-            outlined
-            small
-            color="primary"
-            @click="deactivateAllCategories"
-          >
-            <font-awesome-icon icon="check" />
-          </v-btn>
-          <v-flex v-else>
-            <v-btn icon @click="activateCategory(i)" color="grey">
+          <v-flex>
+            <v-btn
+              v-if="item.editing"
+              @click="saveCategory(idx)"
+              fab
+              depressed
+              outlined
+              small
+              color="primary"
+            >
+              <font-awesome-icon icon="check" />
+            </v-btn>
+            <v-btn v-else icon @click="editCategory(idx)" color="grey">
               <font-awesome-icon icon="edit" />
             </v-btn>
-            <v-btn icon @click="deleteCategory(i)" color="grey">
+            <v-btn icon @click="deleteCategory(idx)" color="grey">
               <font-awesome-icon icon="trash-alt" />
             </v-btn>
           </v-flex>
@@ -63,66 +56,45 @@
 <script>
 import ColorIconPicker from "@/components/ColorIconPicker";
 
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_CATEGORIES, CREATE_CATEGORY, UPDATE_CATEGORY, DESTROY_CATEGORY } from "@/store/actions.type";
+import { ADD_CATEGORY, SET_CATEGORY, REMOVE_CATEGORY } from "@/store/mutations.type";
+
 export default {
   components: {
     ColorIconPicker
   },
   data() {
-    return {
-      project: {},
-      categories: []
-    };
+    return { };
+  },
+  mounted() {
+    store.dispatch(FETCH_CATEGORIES, this.current_node.id);
   },
   methods: {
-    saveCategories() {
-      this.axios
-        .put(`/api/nodes/${this.project.id}`, {
-          node: {
-            ...this.project,
-            categories_attributes: this.categories
-          }
-        })
-        .then(response => {
-          this.$store.commit("ADD_ALERT", [
-            "Categories saved succcessfully",
-            "success"
-          ]);
-        })
-        .catch(error => {
-        });
+    addCategory() {
+      if(this.categories.filter(c => c.id == "").length == 0) {
+        store.commit(ADD_CATEGORY, null);
+      }
     },
-    resetCategories() {
-      this.categories = JSON.parse(JSON.stringify(this.project.categories));
-    },
-    deactivateAllCategories() {
-      let category;
-      this.categories.map((c, idx) => {
-        category = c;
-        category.editing = false;
-        this.categories.splice(idx, 1, category);
-      });
-    },
-    activateCategory(idx) {
-      this.deactivateAllCategories();
-
-      let category = this.categories[idx];
-      category.editing = true;
-
-      this.categories.splice(idx, 1, category);
+    saveCategory(idx) {
+      if(this.categories[idx].id) { // has an id => it already exists
+        store.dispatch(UPDATE_CATEGORY, this.categories[idx]);
+      } else { // no id => it should be created
+        store.dispatch(CREATE_CATEGORY, this.categories[idx]);
+      }
     },
     deleteCategory(idx) {
-      this.categories.splice(idx, 1);
+      if(this.categories[idx].id) { // has an id => remove from server & store
+        store.dispatch(DESTROY_CATEGORY, this.categories[idx]);
+      } else { // no id => remove from store
+        store.commit(REMOVE_CATEGORY, "");
+      }
     },
-    addCategory() {
-      this.deactivateAllCategories();
-      this.categories.unshift({
-        title: "",
-        description: "",
-        color: "#9E9E9E",
-        icon: "check",
-        icon_color: "#FFFFFF",
-        editing: true
-      });
+    editStatus(idx) {
+      let category = this.categories[idx];
+      category.editing = true;
+      store.commit(SET_CATEGORY, category);
     },
     changeColorIcon(bg, ic, col, idx) {
       let category = this.categories[idx];
@@ -130,23 +102,11 @@ export default {
       category.icon = ic;
       category.icon_color = col;
 
-      this.categories.splice(idx, 1, category);
+      store.commit(SET_CATEGORY, category);
     }
   },
   computed: {
-    rootId() {
-      return this.$route.params.id;
-    }
-  },
-  watch: {
-    rootId: {
-      immediate: true,
-      handler() {
-        if (this.rootId) {
-          this.getProject();
-        }
-      }
-    }
+    ...mapGetters(["current_node", "categories"])
   }
 }
 </script>

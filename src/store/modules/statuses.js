@@ -25,7 +25,7 @@ const state = {
     color: "#9E9E9E",
     description: "",
     editing: true
-  } 
+  }
 }
 
 const getters = {
