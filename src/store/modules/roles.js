@@ -31,9 +31,6 @@ const state = { ...initialState }
 const getters = {
   roles(state) {
     return state.roles;
-  },
-  new_role(state) {
-    return state.new_role;
   }
 }
 

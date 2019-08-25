@@ -30,9 +30,6 @@ const state = {
 const getters = {
   invitations(state) {
     return state.invitations;
-  },
-  new_invitation(state) {
-    return state.new_invitation;
   }
 }
 
@@ -49,7 +46,7 @@ const actions = {
   },
   async [UPDATE_INVITATION](context, params) {
     const { data } = await InvitationService.update(params);
-    context.commit(SET_INVITATION, params);
+    context.commit(SET_INVITATION, data);
     context.dispatch(CREATE_ALERT, ["Response saved", "success"]);
   },
   async [DESTROY_INVITATION](context, invitation) {

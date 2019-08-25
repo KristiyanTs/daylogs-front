@@ -13,19 +13,19 @@
       </v-list-item-content>
 
       <v-list-item-action>
-        <v-btn
-          @click="saveRole(idx)"
-          v-if="item.editing"
-          fab
-          depressed
-          outlined
-          small
-          color="primary"
-        >
-          <font-awesome-icon icon="check" />
-        </v-btn>
-        <v-flex v-else>
-          <v-btn @click="editRole(idx)" icon color="grey">
+        <v-flex>
+          <v-btn
+            @click="saveRole(idx)"
+            v-if="item.editing"
+            fab
+            depressed
+            outlined
+            small
+            color="primary"
+          >
+            <font-awesome-icon icon="check" />
+          </v-btn>
+          <v-btn @click="editRole(idx)" icon color="grey" v-else>
             <font-awesome-icon icon="edit" />
           </v-btn>
           <v-btn @click="deleteRole(idx)" icon color="grey">

@@ -6,20 +6,6 @@
       <v-btn icon @click="addStatus" color="grey">
         <font-awesome-icon icon="plus" />
       </v-btn>
-      <v-btn icon @click="resetStatuses" color="grey">
-        <font-awesome-icon icon="redo-alt" />
-      </v-btn>
-      <v-btn
-        rounded
-        @click="saveStatuses"
-        color="success"
-        class="mr-1"
-        depressed
-        :loading="saving"
-      >
-        <font-awesome-icon icon="save" class="mr-2" />
-        Save
-      </v-btn>
     </v-toolbar>
     <v-list two-line v-if="statuses.length">
       <draggable
@@ -29,11 +15,11 @@
         v-bind="dragOptions"
         draggable=".v-list-item"
       >
-        <v-list-item v-for="(item, i) in statuses" :key="i">
+        <v-list-item v-for="(item, idx) in statuses" :key="idx">
           <v-list-item-avatar>
             <ColorPicker
               :color="item.color"
-              @changeColor="color => changeColor(color, i)"
+              @changeColor="color => changeColor(color, idx)"
             />
           </v-list-item-avatar>
 
@@ -47,22 +33,22 @@
           </v-list-item-content>
 
           <v-list-item-action>
-            <v-btn
-              v-if="item.editing"
-              fab
-              depressed
-              outlined
-              small
-              color="primary"
-              @click="deactivateAllStatuses"
-            >
-              <font-awesome-icon icon="check" />
-            </v-btn>
-            <v-flex v-else>
-              <v-btn icon @click="activateStatus(i)" color="grey">
+            <v-flex>
+              <v-btn
+                @click="saveStatus(idx)"
+                v-if="item.editing"
+                fab
+                depressed
+                outlined
+                small
+                color="primary"
+              >
+                <font-awesome-icon icon="check" />
+              </v-btn>
+              <v-btn @click="editStatus(idx)" icon color="grey" v-else>
                 <font-awesome-icon icon="edit" />
               </v-btn>
-              <v-btn icon @click="deleteStatus(i)" color="grey">
+              <v-btn @click="deleteStatus(idx)" icon color="grey">
                 <font-awesome-icon icon="trash-alt" />
               </v-btn>
             </v-flex>
@@ -77,6 +63,11 @@
 import ColorPicker from "@/components/ColorPicker";
 import draggable from "vuedraggable";
 
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_STATUSES, CREATE_STATUS, UPDATE_STATUS, DESTROY_STATUS } from "@/store/actions.type";
+import { ADD_STATUS, SET_STATUS, REMOVE_STATUS } from "@/store/mutations.type";
+
 export default {
   components: {
     ColorPicker,
@@ -90,92 +81,44 @@ export default {
         disabled: false,
         ghostClass: "ghost"
       },
-      statuses: [],
-      saved_statuses: [],
-      loading: true,
-      saving: false
     };
   },
+  mounted() {
+    store.dispatch(FETCH_STATUSES, this.current_node.id);
+  },
   methods: {
-    getStatuses() {
-      this.loading = true;
-      this.axios
-        .get(`/api/nodes/${this.rootId}/statuses`)
-        .then(response => {
-          this.loading = false;
-          this.saved_statuses = response.data;
-          this.resetStatuses();
-        })
-        .catch(error => {});
+    addStatus() {
+      if(this.statuses.filter(s => s.id == "").length == 0) {
+        store.commit(ADD_STATUS, null);
+      }
     },
-    saveStatuses() {
-      this.saving = true;
-      this.axios
-        .put(`/api/nodes/${this.rootId}`, {
-          node: {
-            statuses_attributes: this.statuses
-          }
-        })
-        .then(() => {
-          this.saving = false;
-          this.$store.commit("ADD_ALERT", [
-            "Statuses saved successfully",
-            "success"
-          ]);
-        })
-    },
-    resetStatuses() {
-      this.statuses = JSON.parse(JSON.stringify(this.saved_statuses));
-    },
-    deactivateAllStatuses() {
-      let status;
-
-      this.statuses.map((s, idx) => {
-        status = s;
-        status.editing = false;
-        this.statuses.splice(idx, 1, status);
-      });
-    },
-    activateStatus(idx) {
-      this.deactivateAllStatuses();
-
-      let status = this.statuses[idx];
-      status.editing = true;
-
-      this.statuses.splice(idx, 1, status);
+    saveStatus(idx) {
+      if(this.statuses[idx].id) { // has an id => it already exists
+        store.dispatch(UPDATE_STATUS, this.statuses[idx]);
+      } else { // no id => it should be created
+        store.dispatch(CREATE_STATUS, this.statuses[idx]);
+      }
     },
     deleteStatus(idx) {
-      this.statuses.splice(idx, 1);
+      if(this.statuses[idx].id) { // has an id => remove from server & store
+        store.dispatch(DESTROY_STATUS, this.statuses[idx]);
+      } else { // no id => remove from store
+        store.commit(REMOVE_STATUS, "");
+      }
     },
-    addStatus() {
-      this.deactivateAllStatuses();
-      this.statuses.unshift({
-        title: "",
-        editing: true,
-        description: "",
-        color: "#9E9E9E"
-      });
+    editStatus(idx) {
+      let status = this.statuses[idx];
+      status.editing = true;
+      store.commit(SET_STATUS, status);
     },
-    changeColor(color, idx) {
+    changeColor(color, idx) { // redo
       let status = this.statuses[idx];
       status.color = color;
       this.statuses.splice(idx, 1, status);
     }
   },
   computed: {
-    rootId() {
-      return this.$route.params.id;
-    }
-  },
-  watch: {
-    rootId: {
-      immediate: true,
-      handler() {
-        if (this.rootId) {
-          this.getStatuses();
-        }
-      }
-    }
+    ...mapGetters(["current_node", "statuses"])
   }
 }
 </script>

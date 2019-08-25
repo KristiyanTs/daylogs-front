@@ -17,14 +17,21 @@ import {
   REMOVE_STATUS
 } from "../mutations.type";
 
-const initialState = {
-  statuses: []
+const state = { 
+  statuses: [],
+  new_status: {
+    id: "",
+    title: "",
+    color: "#9E9E9E",
+    description: "",
+    editing: true
+  } 
 }
 
-const state = { ...initialState }
-
 const getters = {
-
+  statuses(state) {
+    return state.statuses
+  }
 }
 
 const actions = {
@@ -34,15 +41,19 @@ const actions = {
   },
   async [CREATE_STATUS](context, params) {
     const { data } = await StatusService.create(context.getters.current_node.id, params);
-    context.dispatch(CREATE_ALERT, ["Status added", "success"]);
+    context.commit(REMOVE_STATUS, "");
     context.commit(ADD_STATUS, data);
+    context.dispatch(CREATE_ALERT, ["Status added", "success"]);
   },
-  async [UPDATE_STATUS](context) {
-    const { data } = await StatusService.update()
+  async [UPDATE_STATUS](context, params) {
+    const { data } = await StatusService.update(params);
+    context.commit(SET_STATUS, data);
+    context.dispatch(CREATE_ALERT, ["Status saved", "success"]);
   },
-  async [DESTROY_STATUS](context, status_id) {
-    await StatusService.delete(context.getters.current_node.id, status_id);
-    context.commit(REMOVE_STATUS, status_id);
+  async [DESTROY_STATUS](context, status) {
+    await StatusService.delete(status.node_id, status.id);
+    context.commit(REMOVE_STATUS, status.id);
+    context.dispatch(CREATE_ALERT, ["Status deleted", "success"]);
   }
 }
 
@@ -51,13 +62,14 @@ const mutations = {
     state.statuses = statuses;
   },
   [SET_STATUS](state, status) {
-
+    let idx = state.statuses.findIndex(s => s.id == status.id);
+    state.statuses.splice(idx, 1, status);
   },
   [ADD_STATUS](state, status) {
-
+    state.statuses.push(status || JSON.parse(JSON.stringify(state.new_status)))
   },
   [REMOVE_STATUS](state, status_id) {
-
+    state.statuses = state.statuses.filter(s => s.id != status_id)
   }
 }
 
