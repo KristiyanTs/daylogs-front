@@ -17,10 +17,18 @@
       </v-list-item-content>
 
       <v-list-item-action>
-        <v-btn fab small depressed autocomplete="off" @click="deactivateAllInvitations" color="success" v-if="item.editing">
+        <v-btn
+          @click="saveInvitation(idx)"
+          v-if="item.editing"
+          fab
+          depressed
+          outlined
+          small
+          color="primary"
+        >
           <font-awesome-icon icon="check" />
         </v-btn>
-        <v-btn icon @click="deleteInvitation(idx)" color="grey" v-else>
+        <v-btn @click="deleteInvitation(idx)" icon color="grey" v-else>
           <font-awesome-icon icon="trash-alt" />
         </v-btn>
       </v-list-item-action>
@@ -29,69 +37,32 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_INVITATIONS, CREATE_INVITATION, DESTROY_INVITATION } from "@/store/actions.type";
+import { SET_INVITATION, REMOVE_INVITATION } from "@/store/mutations.type";
+
 export default {
-  props: {
-    project: {
-      type: Object,
-      default: () => {}
-    }
-  },
   data() {
-    return {
-      invitations: []
-    };
+    return { };
   },
-  created: function() {
-    this.$parent.$on("addInvitation", this.addInvitation);
+  mounted() {
+    store.dispatch(FETCH_INVITATIONS, this.current_node.id);
   },
   methods: {
-    getInvitations() {
-      this.axios
-        .get(`/api/nodes/${this.project.id}/invitations`)
-        .then(response => {
-          this.invitations = response.data;
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
+    saveInvitation(idx) {
+      store.dispatch(CREATE_INVITATION, this.invitations[idx]);
     },
-    saveInvitations() {
-      this.axios
-        .put(`/api/nodes/${this.project.id}`, {
-          node: {
-            invitations_attributes: this.invitations
-          }
-        })
-        .then(() => {
-          this.getInvitations();
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
-    },
-    deactivateAllInvitations() {
-
-    },
-    addInvitation() {
-      this.deactivateAllInvitations();
-      this.invitations.unshift({
-        email: "",
-        editing: true
-      });
-    },
-    deleteInvitation() {
-
-    }
-  },
-  watch: {
-    project: {
-      immediate: true,
-      handler() {
-        if (this.project) {
-          this.getInvitations();
-        }
+    deleteInvitation(idx) {
+      if(this.invitations[idx].id) { // has an id => remove from server & store
+        store.dispatch(DESTROY_INVITATION, this.invitations[idx]);
+      } else { // no id => remove from store
+        store.commit(REMOVE_INVITATION, "");
       }
-    }
+    },
+  },
+  computed: {
+    ...mapGetters(["current_node", "invitations"])
   }
 }
 </script>

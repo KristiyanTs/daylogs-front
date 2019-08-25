@@ -59,33 +59,15 @@ import Screen from "@/components/Screen";
 import NodeRow from "../Row";
 import TaskView from "./TaskView";
 
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_NODE } from "@/store/actions.type";
+
 export default {
   components: {
     Screen,
     NodeRow,
     TaskView
-  },
-  props: {
-    task: {
-      type: Object,
-      default: () => {}
-    },
-    child_nodes: {
-      type: Array,
-      default: () => []
-    },
-    child_tasks: {
-      type: Array,
-      default: () => []
-    },
-    statuses: {
-      type: Array,
-      default: () => []
-    },
-    categories: {
-      type: Array,
-      default: () => []
-    }
   },
   data() {
     return {
@@ -94,9 +76,6 @@ export default {
     };
   },
   methods: {
-    getNodes() {
-      this.$emit("getNodes");
-    },
     filter(type) {
       if (type == 0) {
         this.type = "nodes";
@@ -106,6 +85,9 @@ export default {
         this.children = this.child_tasks;
       }
     }
+  },
+  computed: {
+    ...mapGetters(["current_node", "child_nodes", "child_tasks"]),
   }
 };
 </script>

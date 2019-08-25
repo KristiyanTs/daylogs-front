@@ -9,7 +9,7 @@
 
           <v-list-item-content>
             <v-list-item-title>
-              <v-btn text small to="/profile/general">K. Tsvetanov</v-btn>
+              <v-btn text small to="/profile/general">{{ formatted_name }}</v-btn>
             </v-list-item-title>
             <v-list-item-subtitle>
               <v-btn color="grey" text small @click="logOut">Log out</v-btn>
@@ -83,9 +83,9 @@
 </template>
 
 <script>
+import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 import { mapGetters } from "vuex";
 import { LOGOUT, FETCH_FAVORITES } from "@/store/actions.type";
-import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 
 export default {
   components: {
@@ -117,7 +117,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["favorites"])
+    ...mapGetters(["current_user", "formatted_name", "favorites"]),
   }
 };
 </script>

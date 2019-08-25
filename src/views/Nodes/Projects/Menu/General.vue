@@ -3,7 +3,7 @@
     <v-toolbar flat dense>
       <v-toolbar-title>General Settings</v-toolbar-title>
       <v-spacer />
-      <v-btn rounded @click="saveProject" color="success" class="mr-1" depressed>
+      <v-btn @click="submit" rounded color="success" class="mr-1" depressed>
         <font-awesome-icon icon="save" class="mr-2" />
         Save
       </v-btn>
@@ -12,7 +12,7 @@
       <v-container>
         <v-layout column>
           <v-text-field
-            v-model="project.title"
+            v-model="current_node.title"
             placeholder="Project title"
             label="Project title"
             :rules="rules.title"
@@ -25,10 +25,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { UPDATE_NODE } from "@/store/actions.type";
+
 export default {
   data() {
     return {
-      project: {},
       rules: {
         title: [
           v => !!v || "Title is required",
@@ -38,42 +40,12 @@ export default {
     };
   },
   methods: {
-    getProject() {
-      this.axios
-        .get(`/api/nodes/${this.rootId}`)
-        .then(response => {
-          this.project = response.data;
-        })
-        .catch(error => {});
-    },
-    saveProject() {
-      this.axios
-        .put(`/api/nodes/${this.project.id}`, {
-          node: {
-            ...this.project
-          }
-        })
-        .then(() => {
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
+    submit() {
+      this.$store.dispatch(UPDATE_NODE);
     }
   },
   computed: {
-    rootId() {
-      return this.$route.params.id;
-    }
-  },
-  watch: {
-    rootId: {
-      immediate: true,
-      handler() {
-        if (this.rootId) {
-          this.getProject();
-        }
-      }
-    }
+    ...mapGetters(["current_node"]),
   }
 }
 </script>

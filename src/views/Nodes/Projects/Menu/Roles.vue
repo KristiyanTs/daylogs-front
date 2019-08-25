@@ -1,6 +1,6 @@
 <template>
   <v-list v-if="roles.length">
-    <v-list-item v-for="(item, i) in roles" :key="i">
+    <v-list-item v-for="(item, idx) in roles" :key="idx">
       <v-list-item-avatar>
         <font-awesome-icon icon="user" color="grey" />
       </v-list-item-avatar>
@@ -14,21 +14,21 @@
 
       <v-list-item-action>
         <v-btn
+          @click="saveRole(idx)"
           v-if="item.editing"
           fab
           depressed
           outlined
           small
           color="primary"
-          @click="deactivateAllRoles"
         >
           <font-awesome-icon icon="check" />
         </v-btn>
         <v-flex v-else>
-          <v-btn icon @click="activateRole(i)" color="grey">
+          <v-btn @click="editRole(idx)" icon color="grey">
             <font-awesome-icon icon="edit" />
           </v-btn>
-          <v-btn icon @click="deleteRole(i)" color="grey">
+          <v-btn @click="deleteRole(idx)" icon color="grey">
             <font-awesome-icon icon="trash-alt" />
           </v-btn>
         </v-flex>
@@ -38,84 +38,42 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_ROLES, CREATE_ROLE, UPDATE_ROLE, DESTROY_ROLE } from "@/store/actions.type";
+import { SET_ROLE, REMOVE_ROLE } from "@/store/mutations.type";
+
 export default {
-  props: {
-    project: {
-      type: Object,
-      default: () => {}
-    }
-  },
   data() {
     return {
-      roles: []
     };
   },
-  created: function() {
-    this.$parent.$on("addRole", this.addRole);
-    this.$parent.$on("resetRoles", this.resetRoles);
-    this.$parent.$on("saveRoles", this.saveRoles);
+  mounted() {
+    store.dispatch(FETCH_ROLES, this.current_node.id);
   },
   methods: {
-    getRoles() {
-      this.axios
-        .get(`/api/nodes/${this.project.id}/roles`)
-        .then(response => {
-          this.roles = response.data;
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
-    },
-    saveRoles() {
-      this.axios
-        .put(`/api/nodes/${this.project.id}`, {
-          node: {
-            roles_attributes: this.roles
-          }
-        })
-        .then(() => {})
-        .catch(error => {
-          this.requestError(error);
-        });
-    },
-    resetRoles() {
-      this.roles = JSON.parse(JSON.stringify(this.project.roles));
-    },
-    deactivateAllRoles() {
-      let role;
-
-      this.roles.map((r, idx) => {
-        role = r;
-        role.editing = false;
-        this.roles.splice(idx, 1, role);
-      });
-    },
-    activateRole(idx) {
-      this.deactivateAllRoles();
-
-      let role = this.roles[idx];
-      role.editing = true;
-
-      this.roles.splice(idx, 1, role);
+    saveRole(idx) {
+      if(this.roles[idx].id) { // has an id => it already exists
+        store.dispatch(UPDATE_ROLE, this.roles[idx]);
+      } else { // no id => it should be created
+        store.dispatch(CREATE_ROLE, this.roles[idx]);
+      }
     },
     deleteRole(idx) {
-      this.roles.splice(idx, 1);
+      if(this.roles[idx].id) { // has an id => remove from server & store
+        store.dispatch(DESTROY_ROLE, this.roles[idx]);
+      } else { // no id => remove from store
+        store.commit(REMOVE_ROLE, "");
+      }
     },
-    addRole() {
-      this.deactivateAllRoles();
-      this.roles.unshift({
-        title: "",
-        editing: true
-      });
+    editRole(idx) {
+      let role = this.roles[idx];
+      role.editing = true;
+      store.commit(SET_ROLE, role);
     }
   },
-  watch: {
-    project: {
-      immediate: true,
-      handler() {
-        this.getRoles();
-      }
-    }
+  computed: {
+    ...mapGetters(["current_node", "roles"])
   }
 };
 </script>

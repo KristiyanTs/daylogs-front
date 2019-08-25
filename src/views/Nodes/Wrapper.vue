@@ -1,35 +1,23 @@
 <template>
   <ProjectScreen
-    v-if="!node.root"
-    :project="node"
-    :child_nodes="child_nodes"
-    :child_tasks="child_tasks"
-    @getNodes="getNodes"
+    v-if="!current_node.root"
   />
-  <TaskScreen
-    v-else-if="node.status"
-    :task="node"
-    :child_nodes="child_nodes"
-    :child_tasks="child_tasks"
-    :statuses="statuses"
-    :categories="categories"
-    @getNodes="getNodes"
+  <!-- <TaskScreen
+    v-else-if="current_node.status"
   />
   <NodeScreen
     v-else
-    :node="node"
-    :child_nodes="child_nodes"
-    :child_tasks="child_tasks"
-    :statuses="statuses"
-    :categories="categories"
-    @getNodes="getNodes"
-  />
+  /> -->
 </template>
 
 <script>
 import ProjectScreen from "./Projects/ProjectScreen";
 import NodeScreen from "./Nodes/NodeScreen";
 import TaskScreen from "./Tasks/TaskScreen";
+
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_NODE } from "@/store/actions.type";
 
 export default {
   name: "NodeWrapper",
@@ -39,52 +27,10 @@ export default {
     TaskScreen
   },
   data() {
-    return {
-      root: {},
-      node: {},
-      parent: {},
-      child_nodes: [],
-      child_tasks: [],
-      children: [],
-      statuses: [],
-      categories: []
-    };
-  },
-  methods: {
-    getNodes() {
-      this.axios
-        .get(`/api/nodes/${this.rootId}`)
-        .then(response => {
-          this.node = response.data;
-          this.root = this.node.root;
-          this.parent = this.node.parent;
-          this.child_nodes = this.node.child_nodes;
-          this.child_tasks = this.node.child_tasks;
-        })
-        .catch(error => {});
-    },
-    getStatuses() {
-      this.axios
-        .get(`/api/nodes/${this.rootId}/statuses`)
-        .then(response => {
-          this.statuses = response.data;
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
-    },
-    getCategories() {
-      this.axios
-        .get(`/api/nodes/${this.rootId}/categories`)
-        .then(response => {
-          this.categories = response.data;
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
-    }
+    return {};
   },
   computed: {
+    ...mapGetters(["current_node"]),
     rootId() {
       return this.$route.params.id;
     }
@@ -93,10 +39,8 @@ export default {
     rootId: {
       immediate: true,
       handler() {
-        if (this.rootId) {
-          this.getNodes();
-          this.getStatuses();
-          this.getCategories();
+        if (this.rootId && this.rootId != this.current_node.id) {
+          store.dispatch(FETCH_NODE, this.rootId);
         }
       }
     }

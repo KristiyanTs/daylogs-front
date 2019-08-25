@@ -74,15 +74,6 @@ export default {
     };
   },
   methods: {
-    getProject() {
-      this.axios
-        .get(`/api/nodes/${this.rootId}`)
-        .then(response => {
-          this.project = response.data;
-          this.resetCategories();
-        })
-        .catch(error => {});
-    },
     saveCategories() {
       this.axios
         .put(`/api/nodes/${this.project.id}`, {

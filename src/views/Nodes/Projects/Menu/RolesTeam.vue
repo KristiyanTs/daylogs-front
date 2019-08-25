@@ -12,17 +12,10 @@
       <v-btn icon color="grey" v-if="type != 'members'" @click="addSomething">
         <font-awesome-icon icon="plus" />
       </v-btn>
-      <v-btn icon color="grey" v-if="type == 'roles'" @click="resetSomething">
-        <font-awesome-icon icon="redo-alt" />
-      </v-btn>
-      <v-btn rounded @click="saveSomething" color="success" class="mr-1" v-if="type == 'roles'" depressed>
-        <font-awesome-icon icon="save" class="mr-2" />
-        Save
-      </v-btn>
     </v-toolbar>
-    <Members :project="project" v-if="type == 'members'" />
-    <Invitations :project="project" v-else-if="type == 'invitations'" />
-    <Roles :project="project" v-else />
+    <Members v-if="type == 'members'" />
+    <Invitations v-else-if="type == 'invitations'" />
+    <Roles v-else />
   </v-flex>
 </template>
 
@@ -30,6 +23,10 @@
 import Members from "./Members";
 import Invitations from "./Invitations";
 import Roles from "./Roles";
+
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { ADD_ROLE, ADD_INVITATION } from "@/store/mutations.type";
 
 export default {
   components: {
@@ -39,19 +36,10 @@ export default {
   },
   data() {
     return {
-      project: {},
       type: "members"
     };
   },
   methods: {
-    getProject() {
-      this.axios
-        .get(`/api/nodes/${this.rootId}`)
-        .then(response => {
-          this.project = response.data;
-        })
-        .catch(error => {});
-    },
     filter(type) {
       if (type == 0) {
         this.type = "members";
@@ -61,34 +49,16 @@ export default {
         this.type = "roles";
       }
     },
-    addSomething() {
-      if (this.type == "invitations") {
-        this.$emit("addInvitation");
-      } else {
-        this.$emit("addRole");
+    addSomething() { // add only all others are saved
+      if (this.type == "invitations" && this.invitations.filter(i => i.id == "").length == 0) {
+        store.commit(ADD_INVITATION, null);
+      } else if(this.roles.filter(r => r.id == "").length == 0) {
+        store.commit(ADD_ROLE, null);
       }
-    },
-    resetSomething() {
-      this.$emit("resetRoles");
-    },
-    saveSomething() {
-      this.$emit("saveRoles");
     }
   },
   computed: {
-    rootId() {
-      return this.$route.params.id;
-    }
-  },
-  watch: {
-    rootId: {
-      immediate: true,
-      handler() {
-        if (this.rootId) {
-          this.getProject();
-        }
-      }
-    }
+    ...mapGetters(["current_node", "roles", "new_role", "invitations", "new_invitation"])
   }
 };
 </script>

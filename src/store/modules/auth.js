@@ -2,18 +2,22 @@ import ApiService from "@/common/api.service";
 import JwtService from "@/common/jwt.service";
 
 import {
+  UserService
+} from "@/common/api.service";
+
+import {
   LOGIN,
   LOGOUT,
   CHECK_AUTH,
   UPDATE_USER,
   CREATE_ALERT
-} from "./actions.type";
+} from "../actions.type";
 
 import {
   SET_AUTH,
   PURGE_AUTH,
   SET_ERROR
-} from "./mutations.type";
+} from "../mutations.type";
 
 const state = {
   isAuthenticated: false,
@@ -21,7 +25,22 @@ const state = {
   errors: {}
 }
 
-const getters = { }
+const getters = {
+  current_user(state) {
+    return state.user;
+  },
+  formatted_name(state) {
+    let user = state.user;
+    if(!user || !user.name) return "";
+    return user.name.split(" ").map((n, idx) => {
+      if(idx > 0 && n.length) {
+        return n[0].toUpperCase() + ".";
+      } else {
+        return n;
+      }
+    }).join(" ");
+  }
+}
 
 const actions = {
   [LOGIN](context, credentials) {
@@ -64,22 +83,10 @@ const actions = {
       context.commit(PURGE_AUTH);
     }
   },
-  [UPDATE_USER](context, payload) { // should be redone
-    const { email, username, password, image, bio } = payload;
-    const user = {
-      email,
-      username,
-      bio,
-      image
-    };
-    if (password) {
-      user.password = password;
-    }
-
-    return ApiService.put("user", user).then(({ data }) => {
-      context.commit(SET_AUTH, data.user);
-      return data;
-    });
+  async [UPDATE_USER](context, user) { // should be tested when the back-end is rewritten
+    const { data } = await UserService.update(user);
+    context.commit(SET_AUTH, data.user);
+    return data;
   }
 }
 

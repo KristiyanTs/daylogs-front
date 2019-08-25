@@ -38,7 +38,9 @@
       </v-layout>
     </template>
     <template v-slot:right>
-      <router-view></router-view>
+      <v-container>
+        <router-view></router-view>
+      </v-container>
     </template>
   </Screen>
 </template>
@@ -50,11 +52,7 @@ export default {
     Screen
   },
   data() {
-    return {
-    };
-  },
-  methods: {
-
+    return { };
   }
 };
 </script>

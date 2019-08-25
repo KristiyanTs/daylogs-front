@@ -1,12 +1,12 @@
 import {
   CREATE_ALERT,
   DESTROY_ALERT
-} from "./actions.type";
+} from "../actions.type";
 
 import {
   ADD_ALERT,
   REMOVE_ALERT
-} from "./mutations.type";
+} from "../mutations.type";
 
 const state = {
   alerts: []

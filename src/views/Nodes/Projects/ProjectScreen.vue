@@ -16,7 +16,7 @@
               <font-awesome-icon icon="plus" color="grey" />
             </v-btn>
           </v-toolbar>
-          <ProjectMenu v-if="type == 'menu'" :project="project" />
+          <ProjectMenu v-if="type == 'menu'" />
           <v-list two-line subheader v-else>
             <NodeRow
               v-for="child in children"
@@ -43,26 +43,16 @@ import ProjectMenu from "./Menu/ProjectMenu";
 import ProjectView from "./ProjectView";
 import NodeRow from "../Row";
 
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_NODE } from "@/store/actions.type";
+
 export default {
   components: {
     Screen,
     ProjectMenu,
     ProjectView,
     NodeRow
-  },
-  props: {
-    project: {
-      type: Object,
-      default: () => {}
-    },
-    child_nodes: {
-      type: Array,
-      default: () => []
-    },
-    child_tasks: {
-      type: Array,
-      default: () => []
-    }
   },
   data() {
     return {
@@ -71,9 +61,6 @@ export default {
     };
   },
   methods: {
-    getNodes() {
-      this.$emit("getNodes");
-    },
     addInstance() {
       if (this.type == "nodes") {
         this.addNode();
@@ -105,6 +92,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["current_node", "child_nodes", "child_tasks"]),
     rootId() {
       return this.$route.params.id;
     }
@@ -113,8 +101,8 @@ export default {
     rootId: {
       immediate: true,
       handler() {
-        if (this.type == "menu" && this.rootId) {
-          this.$router.push({ path: `/nodes/${this.rootId}/general` });
+        if (this.rootId && this.current_node.id != this.rootId) {
+          store.dispatch(FETCH_NODE, this.rootId);
         }
       }
     }

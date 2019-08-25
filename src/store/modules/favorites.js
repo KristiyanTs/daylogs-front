@@ -1,49 +1,40 @@
 import {
-  FavoritesService
+  FavoriteService
 } from "@/common/api.service";
 
 import {
   FETCH_FAVORITES,
   CREATE_FAVORITE,
-  DESTROY_FAVORITE
-} from "./actions.type";
+  DESTROY_FAVORITE,
+} from "../actions.type";
 
 import {
   SET_FAVORITES,
   ADD_FAVORITE,
   REMOVE_FAVORITE
-} from "./mutations.type";
+} from "../mutations.type";
 
 const state = {
-  favorites: [],
-  root: {},
-  node: {},
-  nodes: []
+  favorites: []
 }
 
 const getters = {
   favorites(state) {
     return state.favorites;
-  },
-  child_nodes(state) {
-    return null;
-  },
-  child_tasks(state) {
-    return null;
   }
 }
 
 const actions = {
   async [FETCH_FAVORITES](context) {
-    const { data } = await FavoritesService.all();
+    const { data } = await FavoriteService.all();
     context.commit(SET_FAVORITES, data);
   },
-  async [CREATE_FAVORITE](context, params) {
-    const { data } = await FavoritesService.create(params);
+  async [CREATE_FAVORITE](context, params) { // should be checked
+    const { data } = await FavoriteService.create(params);
     context.commit(ADD_FAVORITE, data);
   },
-  async [DESTROY_FAVORITE](context, slug) {
-    const { data } = await FavoritesService.destroy(slug);
+  async [DESTROY_FAVORITE](context, slug) { // should be checked
+    const { data } = await FavoriteService.delete(slug);
     context.commit(REMOVE_FAVORITE, data);
   }
 }
