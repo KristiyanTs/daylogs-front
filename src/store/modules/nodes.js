@@ -13,6 +13,7 @@ import {
 
 import {
   SET_NODE,
+  SET_ACTIVE_NODE,
   SET_INSPECTED_NODE,
   ADD_NODE,
   ADD_TASK_NODE,
@@ -67,7 +68,7 @@ const getters = {
 const actions = {
   async [FETCH_NODE](context, node_id) {
     const { data } = await NodeService.get(node_id);
-    context.commit(SET_NODE, data);
+    context.commit(SET_ACTIVE_NODE, data);
   },
   async [CREATE_NODE](context, params) {
     const { data } = await NodeService.create(params);
@@ -97,8 +98,13 @@ const mutations = {
       state.children.splice(idx, 1, node);
     } else {
       state.node = node;
-      state.children = node.nodes
+      state.children = node.nodes;
     }
+  },
+  [SET_ACTIVE_NODE](state, node) {
+    state.node = node;
+    state.children = node.nodes;
+    state.inspected_node = state.node;
   },
   [SET_INSPECTED_NODE](state, node) { // selected the provided one or the first
     state.inspected_node = JSON.parse(JSON.stringify(node)) || state.children[state.children.length - 1];

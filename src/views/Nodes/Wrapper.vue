@@ -1,12 +1,12 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <ProjectColumnLeft v-if="!current_node.root_id" />
+      <ProjectColumnLeft v-if="!current_node.root" />
       <NodeColumnLeft v-else />
     </template>
     <template v-slot:right>
-      <TaskColumnRight v-if="inspected_node && (inspected_node.type == 'task' || (inspected_node.category_id != '' && inspected_node.category_id != null))" />
-      <NodeColumnRight v-else-if="inspected_node && (inspected_node.type == 'node' || inspected_node.category_id == null)" />
+      <TaskColumnRight v-if="$route.name == 'Nodes' && inspected_node && (inspected_node.type == 'task' || (inspected_node.category_id != '' && inspected_node.category_id != null))" />
+      <NodeColumnRight v-else-if="$route.name == 'Nodes' && inspected_node && (inspected_node.type == 'node' || inspected_node.category_id == null)" />
       <ProjectColumnRight v-else />
     </template>
   </Screen>

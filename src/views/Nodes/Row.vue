@@ -15,9 +15,9 @@
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title v-text="node.title" :to="`/nodes/${node.id}`" />
+      <v-list-item-title v-text="node.title" @click="activateNode" />
       <v-list-item-subtitle v-if="status">
-        <v-chip pill small>
+        <v-chip pill x-small>
           <v-avatar
             left
             :color="status.color"
@@ -28,19 +28,8 @@
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-flex v-if="node.id">
-        <v-btn icon @click.prevent="toggleFavorite">
-          <font-awesome-icon
-            icon="star"
-            :class="`${node.favorite ? 'primary' : 'grey'}--text`"
-          />
-        </v-btn>
-        <v-btn icon @click.prevent="deleteNode">
-          <font-awesome-icon icon="trash-alt" class="grey--text" />
-        </v-btn>
-      </v-flex>
-      <span v-else>Not saved</span>
       <v-flex>
+        <span v-if="!node.id">Not saved</span>
         <v-chip color="primary" small v-if="node.id == current_node.id" class="mr-2">Active</v-chip>
         <v-chip color="secondary" small v-if="node.id == inspected_node.id">Inspected</v-chip>
       </v-flex>
@@ -66,8 +55,8 @@ export default {
     return {};
   },
   methods: {
-    toggleFavorite() {
-      
+    activateNode() {
+      this.$router.push({ path: `/nodes/${this.node.id}` });
     },
     inspectNode() {
       store.commit(SET_INSPECTED_NODE, this.node);

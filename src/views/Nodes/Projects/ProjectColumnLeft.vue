@@ -1,5 +1,8 @@
 <template>
   <v-container class="px-0 py-0">
+    <NodeRow
+      :node="current_node"
+    />
     <v-toolbar flat dense>
       <v-spacer />
       <v-toolbar-items>
@@ -15,9 +18,6 @@
     </v-toolbar>
     <ProjectMenu v-if="type == 'menu'" />
     <v-list two-line subheader v-else>
-      <NodeRow
-        :node="current_node"
-      />
       <v-divider />
       <NodeRow
         v-for="child in (type == 'tasks' ? child_tasks : child_nodes)"
@@ -28,13 +28,12 @@
   </v-container>
 </template>
 
-<script> // TODO: check if all the imports are needed
+<script>
 import ProjectMenu from "./Menu/ProjectMenu";
 import NodeRow from "../Row";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_NODE } from "@/store/actions.type";
 import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
@@ -72,16 +71,6 @@ export default {
     ...mapGetters(["current_node", "inspected_node", "child_nodes", "child_tasks"]),
     rootId() {
       return this.$route.params.id;
-    }
-  },
-  watch: {
-    rootId: {
-      immediate: true,
-      handler() {
-        if (this.rootId && this.current_node.id != this.rootId) {
-          store.dispatch(FETCH_NODE, this.rootId);
-        }
-      }
     }
   }
 };

@@ -98,10 +98,22 @@
     <v-toolbar flat dense>
       <v-toolbar-title>{{ inspected_node.title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn @click="edit" fab depressed small>
+      <v-btn @click="edit" fab depressed small class="mr-2">
+        <font-awesome-icon
+          color="grey"
+          icon="star"
+        />
+      </v-btn>
+      <v-btn @click="edit" fab depressed small class="mr-2">
         <font-awesome-icon
           color="grey"
           icon="edit"
+        />
+      </v-btn>
+      <v-btn @click="edit" fab depressed small>
+        <font-awesome-icon
+          color="grey"
+          icon="trash-alt"
         />
       </v-btn>
     </v-toolbar>
