@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "roles", "new_role", "invitations", "new_invitation"])
+    ...mapGetters(["current_node", "roles", "invitations"])
   }
 };
 </script>

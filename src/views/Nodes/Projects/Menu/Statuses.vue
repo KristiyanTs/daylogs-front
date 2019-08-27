@@ -113,6 +113,7 @@ export default {
     },
     changeColor(color, idx) {
       let status = this.statuses[idx];
+      status.editing = true;
       status.color = color;
       store.commit(SET_STATUS, status);
     }

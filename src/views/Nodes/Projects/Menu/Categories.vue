@@ -98,6 +98,7 @@ export default {
     },
     changeColorIcon(bg, ic, col, idx) {
       let category = this.categories[idx];
+      category.editing = true;
       category.color = bg;
       category.icon = ic;
       category.icon_color = col;

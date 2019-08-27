@@ -1,26 +1,34 @@
 <template>
-  <v-list-item color="primary" @click="previewNode">
+  <v-list-item color="primary" @click="inspectNode">
     <v-list-item-avatar>
       <font-awesome-icon
         icon="code-branch"
         class="grey--text"
-        v-if="node.category == null"
+        v-if="node.category_id == null || node.category_id == ''"
       />
-      <v-btn fab v-else :color="node.category.color" depressed>
+      <v-btn fab v-else :color="category.color" depressed small>
         <font-awesome-icon
-          :icon="node.category.icon"
-          :color="node.category.icon_color"
+          :icon="category.icon"
+          :color="category.icon_color"
         />
       </v-btn>
     </v-list-item-avatar>
 
     <v-list-item-content>
       <v-list-item-title v-text="node.title" :to="`/nodes/${node.id}`" />
-      <v-list-item-subtitle :v-text="node.descripion" />
+      <v-list-item-subtitle v-if="status">
+        <v-chip pill small>
+          <v-avatar
+            left
+            :color="status.color"
+          />
+          {{ status.title }}
+        </v-chip>
+      </v-list-item-subtitle>
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-flex>
+      <v-flex v-if="node.id">
         <v-btn icon @click.prevent="toggleFavorite">
           <font-awesome-icon
             icon="star"
@@ -31,11 +39,21 @@
           <font-awesome-icon icon="trash-alt" class="grey--text" />
         </v-btn>
       </v-flex>
+      <span v-else>Not saved</span>
+      <v-flex>
+        <v-chip color="primary" small v-if="node.id == current_node.id" class="mr-2">Active</v-chip>
+        <v-chip color="secondary" small v-if="node.id == inspected_node.id">Inspected</v-chip>
+      </v-flex>
     </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_NODE, DESTROY_NODE } from "@/store/actions.type";
+import { ADD_NODE, ADD_TASK_NODE, SET_INSPECTED_NODE } from "@/store/mutations.type";
+
 export default {
   name: "NodeRow",
   props: {
@@ -49,31 +67,22 @@ export default {
   },
   methods: {
     toggleFavorite() {
-      this.axios
-        .post("/api/favorites", {
-          favorite: {
-            node_id: this.node.id
-          }
-        })
-        .then(response => {})
-        .catch(error => {
-          this.errors = error.response.data;
-          this.loading = false;
-        });
+      
     },
-    previewNode() {
-      this.$emit("previewNode", this.node);
+    inspectNode() {
+      store.commit(SET_INSPECTED_NODE, this.node);
     },
     deleteNode() {
-      this.axios
-        .delete(`/api/nodes/${this.node.id}`)
-        .then(() => {
-          this.$emit("deleted");
-        })
-        .catch(error => {
-          this.errors = error.response.data;
-          this.loading = false;
-        });
+      store.dispatch(DESTROY_NODE, this.node);
+    }
+  },
+  computed: {
+    ...mapGetters(["current_node", "inspected_node", "categories", "statuses"]),
+    category() {
+      return this.categories.find(c => c.id == this.node.category_id);
+    },
+    status() {
+      return this.statuses.find(s => s.id == this.node.status_id);
     }
   }
 }

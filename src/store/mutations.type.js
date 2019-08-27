@@ -10,7 +10,9 @@ export const ADD_FAVORITE = "addFavorite";
 export const REMOVE_FAVORITE = "removeFavorite";
 
 export const SET_NODE = "setNode";
+export const SET_INSPECTED_NODE = "setInspectedNode";
 export const ADD_NODE = "addNode";
+export const ADD_TASK_NODE = "addTaskNode";
 export const REMOVE_NODE = "removeNode";
 
 export const SET_CATEGORIES = "setCategories";

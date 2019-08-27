@@ -12,68 +12,70 @@
     </template>
 
     <v-card>
-      <v-layout justify-center class="py-3">
-        <v-btn fab depressed :color="local_color" large>
-          <font-awesome-icon
-            :icon="local_icon"
-            :color="local_icon_color"
-            size="2x"
-          />
-        </v-btn>
-      </v-layout>
-      <v-tabs center>
-        <v-tab>Background</v-tab>
-        <v-tab>Icon</v-tab>
-        <v-tab>Color</v-tab>
+      <v-container>
+        <v-row justify="center" class="py-3">
+          <v-btn fab depressed :color="local_color" large>
+            <font-awesome-icon
+              :icon="local_icon"
+              :color="local_icon_color"
+              size="2x"
+            />
+          </v-btn>
+        </v-row>
+        <v-tabs center>
+          <v-tab>Background</v-tab>
+          <v-tab>Icon</v-tab>
+          <v-tab>Color</v-tab>
 
-        <v-tab-item class="text-center">
-          <v-color-picker
-            flat
-            show-swatches
-            hide-canvas
-            hide-inputs
-            hide-mode-switch
-            mode="hexa"
-            :swatches="swatches"
-            :value="local_color"
-            @input="changeColor"
-          ></v-color-picker>
-        </v-tab-item>
-        <v-tab-item class="px-2" style="max-width: 300px">
-          <v-layout justify-center class="py-3" wrap>
-            <v-flex xs2 v-for="i in icons" :key="i">
+          <v-tab-item class="text-center">
+            <v-color-picker
+              flat
+              show-swatches
+              hide-canvas
+              hide-inputs
+              hide-mode-switch
+              mode="hexa"
+              :swatches="swatches"
+              :value="local_color"
+              @input="changeColor"
+            ></v-color-picker>
+          </v-tab-item>
+          <v-tab-item class="px-2" style="max-width: 300px">
+            <v-row justify="center" class="py-3" wrap>
               <v-btn
+                v-for="i in icons" :key="i"
                 :color="local_color"
                 fab
+                small
                 elevation="0"
                 class="my-1 mx-1"
                 @click="changeIcon(i)"
               >
                 <font-awesome-icon :icon="i" :color="local_icon_color" />
               </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-tab-item>
-        <v-tab-item class="text-center">
-          <v-color-picker
-            flat
-            show-swatches
-            hide-canvas
-            hide-inputs
-            hide-mode-switch
-            mode="hexa"
-            :swatches="swatches"
-            :value="local_icon_color"
-            @input="changeIconColor"
-          ></v-color-picker>
-        </v-tab-item>
-      </v-tabs>
+            </v-row>
+          </v-tab-item>
+          <v-tab-item class="text-center">
+            <v-color-picker
+              flat
+              show-swatches
+              hide-canvas
+              hide-inputs
+              hide-mode-switch
+              mode="hexa"
+              :swatches="swatches"
+              :value="local_icon_color"
+              @input="changeIconColor"
+            ></v-color-picker>
+          </v-tab-item>
+        </v-tabs>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="menu = false">Cancel</v-btn>
-        <v-btn color="primary" text @click="save">Save</v-btn>
-      </v-card-actions>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="menu = false">Cancel</v-btn>
+          <v-btn color="primary" text @click="save">Save</v-btn>
+        </v-card-actions>
+      </v-container>
     </v-card>
   </v-menu>
 </template>

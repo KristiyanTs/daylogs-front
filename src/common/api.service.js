@@ -29,6 +29,7 @@ const ApiService = {
   },
 
   post(resource, params) {
+    console.log(resource, params);
     return Vue.axios.post(`${resource}`, params);
   },
 
@@ -75,7 +76,7 @@ export const NodeService = {
     return ApiService.post("nodes", { node: params })
   },
   update(params) {
-    return ApiService.update("nodes", {node: params});
+    return ApiService.update("nodes", params.id, { node: params });
   },
   delete(node_id) {
     return ApiService.delete("nodes", node_id);

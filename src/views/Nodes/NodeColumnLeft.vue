@@ -36,21 +36,19 @@
           </v-toolbar>
           <v-list two-line subheader>
             <v-divider />
-            <template>
-              <NodeRow
-                v-for="child in children"
-                :key="child.id"
-                :node="child"
-                @deleted="getNodes"
-              />
-            </template>
+            <NodeRow
+              v-for="child in children"
+              :key="child.id"
+              :node="child"
+              @deleted="getNodes"
+            />
           </v-list>
         </v-flex>
       </v-layout>
     </template>
     <template v-slot:right>
       <v-layout wrap>
-        <NodeView :node="node" :categories="categories" :statuses="statuses" />
+        <TaskView :task="task" :categories="categories" :statuses="statuses" />
       </v-layout>
     </template>
   </Screen>
@@ -58,37 +56,16 @@
 
 <script>
 import Screen from "@/components/Screen";
-import NodeRow from "../Row";
-import NodeView from "./NodeView";
+import NodeRow from "./Row";
+
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { FETCH_NODE } from "@/store/actions.type";
 
 export default {
-  name: "Node",
   components: {
     Screen,
-    NodeRow,
-    NodeView
-  },
-  props: {
-    node: {
-      type: Object,
-      default: () => {}
-    },
-    child_nodes: {
-      type: Array,
-      default: () => []
-    },
-    child_tasks: {
-      type: Array,
-      default: () => []
-    },
-    statuses: {
-      type: Array,
-      default: () => []
-    },
-    categories: {
-      type: Array,
-      default: () => []
-    }
+    NodeRow
   },
   data() {
     return {
@@ -97,9 +74,6 @@ export default {
     };
   },
   methods: {
-    getNodes() {
-      this.$emit("getNodes");
-    },
     filter(type) {
       if (type == 0) {
         this.type = "nodes";
@@ -109,6 +83,9 @@ export default {
         this.children = this.child_tasks;
       }
     }
+  },
+  computed: {
+    ...mapGetters(["current_node", "inspected_node", "child_nodes", "child_tasks"]),
   }
-}
+};
 </script>
