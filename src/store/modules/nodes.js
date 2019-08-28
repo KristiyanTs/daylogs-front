@@ -84,10 +84,11 @@ const actions = {
     context.dispatch(CREATE_ALERT, ["Node updated", "success"]);
   },
   async [DESTROY_NODE](context, node) {
-    await NodeService.delete(node.id);
-    context.commit(REMOVE_NODE, node.id);
-    context.dispatch(FETCH_FAVORITES);
+    await NodeService.delete(node.id); // remove from server
+    context.commit(REMOVE_NODE, node.id); // remove locally
+    context.dispatch(FETCH_FAVORITES); // check if favorites changed
     context.dispatch(CREATE_ALERT, ["Node deleted", "success"]);
+    context.commit(SET_INSPECTED_NODE, null); // set a new inspected node
   }
 }
 
@@ -112,6 +113,7 @@ const mutations = {
   [ADD_NODE](state, node) {
     if(!node) {
       node = JSON.parse(JSON.stringify(state.new_node));
+      node.parent_id = state.node.id;
     }
     state.children.push(node);
     state.inspected_node = node;
@@ -127,7 +129,7 @@ const mutations = {
     state.inspected_node = task;
   },
   [REMOVE_NODE](state, node_id) {
-    state.children = state.children.filter(c => c.id == node_id);
+    state.children = state.children.filter(c => c.id != node_id);
   }
 }
 

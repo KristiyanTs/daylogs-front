@@ -140,17 +140,16 @@ export default {
     },
     remove() {
       store.dispatch(DESTROY_NODE, this.inspected_node);
-      store.commit(SET_INSPECTED_NODE, null);
     },
     toggleFavorite() {
       
     },
     save() {
       this.inspected_node.editing = false;
-      if(this.inspected_node.id) { // it has an id => it exists => update
-        store.dispatch(UPDATE_NODE, this.inspected_node);
-      } else {
+      if(this.inspected_node.id == "" || this.inspected_node.id == null) { // it has an id => it exists => update
         store.dispatch(CREATE_NODE, this.inspected_node);
+      } else {
+        store.dispatch(UPDATE_NODE, this.inspected_node);
       }
     }
   },

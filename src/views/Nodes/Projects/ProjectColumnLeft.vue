@@ -7,9 +7,9 @@
       <v-spacer />
       <v-toolbar-items>
         <v-tabs @change="filter">
-          <v-tab>Menu</v-tab>
           <v-tab>Nodes ({{ child_nodes.length }})</v-tab>
           <v-tab>Tasks ({{ child_tasks.length }})</v-tab>
+          <v-tab>Menu</v-tab>
         </v-tabs>
       </v-toolbar-items>
       <v-btn icon v-if="type != 'menu'" @click="addInstance">
@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      type: "menu"
+      type: "nodes"
     };
   },
   methods: {
@@ -55,13 +55,13 @@ export default {
       }
     },
     filter(type) {
-      if (type == 0) {
+      if (type == 2) {
         this.type = "menu";
         this.$router.push({ path: `/nodes/${this.rootId}/general` });
-      } else if (type == 1) {
+      } else if (type == 0) {
         this.type = "nodes";
         this.$router.push({ path: `/nodes/${this.rootId}` });
-      } else if (type == 2) {
+      } else if (type == 1) {
         this.type = "tasks";
         this.$router.push({ path: `/nodes/${this.rootId}` });
       }
