@@ -29,7 +29,7 @@
 
     <v-list-item-action>
       <v-flex>
-        <span v-if="!node.id">Not saved</span>
+        <v-chip small v-if="!node.id" class="mr-2">Not Saved</v-chip>
         <v-chip color="primary" small v-if="node.id == current_node.id" class="mr-2">Active</v-chip>
         <v-chip color="secondary" small v-if="node.id == inspected_node.id">Inspected</v-chip>
       </v-flex>

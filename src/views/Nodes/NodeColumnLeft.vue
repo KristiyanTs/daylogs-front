@@ -46,7 +46,7 @@ import NodeRow from "./Row";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_NODE } from "@/store/actions.type";
+import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
   components: {

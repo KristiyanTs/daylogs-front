@@ -82,23 +82,13 @@
           </v-select>
         </v-col>
       </v-row>
-      <!-- status -->
-      <!-- category  -->
-      <!-- description
-      priority
-      root_id
-      parent_id
-      reporter_id
-      assigned_id
-      status_id
-      category_id -->
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
     <v-toolbar flat dense>
       <v-toolbar-title>{{ inspected_node.title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn @click="edit" fab depressed small class="mr-2">
+      <v-btn @click="toggleFavorite" fab depressed small class="mr-2">
         <font-awesome-icon
           color="grey"
           icon="star"
@@ -110,7 +100,7 @@
           icon="edit"
         />
       </v-btn>
-      <v-btn @click="edit" fab depressed small>
+      <v-btn @click="remove" fab depressed small>
         <font-awesome-icon
           color="grey"
           icon="trash-alt"
@@ -135,7 +125,7 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE, UPDATE_NODE } from "@/store/actions.type";
+import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
 import { SET_INSPECTED_NODE } from "@/store/mutations.type";
 
 export default {
@@ -147,6 +137,13 @@ export default {
       let node = this.inspected_node;
       node.editing = true;
       store.commit(SET_INSPECTED_NODE, node);
+    },
+    remove() {
+      store.dispatch(DESTROY_NODE, this.inspected_node);
+      store.commit(SET_INSPECTED_NODE, null);
+    },
+    toggleFavorite() {
+      
     },
     save() {
       this.inspected_node.editing = false;
