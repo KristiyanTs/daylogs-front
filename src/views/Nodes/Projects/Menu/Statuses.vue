@@ -65,7 +65,7 @@ import draggable from "vuedraggable";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_STATUSES, CREATE_STATUS, UPDATE_STATUS, DESTROY_STATUS } from "@/store/actions.type";
+import { CREATE_STATUS, UPDATE_STATUS, DESTROY_STATUS } from "@/store/actions.type";
 import { ADD_STATUS, SET_STATUS, REMOVE_STATUS } from "@/store/mutations.type";
 
 export default {
@@ -82,9 +82,6 @@ export default {
         ghostClass: "ghost"
       },
     };
-  },
-  mounted() {
-    store.dispatch(FETCH_STATUSES, this.current_node.id);
   },
   methods: {
     addStatus() {

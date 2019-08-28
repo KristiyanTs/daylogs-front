@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { LOGIN } from "@/store/actions.type";
 
 Vue.use(Router);
 

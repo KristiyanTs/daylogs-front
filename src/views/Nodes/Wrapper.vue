@@ -1,7 +1,7 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <ProjectColumnLeft v-if="!current_node.root" />
+      <ProjectColumnLeft v-if="!current_node.root_id" />
       <NodeColumnLeft v-else />
     </template>
     <template v-slot:right>
@@ -22,7 +22,7 @@ import TaskColumnRight from "./Tasks/TaskColumnRight";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_NODE, FETCH_CATEGORIES, FETCH_STATUSES } from "@/store/actions.type";
+import { FETCH_NODE } from "@/store/actions.type";
 
 export default {
   name: "NodeWrapper",
@@ -49,8 +49,6 @@ export default {
       handler() {
         if (this.rootId && this.rootId != this.current_node.id) {
           store.dispatch(FETCH_NODE, this.rootId);
-          store.dispatch(FETCH_CATEGORIES, this.rootId);
-          store.dispatch(FETCH_STATUSES, this.rootId);
         }
       }
     }

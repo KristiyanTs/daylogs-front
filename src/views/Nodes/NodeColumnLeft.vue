@@ -9,7 +9,7 @@
           rounded
           depressed
           class="mr-2"
-          :to="`/nodes/${current_node.parent.id}`"
+          :to="`/nodes/${current_node.parent_id}`"
         >
           <font-awesome-icon
             icon="arrow-left"

@@ -44,7 +44,6 @@ import { mapGetters } from "vuex";
 import UploadAvatar from "vue-image-crop-upload";
 import store from "@/store";
 import {
-  FETCH_PROFILE,
   UPDATE_USER
 } from "@/store/actions.type";
 

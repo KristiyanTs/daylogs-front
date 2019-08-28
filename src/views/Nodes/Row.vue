@@ -1,5 +1,5 @@
 <template>
-  <v-list-item color="primary" @click="inspectNode">
+  <v-list-item color="primary" @click="inspectNode" v-on:dblclick="activateNode">
     <v-list-item-avatar>
       <font-awesome-icon
         icon="code-branch"
@@ -15,7 +15,7 @@
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title v-text="node.title" @click="activateNode" />
+      <v-list-item-title v-text="node.title" />
       <v-list-item-subtitle v-if="status">
         <v-chip pill x-small>
           <v-avatar
@@ -40,7 +40,7 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_NODE, DESTROY_NODE } from "@/store/actions.type";
+import { DESTROY_NODE } from "@/store/actions.type";
 import { ADD_NODE, ADD_TASK_NODE, SET_INSPECTED_NODE } from "@/store/mutations.type";
 
 export default {

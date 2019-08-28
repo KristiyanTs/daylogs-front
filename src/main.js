@@ -36,6 +36,7 @@ Vue.config.productionTip = false;
 ApiService.init();
 
 // Ensure we checked auth before each page load.
+// TODO: Causes /profile check on every page load, check the local storage instead
 router.beforeEach((to, from, next) =>
   Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
 );

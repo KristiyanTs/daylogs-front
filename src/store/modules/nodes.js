@@ -8,7 +8,9 @@ import {
   UPDATE_NODE,
   DESTROY_NODE,
   CREATE_ALERT,
-  FETCH_FAVORITES
+  FETCH_FAVORITES,
+  FETCH_CATEGORIES,
+  FETCH_STATUSES
 } from "../actions.type";
 
 import {
@@ -66,9 +68,13 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_NODE](context, node_id) {
+  async [FETCH_NODE]({commit, dispatch, state}, node_id) {
     const { data } = await NodeService.get(node_id);
-    context.commit(SET_ACTIVE_NODE, data);
+    if (!state.node.id || (state.node.id != data.parent_id && state.node.parent_id != data.id)) { // don't always load the categories and statuses
+      dispatch(FETCH_CATEGORIES, data.id);
+      dispatch(FETCH_STATUSES, data.id);
+    }
+    commit(SET_ACTIVE_NODE, data);
   },
   async [CREATE_NODE](context, params) {
     const { data } = await NodeService.create(params);
