@@ -1,12 +1,11 @@
 <template>
-  <v-navigation-drawer v-model="sidebar" fixed clipped app>
+  <v-navigation-drawer :value="sidebar" fixed clipped app>
     <v-layout column fill-height align-content-start>
       <v-flex shrink>
         <v-list-item two-line>
           <v-list-item-avatar>
             <img src="https://randomuser.me/api/portraits/men/81.jpg" />
           </v-list-item-avatar>
-
           <v-list-item-content>
             <v-list-item-title>
               <v-btn text small to="/profile/general">{{ formatted_name }}</v-btn>
@@ -91,13 +90,6 @@ export default {
   components: {
     NewProject
   },
-  props: {
-    sidebar: {
-      type: Boolean,
-      default: false,
-      description: "Is the sidebar open?"
-    }
-  },
   data() {
     return {
       nodes: [],
@@ -117,7 +109,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_user", "formatted_name", "favorites"]),
+    ...mapGetters(["current_user", "formatted_name", "favorites", "sidebar"]),
   }
 };
 </script>

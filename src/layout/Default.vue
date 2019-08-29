@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header @toggleSidebar="sidebar = !sidebar" />
-    <Sidebar :sidebar="sidebar" />
+    <Header />
+    <Sidebar />
     <v-content dark>
       <slot />
     </v-content>
@@ -17,8 +17,6 @@ export default {
     Header,
     Sidebar
   },
-  data: () => ({
-    sidebar: true
-  })
+  data: () => ({ })
 };
 </script>

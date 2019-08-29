@@ -5,7 +5,6 @@
     :row-height="window.height"
     :is-draggable="resizable"
     :is-resizable="resizable"
-    :is-mirrored="false"
     :vertical-compact="true"
     :margin="[0, 0]"
     :use-css-transforms="true"
@@ -13,27 +12,17 @@
     responsive
     @layout-updated="layoutUpdatedEvent"
   >
-    <grid-item
+    <grid-item v-for="item in local_layout"
       class="white"
-      :x="layout[0].x"
-      :y="layout[0].y"
-      :w="layout[0].w"
-      :h="layout[0].h"
-      :i="layout[0].i">
-          <v-flex class="col-left">
-      <slot name="left" />
-    </v-flex>
-    </grid-item>
-    <grid-item
-      class="white"
-      :x="layout[1].x"
-      :y="layout[1].y"
-      :w="layout[1].w"
-      :h="layout[1].h"
-      :i="layout[1].i">
-          <v-flex class="col-right" fill-height>
-      <slot name="right" />
-    </v-flex>
+      :x="item.x"
+      :y="item.y"
+      :w="item.w"
+      :h="item.h"
+      :i="item.i"
+      :key="item.i">
+        <v-flex :class="`col-${item.i}`">
+          <slot :name="item.i" />
+        </v-flex>
     </grid-item>
   </grid-layout>
 </template>
@@ -70,8 +59,9 @@ export default {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight - 62;
     },
-    layoutUpdatedEvent(layout) {
-      store.commit(SET_LAYOUT, layout);
+    layoutUpdatedEvent(new_layout) {
+      console.log(new_layout);
+      store.commit(SET_LAYOUT, JSON.parse(JSON.stringify(new_layout)));
     }
   },
   computed: {

@@ -23,19 +23,12 @@
 import { mapGetters } from "vuex";
 import store from "@/store";
 import { CREATE_ALERT } from "@/store/actions.type";
-import { TOGGLE_RESIZABLE } from "@/store/mutations.type";
+import { TOGGLE_RESIZABLE, TOGGLE_SIDEBAR } from "@/store/mutations.type";
 import Alerts from "./Alerts";
 
 export default {
   components: {
     Alerts
-  },
-  props: {
-    sidebar: {
-      type: Boolean,
-      default: false,
-      description: "Is sidebar opened"
-    }
   },
   data() {
     return {};
@@ -48,7 +41,7 @@ export default {
       store.commit(TOGGLE_RESIZABLE);
     },
     toggleSidebar() {
-      this.$emit("toggleSidebar", !this.sidebar);
+      store.commit(TOGGLE_SIDEBAR);
     }
   },
   computed: {
