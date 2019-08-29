@@ -13,11 +13,17 @@
     ></v-text-field>
     <v-spacer></v-spacer>
     <Alerts />
+    <v-btn fab dedpressed small :text="!resizable" color="primary" @click="toggleResizable">
+      <font-awesome-icon icon="columns" />
+    </v-btn>
   </v-app-bar>
 </template>
 
 <script>
-import { ADD_ALERT } from "@/store/actions.type";
+import { mapGetters } from "vuex";
+import store from "@/store";
+import { CREATE_ALERT } from "@/store/actions.type";
+import { TOGGLE_RESIZABLE } from "@/store/mutations.type";
 import Alerts from "./Alerts";
 
 export default {
@@ -35,15 +41,18 @@ export default {
     return {};
   },
   methods: {
+    toggleResizable() {
+      if(!this.resizable) {
+        store.dispatch(CREATE_ALERT, ["You can now drag and resize the layout columns.", "info"]);
+      }
+      store.commit(TOGGLE_RESIZABLE);
+    },
     toggleSidebar() {
       this.$emit("toggleSidebar", !this.sidebar);
-    },
-    addAlert() {
-      this.$store.dispatch(ADD_ALERT, [
-        "Statuses saved successfully",
-        "success"
-      ]);
     }
+  },
+  computed: {
+    ...mapGetters(["resizable"])
   }
 }
 </script>
