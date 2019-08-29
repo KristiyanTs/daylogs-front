@@ -19,6 +19,7 @@ import {
   SET_INSPECTED_NODE,
   ADD_NODE,
   ADD_TASK_NODE,
+  ALTER_NODE,
   REMOVE_NODE
 } from "../mutations.type";
 
@@ -92,8 +93,7 @@ const actions = {
   },
   async [UPDATE_NODE](context, params) {
     const { data } = await NodeService.update(params);
-    context.commit(SET_NODE, data);
-    context.dispatch(FETCH_FAVORITES);
+    context.commit(ALTER_NODE, data);
     context.dispatch(CREATE_ALERT, ["Node updated", "success"]);
   },
   async [DESTROY_NODE](context, node) {
@@ -107,17 +107,13 @@ const actions = {
 
 const mutations = {
   [SET_NODE](state, node) {
-    let idx = state.children.findIndex(n => n.id == node.id);
-    if (idx != -1) {
-      state.children.splice(idx, 1, node);
-    } else {
-      state.node = node;
-      state.children = node.nodes;
-    }
+    state.node = node;
+    state.children = state.node.nodes;
+    state.inspected_node = state.node;
   },
   [SET_ACTIVE_NODE](state, node) {
     state.node = node;
-    state.children = node.nodes;
+    state.children = state.node.nodes;
     state.inspected_node = state.node;
   },
   [SET_INSPECTED_NODE](state, node) { // selected the provided one or the first
@@ -140,6 +136,14 @@ const mutations = {
     }
     state.children.push(task);
     state.inspected_node = task;
+  },
+  [ALTER_NODE](state, node) {
+    if(state.node.id == node.id) {
+      state.node = node;
+    } else {
+      let idx = state.node.children.findIndex(c => c.id == node.id != -1);
+      state.node.children.splice(idx, 1, node);
+    }
   },
   [REMOVE_NODE](state, node_id) {
     state.children = state.children.filter(c => c.id != node_id);

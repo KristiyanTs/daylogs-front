@@ -17,6 +17,7 @@ export const SET_ACTIVE_NODE = "setActiveNode";
 export const SET_INSPECTED_NODE = "setInspectedNode";
 export const ADD_NODE = "addNode";
 export const ADD_TASK_NODE = "addTaskNode";
+export const ALTER_NODE = "alterNode";
 export const REMOVE_NODE = "removeNode";
 
 export const SET_CATEGORIES = "setCategories";

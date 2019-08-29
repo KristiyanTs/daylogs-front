@@ -83,7 +83,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <vue-editor v-model="inspected_node.description"></vue-editor>
+        <vue-editor v-model="inspected_node.description" :editor-toolbar="customToolbar" />
       </v-row>
     </v-container>
   </v-container>
@@ -141,7 +141,23 @@ export default {
     Quill
   },
   data() {
-    return { };
+    return { 
+      customToolbar: [
+        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
+        ["bold", "italic", "underline", "strike"],
+        [
+          { align: "" },
+          { align: "center" },
+          { align: "right" },
+        ],
+        ["blockquote", "code-block"],
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ color: [] }],
+        ["link", "image"],
+        ["clean"]
+      ]
+    };
   },
   methods: {
     edit() {
@@ -175,4 +191,7 @@ export default {
   img
     max-width: 100%
     max-height: 300px
+.quillWrapper #quill-container
+  .ql-tooltip
+    left: 0px !important
 </style>
