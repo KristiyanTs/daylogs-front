@@ -9,6 +9,7 @@ import {
   LOGIN,
   LOGOUT,
   CHECK_AUTH,
+  REGISTER,
   UPDATE_USER,
   CREATE_ALERT
 } from "../actions.type";
@@ -82,6 +83,17 @@ const actions = {
     } else {
       context.commit(PURGE_AUTH);
     }
+  },
+  [REGISTER](context, user) {
+    return new Promise(resolve => {
+      ApiService.post("signup", {user: user})
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error  => {
+          context.commit(SET_ERROR, error);
+        });
+    });
   },
   async [UPDATE_USER](context, user) { // should be tested when the back-end is rewritten
     const { data } = await UserService.update(user);

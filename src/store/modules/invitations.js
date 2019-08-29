@@ -21,8 +21,8 @@ const state = {
   invitations: [],
   new_invitation: {
     id: "",
-    user_id: "",
     email: "",
+    role_id: "",
     editing: true
   }
 }

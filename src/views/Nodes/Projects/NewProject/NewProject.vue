@@ -1,6 +1,7 @@
 <template>
   <v-dialog :value="open" @closeDialog="closeDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
+      <v-container>
       <v-form @submit="submitProject">
         <v-text-field
           outlined
@@ -11,11 +12,15 @@
         />
         <v-btn class="primary" @click="submitProject">Create</v-btn>
       </v-form>
+      </v-container>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import store from "@/store";
+import { CREATE_NODE } from "@/store/actions.type";
+
 export default {
   props: {
     open: {
@@ -41,20 +46,9 @@ export default {
       this.$emit("closeDialog");
     },
     submitProject() {
-      this.axios
-        .post("/api/nodes", {
-          node: {
-            ...this.project
-          }
-        })
-        .then(() => {
-          this.closeDialog();
-          this.resetForm();
-          this.$emit("reload");
-        })
-        .catch(error => {
-          this.requestError(error);
-        });
+      store.dispatch(CREATE_NODE, this.project).then(() => {
+        this.closeDialog();
+      })
     },
     resetForm() {
       this.project = {

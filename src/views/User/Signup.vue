@@ -81,6 +81,9 @@
 </template>
 
 <script>
+import { REGISTER } from "@/store/actions.type";
+import store from "@/store";
+
 export default {
   data() {
     return {
@@ -106,21 +109,7 @@ export default {
   },
   methods: {
     submit() {
-      this.loading = true;
-      this.errors = [];
-
-      this.axios
-        .post("/api/signup", {
-          user: this.user
-        })
-        .then(() => {
-          this.loading = false;
-          this.registered = true;
-        })
-        .catch(error => {
-          this.errors = error.response.data;
-          this.loading = false;
-        });
+      store.dispatch(REGISTER, this.user);
     }
   }
 };

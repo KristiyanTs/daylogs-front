@@ -81,7 +81,14 @@ const actions = {
     context.commit(REMOVE_NODE, "");
     context.commit(ADD_NODE, data);
     context.dispatch(FETCH_FAVORITES);
-    context.dispatch(CREATE_ALERT, ["Node added", "success"]);
+
+    if (data.root_id == null) {
+      context.dispatch(CREATE_ALERT, ["Project created", "success"]);
+    } else if (data.category_id != null && data.category_id != "") {
+      context.dispatch(CREATE_ALERT, ["Task added", "success"]);
+    } else {
+      context.dispatch(CREATE_ALERT, ["Node added", "success"]);
+    }
   },
   async [UPDATE_NODE](context, params) {
     const { data } = await NodeService.update(params);
