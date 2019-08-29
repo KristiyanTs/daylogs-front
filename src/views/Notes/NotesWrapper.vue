@@ -1,40 +1,36 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <v-layout wrap>
-        <v-flex xs12>
-          <v-toolbar flat dense>
-            <v-toolbar-title>Notes</v-toolbar-title>
+      <v-toolbar flat dense>
+        <v-toolbar-title>Notes</v-toolbar-title>
 
-            <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
 
-            <template v-if="$vuetify.breakpoint.smAndUp">
-              <v-btn icon @click="formOpen = true">
-                <font-awesome-icon icon="plus" color="grey" />
-              </v-btn>
-            </template>
-          </v-toolbar>
+        <template v-if="$vuetify.breakpoint.smAndUp">
+          <v-btn icon @click="formOpen = true">
+            <font-awesome-icon icon="plus" color="grey" />
+          </v-btn>
+        </template>
+      </v-toolbar>
 
-          <v-list two-line height="calc(100vh - 112px)" class="scroll-y">
-            <notes-row
-              v-for="note in notes"
-              :key="note.id"
-              :note="note"
-              :selected="selected_note_id == note.id"
-              @noteSelected="selectNote"
-              @updateNote="openUpdate"
-              @noteDeleted="deleteNote"
-            />
-          </v-list>
-          <NoteForm
-            :update="updating"
-            :open="formOpen"
-            :note="selectedNote"
-            @noteUpdated="updateNote"
-            @closeDialog="closeNewDialog"
-          />
-        </v-flex>
-      </v-layout>
+      <v-list two-line height="calc(100vh - 112px)" class="scroll-y">
+        <notes-row
+          v-for="note in notes"
+          :key="note.id"
+          :note="note"
+          :selected="selected_note_id == note.id"
+          @noteSelected="selectNote"
+          @updateNote="openUpdate"
+          @noteDeleted="deleteNote"
+        />
+      </v-list>
+      <NoteForm
+        :update="updating"
+        :open="formOpen"
+        :note="selectedNote"
+        @noteUpdated="updateNote"
+        @closeDialog="closeNewDialog"
+      />
     </template>
     <template v-slot:right>
       <Note :note_id="selected_note_id" @noteUpdated="updateNote" />

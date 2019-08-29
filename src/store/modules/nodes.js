@@ -141,8 +141,8 @@ const mutations = {
     if(state.node.id == node.id) {
       state.node = node;
     } else {
-      let idx = state.node.children.findIndex(c => c.id == node.id != -1);
-      state.node.children.splice(idx, 1, node);
+      let idx = state.node.nodes.findIndex(c => c.id == node.id);
+      state.node.nodes.splice(idx, 1, node);
     }
   },
   [REMOVE_NODE](state, node_id) {

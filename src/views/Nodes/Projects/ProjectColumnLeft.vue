@@ -34,7 +34,7 @@ import NodeRow from "../Row";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
+import { ADD_NODE, ADD_TASK_NODE, SET_INSPECTED_NODE } from "@/store/mutations.type";
 
 export default {
   components: {
@@ -60,9 +60,15 @@ export default {
         this.$router.push({ path: `/nodes/${this.rootId}/general` });
       } else if (type == 0) {
         this.type = "nodes";
+        if(this.child_nodes.length) {
+          store.commit(SET_INSPECTED_NODE, this.child_nodes[0]);
+        }
         this.$router.push({ path: `/nodes/${this.rootId}` });
       } else if (type == 1) {
         this.type = "tasks";
+        if(this.child_tasks.length) {
+          store.commit(SET_INSPECTED_NODE, this.child_tasks[0]);
+        }
         this.$router.push({ path: `/nodes/${this.rootId}` });
       }
     }

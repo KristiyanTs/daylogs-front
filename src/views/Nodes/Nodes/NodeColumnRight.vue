@@ -37,18 +37,14 @@
         />
       </v-btn>
     </v-toolbar>
-    <v-simple-table v-if="inspected_node.created_at">
-      <tbody>
-        <tr>
-          <td>Created</td>
-          <td>{{ moment(inspected_node.created_at).format("M/D/YY, H:mm") }}</td>
-        </tr>
-        <tr>
-          <td>Updated</td>
-          <td>{{ moment(inspected_node.updated_at).format("M/D/YY, H:mm") }}</td>
-        </tr>
-      </tbody>
-    </v-simple-table>
+    <v-row v-if="inspected_node.created_at">
+      <v-col>
+        Created {{ moment(inspected_node.created_at).format("M/D/YY, H:mm") }}
+      </v-col>
+      <v-col>
+        Updated {{ moment(inspected_node.updated_at).format("M/D/YY, H:mm") }}
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
