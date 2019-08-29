@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import store from "@/store";
 import { CREATE_NODE } from "@/store/actions.type";
 
@@ -48,6 +49,7 @@ export default {
     submitProject() {
       store.dispatch(CREATE_NODE, this.project).then(() => {
         this.closeDialog();
+        this.$router.push(`/nodes/${this.inspected_node.id}`)
       })
     },
     resetForm() {
@@ -55,6 +57,9 @@ export default {
         title: ""
       };
     }
+  },
+  computed: {
+    ...mapGetters(["inspected_node"]),
   }
 }
 </script>

@@ -82,6 +82,9 @@
           </v-select>
         </v-col>
       </v-row>
+      <v-row>
+        <vue-editor v-model="inspected_node.description"></vue-editor>
+      </v-row>
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
@@ -119,6 +122,11 @@
         </tr>
       </tbody>
     </v-simple-table>
+    <v-row>
+      <v-col>
+        <div v-html="inspected_node.description" class="preview"></div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -128,7 +136,13 @@ import store from "@/store";
 import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
 import { SET_INSPECTED_NODE } from "@/store/mutations.type";
 
+import { VueEditor, Quill } from "vue2-editor";
+
 export default {
+  components: {
+    VueEditor,
+    Quill
+  },
   data() {
     return { };
   },
@@ -158,3 +172,10 @@ export default {
   }
 };
 </script>
+
+<style lang="sass">
+.preview
+  img
+    max-width: 100%
+    max-height: 300px
+</style>
