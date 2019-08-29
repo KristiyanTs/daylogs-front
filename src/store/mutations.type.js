@@ -1,6 +1,7 @@
 export const ADD_ALERT = "addAlert";
 export const REMOVE_ALERT = "removeAlert";
 export const SET_ERROR = "setError";
+export const SET_LAYOUT = "setLayout";
 export const TOGGLE_RESIZABLE = "toggleResizable";
 
 export const SET_AUTH = "setAuth";

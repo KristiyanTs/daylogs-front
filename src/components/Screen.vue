@@ -1,6 +1,6 @@
 <template>
   <grid-layout
-    :layout.sync="layout"
+    :layout.sync="local_layout"
     :col-num="12"
     :row-height="window.height"
     :is-draggable="resizable"
@@ -11,6 +11,7 @@
     :use-css-transforms="true"
     :autoSize="true"
     responsive
+    @layout-updated="layoutUpdatedEvent"
   >
     <grid-item
       class="white"
@@ -39,7 +40,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import store from "@/store";
+import { SET_LAYOUT } from "@/store/mutations.type";
 import VueGridLayout from 'vue-grid-layout';
+
 export default {
   name: "Screen",
   components: {
@@ -47,10 +51,7 @@ export default {
   },
   data() {
     return {
-      layout: [
-        {"x":0,"y":0,"w":4,"h":1,"i":"0"},
-        {"x":4,"y":0,"w":6,"h":1,"i":"1"},
-      ],
+      local_layout: [],
       window: {
         width: 0,
         height: 0
@@ -68,10 +69,21 @@ export default {
     handleResize() {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight - 62;
+    },
+    layoutUpdatedEvent(layout) {
+      store.commit(SET_LAYOUT, layout);
     }
   },
   computed: {
-    ...mapGetters(["resizable"])
+    ...mapGetters(["layout", "resizable"])
+  },
+  watch:{
+    layout: {
+      immediate: true,
+      handler() {
+        this.local_layout = this.layout;
+      }
+    }
   }
 }
 </script>
