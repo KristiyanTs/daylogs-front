@@ -20,6 +20,9 @@ const getters = {
 
 const actions = {
   [CREATE_ALERT](context, [message, status]) {
+    if(context.state.alerts.findIndex(a => a[0] == message && a[1] == status) != -1) {
+      return; // prevent adding the same status multiple times
+    }
     context.commit(ADD_ALERT, [message, status]);
     setTimeout(
       () => context.commit(REMOVE_ALERT, message),
