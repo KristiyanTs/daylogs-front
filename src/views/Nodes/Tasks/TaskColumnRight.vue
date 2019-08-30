@@ -91,12 +91,7 @@
     <v-toolbar flat dense>
       <v-toolbar-title>{{ inspected_node.title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn @click="toggleFavorite" fab depressed small class="mr-2">
-        <font-awesome-icon
-          color="grey"
-          icon="star"
-        />
-      </v-btn>
+      <FavoriteButton />
       <v-btn @click="edit" fab depressed small class="mr-2">
         <font-awesome-icon
           color="grey"
@@ -132,13 +127,14 @@ import { mapGetters } from "vuex";
 import store from "@/store";
 import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
 import { SET_INSPECTED_NODE } from "@/store/mutations.type";
-
 import { VueEditor, Quill } from "vue2-editor";
+import FavoriteButton from "@/components/FavoriteButton.vue";
 
 export default {
   components: {
     VueEditor,
-    Quill
+    Quill,
+    FavoriteButton
   },
   data() {
     return { 
@@ -167,9 +163,6 @@ export default {
     },
     remove() {
       store.dispatch(DESTROY_NODE, this.inspected_node);
-    },
-    toggleFavorite() {
-      
     },
     save() {
       this.inspected_node.editing = false;

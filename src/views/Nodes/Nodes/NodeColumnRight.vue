@@ -18,12 +18,7 @@
     <v-toolbar flat dense>
       <v-toolbar-title>{{ inspected_node.title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn @click="toggleFavorite" fab depressed small class="mr-2">
-        <font-awesome-icon
-          :color="isFavorite ? 'orange' : 'grey'"
-          icon="star"
-        />
-      </v-btn>
+      <FavoriteButton />
       <v-btn @click="edit" fab depressed small class="mr-2">
         <font-awesome-icon
           color="grey"
@@ -51,10 +46,14 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE, CREATE_FAVORITE, DESTROY_FAVORITE } from "@/store/actions.type";
+import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
 import { SET_INSPECTED_NODE } from "@/store/mutations.type";
+import FavoriteButton from "@/components/FavoriteButton.vue";
 
 export default {
+  components: {
+    FavoriteButton
+  },
   data() {
     return { };
   },
@@ -67,13 +66,6 @@ export default {
     remove() {
       store.dispatch(DESTROY_NODE, this.inspected_node);
     },
-    toggleFavorite() {
-      if(this.isFavorite) {
-        store.dispatch(DESTROY_FAVORITE, this.inspected_node.id);
-      } else {
-        store.dispatch(CREATE_FAVORITE, {node_id: this.inspected_node.id});
-      }
-    },
     save() {
       this.inspected_node.editing = false;
       if(this.inspected_node.id == "" || this.inspected_node.id == null) {
@@ -84,10 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "favorites"]),
-    isFavorite() {
-      return this.favorites.map(f => f.id).includes(this.inspected_node.id);
-    }
+    ...mapGetters(["current_node", "inspected_node"])
   }
 };
 </script>
