@@ -9,13 +9,14 @@
     </v-toolbar>
     <v-list two-line v-if="statuses.length">
       <draggable
-        v-model="statuses"
+        v-model="local_statuses"
         @start="drag = true"
         @end="drag = false"
+        @change="updateOrder"
         v-bind="dragOptions"
         draggable=".v-list-item"
       >
-        <v-list-item v-for="(item, idx) in statuses" :key="idx">
+        <v-list-item v-for="(item, idx) in local_statuses" :key="idx">
           <v-list-item-avatar>
             <ColorPicker
               :color="item.color"
@@ -75,6 +76,7 @@ export default {
   },
   data() {
     return {
+      local_statuses: [],
       dragOptions: {
         animation: 200,
         group: "description",
@@ -113,10 +115,24 @@ export default {
       status.editing = true;
       status.color = color;
       store.commit(SET_STATUS, status);
+    },
+    updateOrder(new_statuses) {
+      this.local_statuses.map((s, idx) => {
+        s.order = idx;
+        store.dispatch(UPDATE_STATUS, s);
+      });
     }
   },
   computed: {
     ...mapGetters(["current_node", "statuses"])
+  },
+  watch:{
+    satuses: {
+      immediate: true,
+      handler() {
+        this.local_statuses = this.statuses;
+      }
+    }
   }
 }
 </script>

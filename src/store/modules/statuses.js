@@ -30,7 +30,7 @@ const state = {
 
 const getters = {
   statuses(state) {
-    return state.statuses
+    return state.statuses.sort((a,b) => (a.order > b.order) ? 1 : -1); 
   }
 }
 
@@ -66,7 +66,11 @@ const mutations = {
     state.statuses.splice(idx, 1, status);
   },
   [ADD_STATUS](state, status) {
-    state.statuses.push(status || JSON.parse(JSON.stringify(state.new_status)))
+    if(!status) {
+      status = JSON.parse(JSON.stringify(state.new_status));
+      status.position = state.statuses.length; // add to the end
+    }
+    state.statuses.push(status);
   },
   [REMOVE_STATUS](state, status_id) {
     state.statuses = state.statuses.filter(s => s.id != status_id)
