@@ -91,7 +91,7 @@ export default {
         store.commit(REMOVE_CATEGORY, "");
       }
     },
-    editStatus(idx) {
+    editCategory(idx) {
       let category = this.categories[idx];
       category.editing = true;
       store.commit(SET_CATEGORY, category);

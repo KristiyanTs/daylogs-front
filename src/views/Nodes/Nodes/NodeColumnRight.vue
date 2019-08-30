@@ -20,7 +20,7 @@
       <v-spacer />
       <v-btn @click="toggleFavorite" fab depressed small class="mr-2">
         <font-awesome-icon
-          color="grey"
+          :color="isFavorite ? 'orange' : 'grey'"
           icon="star"
         />
       </v-btn>
@@ -68,7 +68,7 @@ export default {
       store.dispatch(DESTROY_NODE, this.inspected_node);
     },
     toggleFavorite() {
-      if(this.favorites.map(f => f.id).includes(this.inspected_node.id)) {
+      if(this.isFavorite) {
         store.dispatch(DESTROY_FAVORITE, this.inspected_node.id);
       } else {
         store.dispatch(CREATE_FAVORITE, {node_id: this.inspected_node.id});
@@ -84,7 +84,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "favorites"])
+    ...mapGetters(["current_node", "inspected_node", "favorites"]),
+    isFavorite() {
+      return this.favorites.map(f => f.id).includes(this.inspected_node.id);
+    }
   }
 };
 </script>

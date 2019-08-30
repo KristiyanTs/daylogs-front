@@ -46,7 +46,7 @@
         <v-layout row align-center>
           <v-flex xs6>
             <v-subheader>
-              Projects
+              Projects/Favorites
             </v-subheader>
           </v-flex>
           <v-spacer />
