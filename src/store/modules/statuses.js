@@ -68,7 +68,7 @@ const mutations = {
   [ADD_STATUS](state, status) {
     if(!status) {
       status = JSON.parse(JSON.stringify(state.new_status));
-      status.position = state.statuses.length; // add to the end
+      status.order = state.statuses.length; // add to the end
     }
     state.statuses.push(status);
   },

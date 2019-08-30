@@ -66,7 +66,7 @@ import draggable from "vuedraggable";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_STATUS, UPDATE_STATUS, DESTROY_STATUS } from "@/store/actions.type";
+import { CREATE_STATUS, UPDATE_STATUS, DESTROY_STATUS, CREATE_ALERT } from "@/store/actions.type";
 import { ADD_STATUS, SET_STATUS, REMOVE_STATUS } from "@/store/mutations.type";
 
 export default {
@@ -77,6 +77,7 @@ export default {
   data() {
     return {
       local_statuses: [],
+      drag: false,
       dragOptions: {
         animation: 200,
         group: "description",
@@ -87,36 +88,43 @@ export default {
   },
   methods: {
     addStatus() {
-      if(this.statuses.filter(s => s.id == "").length == 0) {
+      if(this.local_statuses.filter(s => s.id == "").length == 0) {
         store.commit(ADD_STATUS, null);
+      } else {
+        store.dispatch(CREATE_ALERT, ["Save the status first", "info"]);
       }
     },
     saveStatus(idx) {
-      if(this.statuses[idx].id) { // has an id => it already exists
-        store.dispatch(UPDATE_STATUS, this.statuses[idx]);
+      if(this.local_statuses[idx].id) { // has an id => it already exists
+        store.dispatch(UPDATE_STATUS, this.local_statuses[idx]);
       } else { // no id => it should be created
-        store.dispatch(CREATE_STATUS, this.statuses[idx]);
+        store.dispatch(CREATE_STATUS, this.local_statuses[idx]);
       }
     },
     deleteStatus(idx) {
-      if(this.statuses[idx].id) { // has an id => remove from server & store
-        store.dispatch(DESTROY_STATUS, this.statuses[idx]);
+      if(this.local_statuses[idx].id) { // has an id => remove from server & store
+        store.dispatch(DESTROY_STATUS, this.local_statuses[idx]);
       } else { // no id => remove from store
         store.commit(REMOVE_STATUS, "");
       }
     },
     editStatus(idx) {
-      let status = this.statuses[idx];
+      let status = this.local_statuses[idx];
       status.editing = true;
       store.commit(SET_STATUS, status);
     },
     changeColor(color, idx) {
-      let status = this.statuses[idx];
+      let status = this.local_statuses[idx];
       status.editing = true;
       status.color = color;
       store.commit(SET_STATUS, status);
     },
     updateOrder(new_statuses) {
+      if(this.local_statuses.findIndex(s => s.editing) != -1) {
+        store.dispatch(CREATE_ALERT, ["Save the status first", "info"]);
+        this.local_statuses = this.statuses;
+        return;
+      }
       this.local_statuses.map((s, idx) => {
         s.order = idx;
         store.dispatch(UPDATE_STATUS, s);
@@ -127,7 +135,7 @@ export default {
     ...mapGetters(["current_node", "statuses"])
   },
   watch:{
-    satuses: {
+    statuses: {
       immediate: true,
       handler() {
         this.local_statuses = this.statuses;
