@@ -51,7 +51,7 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
+import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE, CREATE_FAVORITE, DESTROY_FAVORITE } from "@/store/actions.type";
 import { SET_INSPECTED_NODE } from "@/store/mutations.type";
 
 export default {
@@ -68,7 +68,11 @@ export default {
       store.dispatch(DESTROY_NODE, this.inspected_node);
     },
     toggleFavorite() {
-      
+      if(this.favorites.map(f => f.id).includes(this.inspected_node.id)) {
+        store.dispatch(DESTROY_FAVORITE, this.inspected_node.id);
+      } else {
+        store.dispatch(CREATE_FAVORITE, {node_id: this.inspected_node.id});
+      }
     },
     save() {
       this.inspected_node.editing = false;
@@ -80,7 +84,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node"])
+    ...mapGetters(["current_node", "inspected_node", "favorites"])
   }
 };
 </script>
