@@ -5,7 +5,7 @@
         <h5>Comments ({{comments.filter(c => c.id != "").length}})</h5>
       </v-col>
     </v-row>
-    <CommentRow v-for="comment in comments" :key="comment.id" :comment_id="comment.id" />
+    <Comment v-for="comment in comments" :key="comment.id" :comment_id="comment.id" />
     <v-btn small color="grey" class="mb-5" text @click="addComment" v-if="!isCommenting">
       <font-awesome-icon
         icon="comment"
@@ -20,11 +20,11 @@
 import { mapGetters } from "vuex";
 import store from "@/store";
 import { ADD_COMMENT } from "@/store/mutations.type";
-import CommentRow from "./Row";
+import Comment from "./Comment";
 
 export default {
   components: {
-    CommentRow
+    Comment
   },
   data() {
     return {};

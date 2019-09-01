@@ -1,5 +1,6 @@
 import {
   FETCH_COMMENTS,
+  FETCH_REPLIES,
   CREATE_COMMENT,
   UPDATE_COMMENT,
   DESTROY_COMMENT,
@@ -21,14 +22,16 @@ const state = {
     id: "",
     ancestry: "",
     content: "",
-    node_id: "",
-    editing: true
+    node_id: ""
   }
 }
 
 const getters = {
   comments(state) {
-    return state.comments;
+    return state.comments.filter(c => c.ancestry == null || c.ancestry == "").sort((a,b) => (a.created_at > b.created_at) ? 1 : -1);
+  },
+  replies(state) {
+    return state.comments.filter(c => c.ancestry != null && c.ancestry != "").sort((a,b) => (a.created_at > b.created_at) ? 1 : -1);
   }
 }
 
@@ -36,6 +39,16 @@ const actions = {
   async [FETCH_COMMENTS](context, node_id) {
     const { data } = await ApiService.query(`/nodes/${node_id}/comments`);
     context.commit(SET_COMMENTS, data);
+  },
+  async [FETCH_REPLIES](context, comment) {
+    const { data } = await ApiService.query(`/nodes/${comment.node_id}/comments/${comment.id}`);
+    data.map(reply => {
+      if(context.state.comments.findIndex(c => c.id == reply.id) == -1) {
+        context.commit(ADD_COMMENT, reply);
+      } else {
+        context.commit(SET_COMMENT, reply);
+      }
+    });
   },
   async [CREATE_COMMENT]({commit, dispatch, rootState}, params) {
     if(params.node_id == "") {
@@ -51,8 +64,9 @@ const actions = {
     context.commit(SET_COMMENT, data);
   },
   async [DESTROY_COMMENT](context, comment) {
-    await ApiService.delete(`/nodes/${comment.node_id}/comments/${comment.id}`);
+    await ApiService.delete(`/nodes/${comment.node_id}/comments`, comment.id);
     context.commit(REMOVE_COMMENT, comment.id);
+    context.dispatch(CREATE_ALERT, ["Comment deleted", "success"]);
   }
 }
 
@@ -66,8 +80,13 @@ const mutations = {
   },
   [ADD_COMMENT](state, comment) {
     if(!comment) {
-      comment = JSON.parse(JSON.stringify(state.new_comment));
-    }
+      comment = { ...state.new_comment };
+    } else if(typeof comment == "number") { // passing ancestry
+      let ancestry = comment;
+      comment = { ...state.new_comment };
+      comment.ancestry = ancestry;
+    } 
+
     state.comments.push(comment);
   },
   [REMOVE_COMMENT](state, comment_id) {
