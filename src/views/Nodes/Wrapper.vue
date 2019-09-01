@@ -1,18 +1,19 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <ProjectColumnLeft v-if="!current_node.ancestry" />
+      <ProjectColumnLeft v-if="isProject(current_node)" />
       <NodeColumnLeft v-else />
     </template>
     <template v-slot:right>
-      <TaskColumnRight v-if="$route.name == 'Nodes' && inspected_node && (inspected_node.type == 'task' || (inspected_node.category_id != '' && inspected_node.category_id != null))" />
-      <NodeColumnRight v-else-if="$route.name == 'Nodes' && inspected_node && (inspected_node.type == 'node' || inspected_node.category_id == null)" />
-      <ProjectColumnRight v-else />
+      <ProjectColumnRight v-if="isProject(inspected_node)" />
+      <TaskColumnRight v-else-if="$route.name == 'Nodes' && inspected_node && (inspected_node.type == 'task' || isTask(inspected_node))" />
+      <NodeColumnRight v-else-if="$route.name == 'Nodes' && inspected_node && (inspected_node.type == 'node' || isNode(inspected_node))" />
     </template>
   </Screen>
 </template>
 
 <script>
+import { NodeTypeCheck } from "./node.mixins";
 import Screen from "@/components/Screen";
 import ProjectColumnLeft from "./ProjectColumnLeft";
 import ProjectColumnRight from "./ProjectColumnRight";
@@ -26,6 +27,7 @@ import { FETCH_NODE } from "@/store/actions.type";
 
 export default {
   name: "NodeWrapper",
+  mixins: [NodeTypeCheck],
   components: {
     Screen,
     ProjectColumnLeft,

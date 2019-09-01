@@ -12,6 +12,7 @@
       prepend-inner-icon="search"
     ></v-text-field>
     <v-spacer></v-spacer>
+    {{$route.name}}
     <Alerts />
     <v-btn fab dedpressed small :text="!resizable" color="primary" @click="toggleResizable">
       <font-awesome-icon icon="columns" />

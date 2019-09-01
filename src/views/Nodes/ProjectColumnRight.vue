@@ -1,21 +1,19 @@
 <template>
-  <v-container class="px-0 py-0">
+  <NodeColumnRight v-if="$route.name == 'Nodes'" />
+  <v-container class="px-0 py-0" v-else>
     <router-view></router-view>
   </v-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import store from "@/store";
-import {  } from "@/store/actions.type";
-import {  } from "@/store/mutations.type";
+import NodeColumnRight from "./NodeColumnRight";
 
 export default {
+  components: {
+    NodeColumnRight
+  },
   data() {
     return {};
-  },
-  computed: {
-    ...mapGetters(["current_node", "inspected_node"])
   }
 };
 </script>
