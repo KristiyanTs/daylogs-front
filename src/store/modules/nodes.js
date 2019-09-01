@@ -84,7 +84,7 @@ const actions = {
 
     if (NodeHelpers.isProject(data)) {
       context.dispatch(CREATE_ALERT, ["Project created", "success"]);
-    } else if (NodeHelpers.isTask(data)) { // TODO: remove one of these checks
+    } else if (NodeHelpers.isTask(data)) {
       context.dispatch(CREATE_ALERT, ["Task added", "success"]);
     } else {
       context.dispatch(CREATE_ALERT, ["Node added", "success"]);
@@ -95,17 +95,28 @@ const actions = {
     context.commit(ALTER_NODE, data);
     context.dispatch(CREATE_ALERT, ["Node updated", "success"]);
   },
-  async [DESTROY_NODE](context, node) {
+  async [DESTROY_NODE]({commit, dispatch, state}, node) {
+    if(node.id != state.node.id && state.children.length) {
+      dispatch(CHANGE_INSPECTED_NODE, state.children[0]);
+    } else if(node.id != state.node.id) {
+      dispatch(CHANGE_INSPECTED_NODE, state.node);
+    }
+
+    if(node.id == "") {
+      commit(REMOVE_NODE, "");
+      return;
+    }
+
     await ApiService.delete("nodes", node.id);
-    context.commit(REMOVE_NODE, node.id);
-    context.dispatch(FETCH_FAVORITES);
+    commit(REMOVE_NODE, node.id);
+    dispatch(FETCH_FAVORITES);
 
     if (NodeHelpers.isProject(node)) {
-      context.dispatch(CREATE_ALERT, ["Project deleted", "success"]);
-    } else if (NodeHelpers.isTask(node)) { // TODO: remove one of these checks
-      context.dispatch(CREATE_ALERT, ["Task deleted", "success"]);
+      dispatch(CREATE_ALERT, ["Project deleted", "success"]);
+    } else if (NodeHelpers.isTask(node)) {
+      dispatch(CREATE_ALERT, ["Task deleted", "success"]);
     } else {
-      context.dispatch(CREATE_ALERT, ["Node deleted", "success"]);
+      dispatch(CREATE_ALERT, ["Node deleted", "success"]);
     }
 
     context.commit(SET_INSPECTED_NODE, null);

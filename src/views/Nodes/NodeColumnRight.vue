@@ -76,8 +76,12 @@ export default {
       }
     },
     cancel() {
-      this.editing = false;
-      this.node = { ...this.inspected_node }
+      if(this.node.id == "") {
+        this.remove();
+      } else {
+        this.editing = false;
+        this.node = { ...this.inspected_node }
+      }
     }
   },
   computed: {
@@ -88,7 +92,11 @@ export default {
       immediate: true,
       handler() {
         this.node = { ...this.inspected_node };
-        this.editing = false;
+        if(this.node.id == "") {
+          this.editing = true;
+        } else {
+          this.editing = false;
+        }
       }
     }
   }

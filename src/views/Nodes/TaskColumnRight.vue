@@ -201,8 +201,12 @@ export default {
       }
     },
     cancel() {
-      this.editing = false;
-      this.task = { ...this.inspected_node }; 
+      if(this.task.id == "") {
+        this.remove();
+      } else {
+        this.editing = false;
+        this.task = { ...this.inspected_node }; 
+      }
     }
   },
   computed: {
@@ -219,7 +223,11 @@ export default {
       immediate: true,
       handler() {
         this.task = { ...this.inspected_node };
-        this.editing = false;
+        if(this.task.id == "") {
+          this.editing = true;
+        } else {
+          this.editing = false;
+        }
       }
     }
   }
