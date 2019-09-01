@@ -1,4 +1,5 @@
 import ApiService from "@/common/api.service";
+import { NodeHelpers } from "@/common/helpers";
 
 import {
   FETCH_NODE,
@@ -58,18 +59,20 @@ const getters = {
     return state.inspected_node;
   },
   child_nodes(state) {
-    return state.children.filter(c => c.type == "node" || c.category_id == null);
+    return state.children.filter(c => NodeHelpers.isNode(c));
   },
   child_tasks(state) {
-    return state.children.filter(c => c.type == "task" || (c.category_id != "" && c.category_id != null));
+    return state.children.filter(c => NodeHelpers.isTask(c));
   }
 }
 
 const actions = {
-  async [FETCH_NODE]({commit, dispatch}, node_id) {
+  async [FETCH_NODE]({commit, dispatch, state}, node_id) {
     const { data } = await ApiService.get("nodes", node_id);
-    dispatch(FETCH_CATEGORIES, data.id); // TODO: don't always fetch these
-    dispatch(FETCH_STATUSES, data.id); // TODO: don't always fetch these
+    if(!NodeHelpers.areParentAndChild(data, state.node)) {
+      dispatch(FETCH_CATEGORIES, data.id);
+      dispatch(FETCH_STATUSES, data.id);
+    }
     commit(SET_ACTIVE_NODE, data);
   },
   async [CREATE_NODE](context, params) {
@@ -78,9 +81,9 @@ const actions = {
     context.commit(ADD_NODE, data);
     context.dispatch(FETCH_FAVORITES);
 
-    if (data.ancestry == null) {
+    if (NodeHelpers.isProject(data)) {
       context.dispatch(CREATE_ALERT, ["Project created", "success"]);
-    } else if (data.category_id != null && data.category_id != "") { // TODO: remove one of these checks
+    } else if (NodeHelpers.isTask(data)) { // TODO: remove one of these checks
       context.dispatch(CREATE_ALERT, ["Task added", "success"]);
     } else {
       context.dispatch(CREATE_ALERT, ["Node added", "success"]);
@@ -92,11 +95,19 @@ const actions = {
     context.dispatch(CREATE_ALERT, ["Node updated", "success"]);
   },
   async [DESTROY_NODE](context, node) {
-    await ApiService.delete("nodes", node.id); // remove from server
-    context.commit(REMOVE_NODE, node.id); // remove locally
-    context.dispatch(FETCH_FAVORITES); // check if favorites changed
-    context.dispatch(CREATE_ALERT, ["Node deleted", "success"]); // TODO: sya if it is a node/task/project
-    context.commit(SET_INSPECTED_NODE, null); // set a new inspected node
+    await ApiService.delete("nodes", node.id);
+    context.commit(REMOVE_NODE, node.id);
+    context.dispatch(FETCH_FAVORITES);
+
+    if (NodeHelpers.isProject(node)) {
+      context.dispatch(CREATE_ALERT, ["Project deleted", "success"]);
+    } else if (NodeHelpers.isTask(node)) { // TODO: remove one of these checks
+      context.dispatch(CREATE_ALERT, ["Task deleted", "success"]);
+    } else {
+      context.dispatch(CREATE_ALERT, ["Node deleted", "success"]);
+    }
+
+    context.commit(SET_INSPECTED_NODE, null);
   },
   [CHANGE_INSPECTED_NODE](context, node) {
     if(node && node.id) {
@@ -118,11 +129,11 @@ const mutations = {
     state.inspected_node = state.node;
   },
   [SET_INSPECTED_NODE](state, node) { // select the provided one or the first
-    state.inspected_node = JSON.parse(JSON.stringify(node)) || state.children[state.children.length - 1];
+    state.inspected_node = { ...node } || state.children[state.children.length - 1];
   },
   [ADD_NODE](state, node) {
     if(!node) {
-      node = JSON.parse(JSON.stringify(state.new_node));
+      node = { ...state.new_node };
       node.ancestry = state.node.id;
     }
     state.children.push(node);
@@ -130,7 +141,7 @@ const mutations = {
   },
   [ADD_TASK_NODE](state, task) {
     if(!task) {
-      task = JSON.parse(JSON.stringify(state.new_task_node));
+      task = { ...state.new_task_node };
       task.ancestry = state.node.id;
       task.category_id = this.state.categories.categories[0].id;
       task.status_id = this.state.statuses.statuses[0].id;
