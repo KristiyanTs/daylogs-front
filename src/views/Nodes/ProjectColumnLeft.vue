@@ -29,12 +29,13 @@
 </template>
 
 <script>
-import ProjectMenu from "./Menu/ProjectMenu";
-import NodeRow from "../Row";
+import ProjectMenu from "./Projects/Menu/ProjectMenu";
+import NodeRow from "./Row";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { ADD_NODE, ADD_TASK_NODE, SET_INSPECTED_NODE } from "@/store/mutations.type";
+import { CREATE_ALERT, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
+import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
   components: {
@@ -51,7 +52,13 @@ export default {
       if (this.type == "nodes" && this.child_nodes.filter(n => n.id == "").length == 0) {
         store.commit(ADD_NODE, null);
       } else if(this.type == "tasks" && this.child_tasks.filter(t => t.id == "").length == 0) {
-        store.commit(ADD_TASK_NODE, null);
+        if(!this.categories.length) {
+          store.dispatch(CREATE_ALERT, ["To create a task, please first set up categories for your project by going to Project -> Menu -> Categories", "info"]);
+        } else if(!this.statuses.length) {
+          store.dispatch(CREATE_ALERT, ["To create a task, please first set up statuses for your project by going to Project -> Menu -> Statuses", "info"]);
+        } else {
+          store.commit(ADD_TASK_NODE, null);
+        }
       }
     },
     filter(type) {
@@ -61,20 +68,20 @@ export default {
       } else if (type == 0) {
         this.type = "nodes";
         if(this.child_nodes.length) {
-          store.commit(SET_INSPECTED_NODE, this.child_nodes[0]);
+          store.dispatch(CHANGE_INSPECTED_NODE, this.child_nodes[0]);
         }
         this.$router.push({ path: `/nodes/${this.rootId}` });
       } else if (type == 1) {
         this.type = "tasks";
         if(this.child_tasks.length) {
-          store.commit(SET_INSPECTED_NODE, this.child_tasks[0]);
+          store.dispatch(CHANGE_INSPECTED_NODE, this.child_tasks[0]);
         }
         this.$router.push({ path: `/nodes/${this.rootId}` });
       }
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "child_nodes", "child_tasks"]),
+    ...mapGetters(["current_node", "inspected_node", "child_nodes", "child_tasks", "categories", "statuses"]),
     rootId() {
       return this.$route.params.id;
     }

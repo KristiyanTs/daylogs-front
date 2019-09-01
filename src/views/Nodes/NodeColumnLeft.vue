@@ -9,7 +9,7 @@
           rounded
           depressed
           class="mr-2"
-          :to="`/nodes/${current_node.parent_id}`"
+          :to="`/nodes/${current_node.ancestry}`"
         >
           <font-awesome-icon
             icon="arrow-left"
@@ -62,7 +62,13 @@ export default {
       if (this.type == "nodes" && this.child_nodes.filter(n => n.id == "").length == 0) {
         store.commit(ADD_NODE, null);
       } else if(this.type == "tasks" && this.child_tasks.filter(t => t.id == "").length == 0) {
-        store.commit(ADD_TASK_NODE, null);
+        if(!this.categories.length) {
+          store.dispatch(CREATE_ALERT, ["To create a task, please first set up categories for your project by going to Project -> Menu -> Categories", "info"]);
+        } else if(!this.statuses.length) {
+          store.dispatch(CREATE_ALERT, ["To create a task, please first set up statuses for your project by going to Project -> Menu -> Statuses", "info"]);
+        } else {
+          store.commit(ADD_TASK_NODE, null);
+        }
       }
     },
     filter(type) {
@@ -74,7 +80,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "child_nodes", "child_tasks"]),
+    ...mapGetters(["current_node", "inspected_node", "child_nodes", "child_tasks", "statuses", "categories"]),
   }
 };
 </script>

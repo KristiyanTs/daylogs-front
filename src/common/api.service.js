@@ -67,21 +67,6 @@ export const UserService = {
   }
 }
 
-export const NodeService = {
-  get(node_id) {
-    return ApiService.get("nodes", node_id);
-  },
-  create(params) {
-    return ApiService.post("nodes", { node: params })
-  },
-  update(params) {
-    return ApiService.update("nodes", params.id, { node: params });
-  },
-  delete(node_id) {
-    return ApiService.delete("nodes", node_id);
-  }
-}
-
 export const CategoryService = {
   all(node_id) {
     return ApiService.query(`/nodes/${node_id}/categories`);

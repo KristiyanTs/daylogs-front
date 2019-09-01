@@ -40,8 +40,8 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { DESTROY_NODE } from "@/store/actions.type";
-import { ADD_NODE, ADD_TASK_NODE, SET_INSPECTED_NODE } from "@/store/mutations.type";
+import { DESTROY_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
+import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
   name: "NodeRow",
@@ -59,7 +59,7 @@ export default {
       this.$router.push({ path: `/nodes/${this.node.id}` });
     },
     inspectNode() {
-      store.commit(SET_INSPECTED_NODE, this.node);
+      store.dispatch(CHANGE_INSPECTED_NODE, this.node);
     },
     deleteNode() {
       store.dispatch(DESTROY_NODE, this.node);

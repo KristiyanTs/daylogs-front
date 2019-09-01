@@ -1,7 +1,7 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <ProjectColumnLeft v-if="!current_node.root_id" />
+      <ProjectColumnLeft v-if="!current_node.ancestry" />
       <NodeColumnLeft v-else />
     </template>
     <template v-slot:right>
@@ -14,11 +14,11 @@
 
 <script>
 import Screen from "@/components/Screen";
-import ProjectColumnLeft from "./Projects/ProjectColumnLeft";
-import ProjectColumnRight from "./Projects/ProjectColumnRight";
+import ProjectColumnLeft from "./ProjectColumnLeft";
+import ProjectColumnRight from "./ProjectColumnRight";
 import NodeColumnLeft from "./NodeColumnLeft";
-import NodeColumnRight from "./Nodes/NodeColumnRight";
-import TaskColumnRight from "./Tasks/TaskColumnRight";
+import NodeColumnRight from "./NodeColumnRight";
+import TaskColumnRight from "./TaskColumnRight";
 
 import { mapGetters } from "vuex";
 import store from "@/store";

@@ -20,14 +20,15 @@ const getters = {
 
 const actions = {
   [CREATE_ALERT](context, [message, status]) {
-    if(context.state.alerts.findIndex(a => a[0] == message && a[1] == status) != -1) {
-      return; // prevent adding the same status multiple times
+    let idx = context.state.alerts.findIndex(a => a[0] == message && a[1] == status);
+
+    if(idx == -1) { // prevent adding the same status multiple times
+      context.commit(ADD_ALERT, [message, status]);
+      setTimeout(
+        () => context.commit(REMOVE_ALERT, message),
+        700 + message.length * 75
+      );
     }
-    context.commit(ADD_ALERT, [message, status]);
-    setTimeout(
-      () => context.commit(REMOVE_ALERT, message),
-      700 + message.length * 75
-    );
   },
   [DESTROY_ALERT](context, message) {
     context.commit(REMOVE_ALERT, message);
@@ -36,9 +37,7 @@ const actions = {
 
 const mutations = {
   [ADD_ALERT](state, alert) {
-    let alerts = state.alerts;
-    alerts.push(alert);
-    state.alerts = alerts;
+    state.alerts.push(alert);
   },
   [REMOVE_ALERT](state, message) {
     state.alerts = state.alerts.filter(([msg, _status]) => msg != message);

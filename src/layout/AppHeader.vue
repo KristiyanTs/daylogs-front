@@ -2,7 +2,7 @@
   <v-app-bar app clipped-left elevation="0">
     <v-app-bar-nav-icon @click="toggleSidebar"></v-app-bar-nav-icon>
     <span class="title ml-3 mr-5 white--grey">
-      <span class="font-weight-light">Day</span>Logs
+      <span class="font-weight-light">Work</span>Tree
     </span>
     <v-text-field
       solo-inverted

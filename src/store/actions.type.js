@@ -16,6 +16,7 @@ export const FETCH_NODE = "fetchNode";
 export const CREATE_NODE = "createNode";
 export const UPDATE_NODE = "updateNode";
 export const DESTROY_NODE = "destroyNode";
+export const CHANGE_INSPECTED_NODE = "changeInspectedNode";
 
 export const FETCH_CATEGORIES = "fetchCategories";
 export const CREATE_CATEGORY = "createCategory";
@@ -36,3 +37,8 @@ export const FETCH_INVITATIONS = "fetchInvitations";
 export const CREATE_INVITATION = "createInvitation";
 export const UPDATE_INVITATION = "updateInvitation"
 export const DESTROY_INVITATION = "destroyInvitation";
+
+export const FETCH_COMMENTS = "fetchInvitations";
+export const CREATE_COMMENT = "createComment";
+export const UPDATE_COMMENT = "updateComment"
+export const DESTROY_COMMENT = "destroyComment";

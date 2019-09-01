@@ -46,8 +46,7 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
-import { SET_INSPECTED_NODE } from "@/store/mutations.type";
+import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
 import FavoriteButton from "@/components/FavoriteButton.vue";
 
 export default {
@@ -61,7 +60,7 @@ export default {
     edit() {
       let node = this.inspected_node;
       node.editing = true;
-      store.commit(SET_INSPECTED_NODE, node);
+      store.dispatch(CHANGE_INSPECTED_NODE, node);
     },
     remove() {
       store.dispatch(DESTROY_NODE, this.inspected_node);

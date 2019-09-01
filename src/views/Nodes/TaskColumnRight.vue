@@ -89,7 +89,9 @@
   </v-container>
   <v-container class="px-0 py-0" v-else>
     <v-toolbar flat dense>
-      <v-toolbar-title>{{ inspected_node.title }}</v-toolbar-title>
+      <v-toolbar-title>
+        {{ inspected_node.title }}
+      </v-toolbar-title>
       <v-spacer />
       <FavoriteButton />
       <v-btn @click="edit" fab depressed small class="mr-2">
@@ -113,39 +115,64 @@
         Updated {{ moment(inspected_node.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
+    <v-row v-if="inspected_node.created_at">
+      <v-col>
+        Category 
+        <v-chip pill small>
+          <v-avatar
+            left
+            :color="category.color"
+          >
+            <font-awesome-icon
+              :icon="category.icon"
+              :color="category.icon_color"
+            />
+          </v-avatar>
+          {{ category.title }}
+        </v-chip>
+      </v-col>
+      <v-col>
+        Status 
+        <v-chip pill small>
+          <v-avatar
+            left
+            :color="status.color"
+          />
+          {{ status.title }}
+        </v-chip>
+      </v-col>
+    </v-row>
     <v-divider v-if="inspected_node.created_at" />
     <v-row v-on:dblclick="edit">
       <v-col>
         <div v-html="inspected_node.description" class="preview"></div>
       </v-col>
     </v-row>
+    <v-divider />
+    <Comments />
   </v-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE } from "@/store/actions.type";
-import { SET_INSPECTED_NODE } from "@/store/mutations.type";
+import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
 import { VueEditor, Quill } from "vue2-editor";
 import FavoriteButton from "@/components/FavoriteButton.vue";
+import Comments from "@/views/Comments/Wrapper";
 
 export default {
   components: {
     VueEditor,
     Quill,
-    FavoriteButton
+    FavoriteButton,
+    Comments
   },
   data() {
     return { 
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
         ["bold", "italic", "underline", "strike"],
-        [
-          { align: "" },
-          { align: "center" },
-          { align: "right" },
-        ],
         ["blockquote", "code-block"],
         [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
         [{ indent: "-1" }, { indent: "+1" }],
@@ -159,7 +186,7 @@ export default {
     edit() {
       let node = this.inspected_node;
       node.editing = true;
-      store.commit(SET_INSPECTED_NODE, node);
+      store.dispatch(CHANGE_INSPECTED_NODE, node);
     },
     remove() {
       store.dispatch(DESTROY_NODE, this.inspected_node);
@@ -174,7 +201,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "categories", "statuses"])
+    ...mapGetters(["current_node", "inspected_node", "categories", "statuses"]),
+    category() {
+      return this.categories.find(c => c.id == this.inspected_node.category_id);
+    },
+    status() {
+      return this.statuses.find(s => s.id == this.inspected_node.status_id);
+    }
   }
 };
 </script>
@@ -187,4 +220,8 @@ export default {
 .quillWrapper #quill-container
   .ql-tooltip
     left: 0px !important
+.v-chip--pill.v-size--small .v-avatar
+  height: 24px !important
+  width: 24px !important
+
 </style>
