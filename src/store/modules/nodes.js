@@ -73,6 +73,7 @@ const actions = {
       dispatch(FETCH_CATEGORIES, data.id);
       dispatch(FETCH_STATUSES, data.id);
     }
+    dispatch(FETCH_COMMENTS, data.id);
     commit(SET_ACTIVE_NODE, data);
   },
   async [CREATE_NODE](context, params) {

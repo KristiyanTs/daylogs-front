@@ -60,7 +60,6 @@ export default {
       this.window.height = window.innerHeight - 62;
     },
     layoutUpdatedEvent(new_layout) {
-      console.log(new_layout);
       store.commit(SET_LAYOUT, JSON.parse(JSON.stringify(new_layout)));
     }
   },

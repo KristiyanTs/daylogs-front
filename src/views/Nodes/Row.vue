@@ -4,9 +4,9 @@
       <font-awesome-icon
         icon="code-branch"
         class="grey--text"
-        v-if="node.category_id == null || node.category_id == ''"
+        v-if="!isTask(node)"
       />
-      <v-btn fab v-else :color="category.color" depressed small>
+      <v-btn fab v-else-if="category" :color="category.color" depressed small>
         <font-awesome-icon
           :icon="category.icon"
           :color="category.icon_color"
@@ -40,11 +40,13 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
+import { NodeTypeCheck } from "./node.mixins";
 import { DESTROY_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
 import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
   name: "NodeRow",
+  mixins: [NodeTypeCheck],
   props: {
     node: {
       type: Object,

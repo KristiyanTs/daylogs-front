@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      comment: {},
+      comment: {user: {}},
       editing: false,
       show_replies: false,
       customToolbar: [
