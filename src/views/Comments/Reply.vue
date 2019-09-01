@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      reply: {},
+      reply: {user: {}},
       editing: false,
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],

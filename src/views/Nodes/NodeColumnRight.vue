@@ -1,22 +1,23 @@
 <template>
-  <v-container class="px-0 py-0" v-if="inspected_node.editing">
+  <v-container class="px-0 py-0" v-if="editing">
     <v-toolbar flat dense>
       <v-toolbar-title>
       </v-toolbar-title>
       <v-spacer />
+      <v-btn @click="cancel" color="grey" text class="mr-2"> Cancel </v-btn>
       <v-btn @click="save" color="success"> Save </v-btn>
     </v-toolbar>
     <v-container>
       <v-row dense>
         <v-col>
-          <v-text-field v-model="inspected_node.title" label="Title" />
+          <v-text-field v-model="node.title" label="Title" />
         </v-col>
       </v-row>
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
     <v-toolbar flat dense>
-      <v-toolbar-title>{{ inspected_node.title }}</v-toolbar-title>
+      <v-toolbar-title>{{ node.title }}</v-toolbar-title>
       <v-spacer />
       <FavoriteButton />
       <v-btn @click="edit" fab depressed small class="mr-2">
@@ -32,12 +33,12 @@
         />
       </v-btn>
     </v-toolbar>
-    <v-row v-if="inspected_node.created_at">
+    <v-row v-if="node.created_at">
       <v-col>
-        Created {{ moment(inspected_node.created_at).format("M/D/YY, H:mm") }}
+        Created {{ moment(node.created_at).format("M/D/YY, H:mm") }}
       </v-col>
       <v-col>
-        Updated {{ moment(inspected_node.updated_at).format("M/D/YY, H:mm") }}
+        Updated {{ moment(node.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
   </v-container>
@@ -54,28 +55,42 @@ export default {
     FavoriteButton
   },
   data() {
-    return { };
+    return { 
+      node: {},
+      editing: false
+    };
   },
   methods: {
     edit() {
-      let node = this.inspected_node;
-      node.editing = true;
-      store.dispatch(CHANGE_INSPECTED_NODE, node);
+      this.editing = true;
     },
     remove() {
-      store.dispatch(DESTROY_NODE, this.inspected_node);
+      store.dispatch(DESTROY_NODE, this.node);
     },
     save() {
-      this.inspected_node.editing = false;
-      if(this.inspected_node.id == "" || this.inspected_node.id == null) {
-        store.dispatch(CREATE_NODE, this.inspected_node);
+      this.editing = false;
+      if(this.node.id == "" || this.node.id == null) {
+        store.dispatch(CREATE_NODE, this.node);
       } else { // it has an id => it exists => update
-        store.dispatch(UPDATE_NODE, this.inspected_node);
+        store.dispatch(UPDATE_NODE, this.node);
       }
+    },
+    cancel() {
+      this.editing = false;
+      this.node = { ...this.inspected_node }
     }
   },
   computed: {
     ...mapGetters(["current_node", "inspected_node"])
+  },
+  watch: {
+    inspected_node: {
+      immediate: true,
+      handler() {
+        this.node = { ...this.inspected_node };
+        this.editing = false;
+      }
+    }
   }
 };
 </script>

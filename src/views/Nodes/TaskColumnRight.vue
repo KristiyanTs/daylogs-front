@@ -1,21 +1,22 @@
 <template>
-  <v-container class="px-0 py-0" v-if="inspected_node.editing">
+  <v-container class="px-0 py-0" v-if="editing">
     <v-toolbar flat dense>
       <v-toolbar-title>
       </v-toolbar-title>
       <v-spacer />
+      <v-btn @click="cancel" color="grey" text class="mr-2"> Cancel </v-btn>
       <v-btn @click="save" color="success"> Save </v-btn>
     </v-toolbar>
     <v-container>
       <v-row dense>
         <v-col>
-          <v-text-field v-model="inspected_node.title" label="Title" />
+          <v-text-field v-model="task.title" label="Title" />
         </v-col>
       </v-row>
       <v-row dense>
         <v-col>
           <v-select
-            v-model="inspected_node.category_id"
+            v-model="task.category_id"
             :items="categories"
             label="Type"
             chips
@@ -54,7 +55,7 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="inspected_node.status_id"
+            v-model="task.status_id"
             :items="statuses"
             label="Status"
             chips
@@ -83,14 +84,14 @@
         </v-col>
       </v-row>
       <v-row>
-        <vue-editor v-model="inspected_node.description" :editor-toolbar="customToolbar" />
+        <vue-editor v-model="task.description" :editor-toolbar="customToolbar" />
       </v-row>
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
     <v-toolbar flat dense>
       <v-toolbar-title>
-        {{ inspected_node.title }}
+        {{ task.title }}
       </v-toolbar-title>
       <v-spacer />
       <FavoriteButton />
@@ -107,15 +108,15 @@
         />
       </v-btn>
     </v-toolbar>
-    <v-row v-if="inspected_node.created_at">
+    <v-row v-if="task.created_at">
       <v-col>
-        Created {{ moment(inspected_node.created_at).format("M/D/YY, H:mm") }}
+        Created {{ moment(task.created_at).format("M/D/YY, H:mm") }}
       </v-col>
       <v-col>
-        Updated {{ moment(inspected_node.updated_at).format("M/D/YY, H:mm") }}
+        Updated {{ moment(task.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
-    <v-row v-if="inspected_node.created_at">
+    <v-row v-if="task.created_at">
       <v-col>
         Category 
         <v-chip pill small>
@@ -142,10 +143,10 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-divider v-if="inspected_node.created_at" />
+    <v-divider v-if="task.created_at" />
     <v-row v-on:dblclick="edit">
       <v-col>
-        <div v-html="inspected_node.description" class="preview"></div>
+        <div v-html="task.description" class="preview"></div>
       </v-col>
     </v-row>
     <v-divider />
@@ -169,7 +170,9 @@ export default {
     Comments
   },
   data() {
-    return { 
+    return {
+      task: {},
+      editing: false,
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
         ["bold", "italic", "underline", "strike"],
@@ -184,29 +187,40 @@ export default {
   },
   methods: {
     edit() {
-      let node = this.inspected_node;
-      node.editing = true;
-      store.dispatch(CHANGE_INSPECTED_NODE, node);
+      this.editing = true;
     },
     remove() {
-      store.dispatch(DESTROY_NODE, this.inspected_node);
+      store.dispatch(DESTROY_NODE, this.task);
     },
     save() {
-      this.inspected_node.editing = false;
-      if(this.inspected_node.id == "" || this.inspected_node.id == null) { // it has an id => it exists => update
-        store.dispatch(CREATE_NODE, this.inspected_node);
+      this.editing = false;
+      if(this.task.id == "" || this.task.id == null) { // it has an id => it exists => update
+        store.dispatch(CREATE_NODE, this.task);
       } else {
-        store.dispatch(UPDATE_NODE, this.inspected_node);
+        store.dispatch(UPDATE_NODE, this.task);
       }
+    },
+    cancel() {
+      this.editing = false;
+      this.task = { ...this.inspected_node }; 
     }
   },
   computed: {
     ...mapGetters(["current_node", "inspected_node", "categories", "statuses"]),
     category() {
-      return this.categories.find(c => c.id == this.inspected_node.category_id);
+      return this.categories.find(c => c.id == this.task.category_id);
     },
     status() {
-      return this.statuses.find(s => s.id == this.inspected_node.status_id);
+      return this.statuses.find(s => s.id == this.task.status_id);
+    }
+  },
+  watch: {
+    inspected_node: {
+      immediate: true,
+      handler() {
+        this.task = { ...this.inspected_node };
+        this.editing = false;
+      }
     }
   }
 };
