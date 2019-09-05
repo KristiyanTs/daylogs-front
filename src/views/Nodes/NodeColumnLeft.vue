@@ -1,8 +1,5 @@
 <template>
   <v-container class="px-0 py-0">
-    <NodeRow
-      :node="current_node"
-    />
     <v-toolbar flat dense>
       <v-toolbar-title>
         <v-btn
@@ -19,21 +16,40 @@
           Back
         </v-btn>
       </v-toolbar-title>
+    </v-toolbar>
+    <NodeRow
+      :node="current_node"
+    />
+    <v-toolbar flat dense>
+      <v-toolbar-title>
+        Folders
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-tabs @change="filter">
-          <v-tab>Nodes ({{ child_nodes.length }})</v-tab>
-          <v-tab>Tasks ({{ child_tasks.length }})</v-tab>
-        </v-tabs>
-      </v-toolbar-items>
-      <v-btn icon @click="addInstance">
+      <v-btn icon @click="addNode">
         <font-awesome-icon icon="plus" color="grey" />
       </v-btn>
     </v-toolbar>
     <v-list two-line subheader>
       <v-divider />
       <NodeRow
-        v-for="child in (type == 'tasks' ? child_tasks : child_nodes)"
+        v-for="child in child_nodes"
+        :key="child.id"
+        :node="child"
+      />
+    </v-list>
+    <v-toolbar flat dense>
+      <v-toolbar-title>
+        Tasks
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="addTask">
+        <font-awesome-icon icon="plus" color="grey" />
+      </v-btn>
+    </v-toolbar>
+    <v-list two-line subheader>
+      <v-divider />
+      <NodeRow
+        v-for="child in child_tasks"
         :key="child.id"
         :node="child"
       />
@@ -46,6 +62,7 @@ import NodeRow from "./Row";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
+import { CREATE_ALERT } from "@/store/actions.type";
 import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
@@ -53,15 +70,18 @@ export default {
     NodeRow
   },
   data() {
-    return {
-      type: "nodes"
-    };
+    return { };
   },
   methods: {
-    addInstance() {
-      if (this.type == "nodes" && this.child_nodes.filter(n => n.id == "").length == 0) {
+    addNode() {
+      if (this.child_nodes.findIndex(n => n.id == "") != -1) {
         store.commit(ADD_NODE, null);
-      } else if(this.type == "tasks" && this.child_tasks.filter(t => t.id == "").length == 0) {
+      } else {
+        store.dispatch(CREATE_ALERT, ["Please, save unsaved tasks and folders first", "info"]);
+      }
+    },
+    addTask() {
+      if(this.child_tasks.findIndex(t => t.id == "") != -1) {
         if(!this.categories.length) {
           store.dispatch(CREATE_ALERT, ["To create a task, please first set up categories for your project by going to Project -> Menu -> Categories", "info"]);
         } else if(!this.statuses.length) {
@@ -69,13 +89,8 @@ export default {
         } else {
           store.commit(ADD_TASK_NODE, null);
         }
-      }
-    },
-    filter(type) {
-      if (type == 0) {
-        this.type = "nodes";
       } else {
-        this.type = "tasks";
+        store.dispatch(CREATE_ALERT, ["Please, save unsaved tasks and folders first", "info"]);
       }
     }
   },

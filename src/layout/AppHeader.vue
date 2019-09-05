@@ -16,13 +16,32 @@
     <v-btn fab dedpressed small :text="!resizable" color="primary" @click="toggleResizable">
       <font-awesome-icon icon="columns" />
     </v-btn>
+    <v-menu
+      transition="slide-y-transition"
+      bottom
+      offset-y
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn fab dedpressed small text color="primary" v-on="on">
+          <font-awesome-icon icon="user" />
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item to="/profile/general">
+          <v-list-item-title>Account</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="logOut">
+          <v-list-item-title>Log out</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_ALERT } from "@/store/actions.type";
+import { CREATE_ALERT, LOGOUT } from "@/store/actions.type";
 import { TOGGLE_RESIZABLE, TOGGLE_SIDEBAR } from "@/store/mutations.type";
 import Alerts from "./Alerts";
 
@@ -42,6 +61,9 @@ export default {
     },
     toggleSidebar() {
       store.commit(TOGGLE_SIDEBAR);
+    },
+    logOut() {
+      store.dispatch(LOGOUT).then(() => this.$router.push('/'));
     }
   },
   computed: {

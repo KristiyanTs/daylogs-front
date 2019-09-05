@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app" class="white">
+  <v-app id="app">
     <component :is="layout">
       <router-view />
     </component>

@@ -13,7 +13,7 @@
     @layout-updated="layoutUpdatedEvent"
   >
     <grid-item v-for="item in local_layout"
-      class="white"
+
       :x="item.x"
       :y="item.y"
       :w="item.w"
