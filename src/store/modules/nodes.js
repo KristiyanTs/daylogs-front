@@ -59,15 +59,16 @@ const getters = {
     return state.inspected_node;
   },
   child_nodes(state) {
-    return state.children.filter(c => NodeHelpers.isNode(c));
+    return state.children ? state.children.filter(c => NodeHelpers.isNode(c)) : [];
   },
   child_tasks(state) {
-    return state.children.filter(c => NodeHelpers.isTask(c));
+    return state.children ? state.children.filter(c => NodeHelpers.isTask(c)) : [];
   }
 }
 
 const actions = {
   async [FETCH_NODE]({commit, dispatch, state}, node_id) {
+    if(!node_id) return;
     const { data } = await ApiService.get("nodes", node_id);
     if(!NodeHelpers.areParentAndChild(data, state.node)) {
       dispatch(FETCH_CATEGORIES, data.id);
@@ -80,11 +81,8 @@ const actions = {
     const { data } = await ApiService.post("nodes", { node: params });
     context.commit(REMOVE_NODE, "");
     context.commit(ADD_NODE, data);
-    context.dispatch(FETCH_FAVORITES);
 
-    if (NodeHelpers.isProject(data)) {
-      context.dispatch(CREATE_ALERT, ["Project created", "success"]);
-    } else if (NodeHelpers.isTask(data)) {
+    if (NodeHelpers.isTask(data)) {
       context.dispatch(CREATE_ALERT, ["Task added", "success"]);
     } else {
       context.dispatch(CREATE_ALERT, ["Node added", "success"]);

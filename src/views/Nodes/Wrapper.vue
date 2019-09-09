@@ -1,8 +1,7 @@
 <template>
   <Screen>
     <template v-slot:left>
-      <ProjectColumnLeft v-if="isProject(current_node)" />
-      <NodeColumnLeft v-else />
+      <NodeColumnLeft/>
     </template>
     <template v-slot:right>
       <ProjectColumnRight v-if="isProject(inspected_node)" />
@@ -14,8 +13,7 @@
 
 <script>
 import { NodeTypeCheck } from "./node.mixins";
-import Screen from "@/components/Screen";
-import ProjectColumnLeft from "./ProjectColumnLeft";
+import Screen from "@/components/Screen2x1";
 import ProjectColumnRight from "./ProjectColumnRight";
 import NodeColumnLeft from "./NodeColumnLeft";
 import NodeColumnRight from "./NodeColumnRight";
@@ -30,7 +28,6 @@ export default {
   mixins: [NodeTypeCheck],
   components: {
     Screen,
-    ProjectColumnLeft,
     ProjectColumnRight,
     NodeColumnLeft,
     NodeColumnRight,

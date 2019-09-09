@@ -1,7 +1,8 @@
 <template>
   <div>
     <Header />
-    <Sidebar />
+    <SidebarLeft />
+    <SidebarRight />
     <v-content dark>
       <slot />
     </v-content>
@@ -10,12 +11,14 @@
 
 <script>
 import Header from "./AppHeader";
-import Sidebar from "./AppSidebar";
+import SidebarLeft from "./AppSidebarLeft";
+import SidebarRight from "./AppSidebarRight";
 
 export default {
   components: {
     Header,
-    Sidebar
+    SidebarLeft,
+    SidebarRight
   },
   data: () => ({ })
 };

@@ -17,7 +17,7 @@
       </v-btn>
     </v-toolbar>
     <ProjectMenu v-if="type == 'menu'" />
-    <v-list two-line subheader v-else>
+    <v-list subheader v-else>
       <v-divider />
       <NodeRow
         v-for="child in (type == 'tasks' ? child_tasks : child_nodes)"

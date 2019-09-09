@@ -45,7 +45,7 @@
   </Screen>
 </template>
 <script>
-import Screen from "@/components/Screen";
+import Screen from "@/components/Screen2x1";
 
 export default {
   components: {

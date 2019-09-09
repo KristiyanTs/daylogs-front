@@ -1,5 +1,5 @@
 <template>
-  <v-list-item color="primary" @click="inspectNode" v-on:dblclick="activateNode">
+  <v-list-item color="primary" @click="inspectNode" v-on:dblclick="activateNode" dense>
     <v-list-item-avatar>
       <font-awesome-icon
         icon="code-branch"
@@ -16,7 +16,7 @@
 
     <v-list-item-content>
       <v-list-item-title v-text="node.title" />
-      <v-list-item-subtitle v-if="status">
+      <v-list-item-subtitle v-if="isTask(node)">
         <v-chip pill x-small>
           <v-avatar
             left

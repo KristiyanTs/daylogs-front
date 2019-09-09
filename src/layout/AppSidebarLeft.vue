@@ -4,13 +4,23 @@
       <v-flex shrink>
         <v-divider dark class="my-0"></v-divider>
         <v-list dense shaped>
-          <v-list-item to="/calendar">
+          <v-list-item to="/project">
             <v-list-item-action>
-              <font-awesome-icon icon="tasks" class="grey--text" />
+              <font-awesome-icon icon="home" class="grey--text" />
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>
-                Today
+                Home
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item to="/settings/general">
+            <v-list-item-action>
+              <font-awesome-icon icon="cog" class="grey--text" />
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                Project Settings
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -45,38 +55,18 @@
         </v-list>
       </v-flex>
     </v-layout>
-    <NewProject
-      :open="projectDialog"
-      @closeDialog="closeProjectDialog"
-    />
   </v-navigation-drawer>
 </template>
 
 <script>
-import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 import { mapGetters } from "vuex";
-import { FETCH_FAVORITES } from "@/store/actions.type";
 
 export default {
-  components: {
-    NewProject
-  },
   data() {
-    return {
-      nodes: [],
-      projectDialog: false
-    };
-  },
-  mounted() {
-    this.$store.dispatch(FETCH_FAVORITES);
-  },
-  methods: {
-    closeProjectDialog() {
-      this.projectDialog = false;
-    }
+    return { };
   },
   computed: {
-    ...mapGetters(["current_user", "formatted_name", "favorites", "sidebar"]),
+    ...mapGetters(["favorites", "sidebar"]),
   }
 };
 </script>

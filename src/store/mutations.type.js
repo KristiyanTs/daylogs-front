@@ -4,6 +4,7 @@ export const SET_ERROR = "setError";
 export const SET_LAYOUT = "setLayout";
 export const TOGGLE_RESIZABLE = "toggleResizable";
 export const TOGGLE_SIDEBAR = "toggleSidebar";
+export const TOGGLE_SIDEBARRIGHT = "toggleSidebarRight";
 
 export const SET_AUTH = "setAuth";
 export const PURGE_AUTH = "purgeAuth";
@@ -11,6 +12,9 @@ export const PURGE_AUTH = "purgeAuth";
 export const SET_FAVORITES = "setFavorites";
 export const ADD_FAVORITE = "addFavorite";
 export const REMOVE_FAVORITE = "removeFavorite";
+
+export const SET_PROJECTS = "setProjects";
+export const SET_ACTIVE_PROJECT = "setActiveProject";
 
 export const SET_NODE = "setNode";
 export const SET_ACTIVE_NODE = "setActiveNode";

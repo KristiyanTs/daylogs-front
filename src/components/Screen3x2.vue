@@ -2,7 +2,8 @@
   <grid-layout
     :layout.sync="local_layout"
     :col-num="12"
-    :row-height="window.height"
+    :cols="{ lg: 12, md: 12, sm: 12, xs: 12, xxs: 12 }"
+    :row-height="window.height/5"
     :is-draggable="resizable"
     :is-resizable="resizable"
     :vertical-compact="true"
@@ -13,16 +14,17 @@
     @layout-updated="layoutUpdatedEvent"
   >
     <grid-item v-for="item in local_layout"
-
       :x="item.x"
       :y="item.y"
       :w="item.w"
       :h="item.h"
       :i="item.i"
-      :key="item.i">
-        <v-flex :class="`col-${item.i}`">
-          <slot :name="item.i" />
-        </v-flex>
+      :key="item.i"
+      class="px-1 py-1 column"
+    >
+      <v-flex :class="`box-${item.i}`">
+        <slot :name="`box-${item.i}`" />
+      </v-flex>
     </grid-item>
   </grid-layout>
 </template>
@@ -57,20 +59,20 @@ export default {
   methods: {
     handleResize() {
       this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight - 62;
+      this.window.height = window.innerHeight - 67;
     },
     layoutUpdatedEvent(new_layout) {
       store.commit(SET_LAYOUT, JSON.parse(JSON.stringify(new_layout)));
     }
   },
   computed: {
-    ...mapGetters(["layout", "resizable"])
+    ...mapGetters(["layout3x2", "resizable"])
   },
   watch:{
-    layout: {
+    layout3x2: {
       immediate: true,
       handler() {
-        this.local_layout = this.layout;
+        this.local_layout = JSON.parse(JSON.stringify(this.layout3x2));
       }
     }
   }
@@ -78,8 +80,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.col-left, .col-right
-  height: calc(100vh - 62px)
-  overflow: scroll
-  border-right: 1px solid rgba(0,0,0,.12)
+.column > div
+  height: 100%
 </style>

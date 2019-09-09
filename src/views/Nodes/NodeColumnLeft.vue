@@ -1,6 +1,6 @@
 <template>
   <v-container class="px-0 py-0">
-    <v-toolbar flat dense>
+    <v-toolbar flat dense v-if="current_node.ancestry">
       <v-toolbar-title>
         <v-btn
           rounded
@@ -20,16 +20,16 @@
     <NodeRow
       :node="current_node"
     />
-    <v-toolbar flat dense>
-      <v-toolbar-title>
-        Folders
+    <v-toolbar flat dense short>
+      <v-toolbar-title class="grey--text">
+        Topics
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="addNode">
         <font-awesome-icon icon="plus" color="grey" />
       </v-btn>
     </v-toolbar>
-    <v-list two-line subheader>
+    <v-list dense subheader>
       <v-divider />
       <NodeRow
         v-for="child in child_nodes"
@@ -37,8 +37,8 @@
         :node="child"
       />
     </v-list>
-    <v-toolbar flat dense>
-      <v-toolbar-title>
+    <v-toolbar flat dense short>
+      <v-toolbar-title class="grey--text">
         Tasks
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -46,7 +46,7 @@
         <font-awesome-icon icon="plus" color="grey" />
       </v-btn>
     </v-toolbar>
-    <v-list two-line subheader>
+    <v-list dense subheader>
       <v-divider />
       <NodeRow
         v-for="child in child_tasks"
@@ -74,14 +74,14 @@ export default {
   },
   methods: {
     addNode() {
-      if (this.child_nodes.findIndex(n => n.id == "") != -1) {
+      if (this.child_nodes.findIndex(n => n.id == "") == -1) {
         store.commit(ADD_NODE, null);
       } else {
         store.dispatch(CREATE_ALERT, ["Please, save unsaved tasks and folders first", "info"]);
       }
     },
     addTask() {
-      if(this.child_tasks.findIndex(t => t.id == "") != -1) {
+      if(this.child_tasks.findIndex(t => t.id == "") == -1) {
         if(!this.categories.length) {
           store.dispatch(CREATE_ALERT, ["To create a task, please first set up categories for your project by going to Project -> Menu -> Categories", "info"]);
         } else if(!this.statuses.length) {

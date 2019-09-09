@@ -12,6 +12,10 @@ export const FETCH_FAVORITES = "fetchFavorites";
 export const CREATE_FAVORITE = "createFavorite";
 export const DESTROY_FAVORITE = "destroyFavorite";
 
+export const FETCH_PROJECTS = "fetchProjects";
+export const SWITCH_PROJECT = "switchProject";
+export const CREATE_PROJECT = "createProject";
+
 export const FETCH_NODE = "fetchNode";
 export const CREATE_NODE = "createNode";
 export const UPDATE_NODE = "updateNode";
@@ -43,3 +47,6 @@ export const FETCH_REPLIES = "fetchReplies";
 export const CREATE_COMMENT = "createComment";
 export const UPDATE_COMMENT = "updateComment"
 export const DESTROY_COMMENT = "destroyComment";
+
+export const TOGGLE_NOTIFICATIONS = "toggleNotifications";
+

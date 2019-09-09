@@ -17,7 +17,7 @@ const ApiService = {
   },
 
   query(resource, params) {
-    return Vue.axios.get(resource, params).catch(error => {
+    return Vue.axios.get(resource, { params: params }).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
     });
   },
@@ -41,7 +41,7 @@ const ApiService = {
   },
 
   delete(resource, slug) {
-    return Vue.axios.delete(`${resource}/${slug}`).catch(error => {
+    return Vue.axios.delete(`${resource}/${slug ? slug : ""}`).catch(error => {
       throw new Error(`[RWV] ApiService ${error}`);
     });
   }
@@ -50,8 +50,8 @@ const ApiService = {
 export default ApiService;
 
 export const FavoriteService = {
-  all() {
-    return ApiService.get("favorites");
+  all(project) {
+    return ApiService.query("favorites", { root_id: project.id });
   },
   create(params) {
     return ApiService.post("favorites", { favorite: params });

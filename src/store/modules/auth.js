@@ -65,7 +65,7 @@ const actions = {
           context.commit(PURGE_AUTH);
           resolve();
         })
-        .catch(response => { //probably not working
+        .catch(response => {
           context.commit(SET_ERROR, response.data.errors);
         });
     });
@@ -78,7 +78,7 @@ const actions = {
           context.commit(SET_AUTH, [response.config.headers.Authorization, response.data]);
         })
         .catch(response => {
-          context.commit(SET_ERROR, response.data.errors); //probably not working
+          context.commit(SET_ERROR, response.data.errors);
         });
     } else {
       context.commit(PURGE_AUTH);

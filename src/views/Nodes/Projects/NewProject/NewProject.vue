@@ -20,7 +20,7 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE } from "@/store/actions.type";
+import { CREATE_PROJECT } from "@/store/actions.type";
 
 export default {
   props: {
@@ -47,7 +47,7 @@ export default {
       this.$emit("closeDialog");
     },
     submitProject() {
-      store.dispatch(CREATE_NODE, this.project).then(() => {
+      store.dispatch(CREATE_PROJECT, this.project).then(() => {
         this.closeDialog();
         this.$router.push(`/nodes/${this.inspected_node.id}`)
       })

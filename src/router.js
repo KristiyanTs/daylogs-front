@@ -69,7 +69,19 @@ let router = new Router({
       path: "/nodes/:id?",
       name: "Nodes",
       meta: { requiresAuth: true },
-      component: () => import("@/views/Nodes/Wrapper"),
+      component: () => import("@/views/Nodes/Wrapper")
+    },
+    {
+      path: "/project",
+      name: "ProjectHome",
+      meta: { requiresAuth: true },
+      component: () => import("@/views/Nodes/Projects/Home")
+    },
+    {
+      path: "/settings",
+      name: "ProjectSettings",
+      meta: { requiresAuth: true },
+      component: () => import("@/views/Nodes/Projects/Settings"),
       children: [
         {
           path: "general",

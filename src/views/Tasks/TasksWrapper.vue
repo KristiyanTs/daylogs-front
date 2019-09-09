@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Screen from "@/views/components/Screen";
+import Screen from "@/views/components/Screen2x1";
 
 export default {
   components: {
