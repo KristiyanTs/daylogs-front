@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-0 py-0">
+  <v-container class="px-0 py-0 white">
     <v-toolbar flat dense v-if="current_node.ancestry">
       <v-toolbar-title>
         <v-btn
@@ -17,19 +17,19 @@
         </v-btn>
       </v-toolbar-title>
     </v-toolbar>
-    <NodeRow
-      :node="current_node"
-    />
-    <v-toolbar flat dense short>
-      <v-toolbar-title class="grey--text">
-        Topics
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon @click="addNode">
-        <font-awesome-icon icon="plus" color="grey" />
-      </v-btn>
-    </v-toolbar>
     <v-list dense subheader>
+      <NodeRow
+        :node="current_node"
+      />
+    </v-list>
+    <v-list dense subheader>
+      <v-subheader>
+        Topics
+        <v-spacer></v-spacer>
+        <v-btn icon @click="addNode">
+          <font-awesome-icon icon="plus" color="grey" />
+        </v-btn>
+      </v-subheader>
       <v-divider />
       <NodeRow
         v-for="child in child_nodes"
@@ -37,16 +37,14 @@
         :node="child"
       />
     </v-list>
-    <v-toolbar flat dense short>
-      <v-toolbar-title class="grey--text">
-        Tasks
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon @click="addTask">
-        <font-awesome-icon icon="plus" color="grey" />
-      </v-btn>
-    </v-toolbar>
     <v-list dense subheader>
+      <v-subheader>
+        Tasks
+        <v-spacer></v-spacer>
+        <v-btn icon @click="addTask">
+          <font-awesome-icon icon="plus" color="grey" />
+        </v-btn>
+      </v-subheader>
       <v-divider />
       <NodeRow
         v-for="child in child_tasks"

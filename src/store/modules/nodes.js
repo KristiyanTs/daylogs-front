@@ -116,8 +116,6 @@ const actions = {
     } else {
       dispatch(CREATE_ALERT, ["Node deleted", "success"]);
     }
-
-    context.commit(SET_INSPECTED_NODE, null);
   },
   [CHANGE_INSPECTED_NODE](context, node) {
     if(node && node.id) {

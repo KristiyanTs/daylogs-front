@@ -79,6 +79,7 @@ export default {
 
 <style scoped lang="sass">
 .col-left, .col-right
+  background: white
   height: calc(100vh - 62px)
   overflow: scroll
   border-right: 1px solid rgba(0,0,0,.12)

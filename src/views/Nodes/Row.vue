@@ -6,10 +6,11 @@
         class="grey--text"
         v-if="!isTask(node)"
       />
-      <v-btn fab v-else-if="category" :color="category.color" depressed small>
+      <v-btn fab v-else-if="category" :color="category.color" depressed x-small>
         <font-awesome-icon
           :icon="category.icon"
           :color="category.icon_color"
+          size="lg"
         />
       </v-btn>
     </v-list-item-avatar>

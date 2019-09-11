@@ -7,7 +7,7 @@
         <font-awesome-icon icon="plus" />
       </v-btn>
     </v-toolbar>
-    <v-list two-line v-if="categories.length">
+    <v-list two-line v-if="categories.length" subheader dense>
       <v-list-item v-for="(item, idx) in categories" :key="idx">
         <v-list-item-avatar>
           <ColorIconPicker

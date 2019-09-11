@@ -1,33 +1,38 @@
 <template>
   <Screen>
     <template v-slot:box-1>
-      <v-card
-        elevation="1"
-      >
-        <div class="caption px-2 py-2">New</div>
+      <v-card flat>
+        <v-list dense subheader>
+          <v-subheader>
+            New
+          </v-subheader>
+        </v-list>
       </v-card>
     </template>
     <template v-slot:box-2>
-      <v-card
-        elevation="1"
-      >
-        <div class="caption px-2 py-2">Updated</div>
+      <v-card flat>
+        <v-list dense subheader>
+          <v-subheader>
+            Updated
+          </v-subheader>
+        </v-list>
       </v-card>
     </template>
     <template v-slot:box-3>
-      <v-card
-        elevation="1"
-      >
-        <div class="caption px-2 py-2">Following</div>
+      <v-card flat>
+        <v-list dense subheader>
+          <v-subheader>
+            Following
+          </v-subheader>
+        </v-list>
       </v-card>
     </template>
     <template v-slot:box-4>
-      <v-card
-        elevation="1"
-      >
-        <div class="caption px-2 py-2">Top level topics</div>
+      <v-card flat>
         <v-list dense subheader>
-          <v-divider />
+          <v-subheader>
+            Top level topics
+          </v-subheader>
           <NodeRow
             v-for="child in child_nodes"
             :key="child.id"
@@ -37,17 +42,21 @@
       </v-card>
     </template>
     <template v-slot:box-5>
-      <v-card
-        elevation="1"
-      >
-        <div class="caption px-2 py-2">Assigned to me</div>
+      <v-card flat>
+        <v-list dense subheader>
+          <v-subheader>
+            Assigned to me
+          </v-subheader>
+        </v-list>
       </v-card>
     </template>
     <template v-slot:box-6>
-      <v-card
-        elevation="1"
-      >
-        <div class="caption px-2 py-2">Team status</div>
+      <v-card flat>
+        <v-list dense subheader>
+          <v-subheader>
+            Team status
+          </v-subheader>
+        </v-list>
       </v-card>
     </template>
   </Screen>

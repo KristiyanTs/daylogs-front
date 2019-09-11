@@ -6,8 +6,8 @@
     offset-x
   >
     <template v-slot:activator="{ on }">
-      <v-btn small depressed fab :color="color" v-on="on">
-        <font-awesome-icon :icon="icon" :color="icon_color" />
+      <v-btn x-small depressed fab :color="color" v-on="on">
+        <font-awesome-icon :icon="icon" :color="icon_color" size="lg" />
       </v-btn>
     </template>
 
