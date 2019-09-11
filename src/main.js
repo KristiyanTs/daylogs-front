@@ -5,8 +5,7 @@ import store from "./store";
 import ApiService from "./common/api.service";
 import { CHECK_AUTH } from "@/store/actions.type";
 
-import Vuetify from "vuetify";
-import "vuetify/dist/vuetify.min.css";
+import vuetify from './plugins/vuetify';
 
 import Default from "@/layout/Default";
 import NoSidebar from "@/layout/NoSidebar";
@@ -21,7 +20,6 @@ import { faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faListUl, 
 import { faClipboard, faImage } from "@fortawesome/free-regular-svg-icons";
 library.add({faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faListUl, faListOl, faQuoteRight, faCode, faChevronLeft, faChevronRight, faAngleDoubleLeft, faAngleDoubleRight, faPlus, faCheck, faRedo, faTrashAlt, faSave, faSpinner, faUser, faEdit, faClipboard, faPlay, faPause, faLock, faEllipsisV, faAt, faKey, faSignOutAlt, faImage, faTimes, faGripVertical, faStickyNote, faPencilAlt, faCodeBranch, faTasks, faCog, faStar, faRedoAlt, faInfoCircle, faBug, faArrowLeft, faShieldAlt, faBell, faUsersCog, faColumns, faComment, faHome });
 
-Vue.use(Vuetify);
 Vue.use(Vue2Filters);
 Vue.use(require("vue-cookies"));
 Vue.use(require("vue-moment"));
@@ -44,8 +42,8 @@ router.beforeEach((to, from, next) =>
 document.addEventListener("DOMContentLoaded", () => {
   let v = new Vue({
     router,
-    vuetify: new Vuetify({}),
     render: h => h(App),
+    vuetify,
     store
   });
   global.vm = v; //Define you app variable globally

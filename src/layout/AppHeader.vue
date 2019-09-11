@@ -17,7 +17,7 @@
       offset-y
     >
       <template v-slot:activator="{ on }">
-        <v-btn dedpressed large text class="ml-2" v-on="on">
+        <v-btn depressed height="48" color="grey" class="ml-2" v-on="on" outlined>
           {{ active_project ? active_project.title : "Select a project" }}
         </v-btn>
       </template>

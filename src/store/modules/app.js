@@ -12,8 +12,8 @@ import {
 const state = {
   resizable: false,
   layout2x1: [
-    {"x":0,"y":0,"w":4,"h":1,"i":"left"},
-    {"x":4,"y":0,"w":6,"h":1,"i":"right"},
+    {"x":0,"y":0,"w":5,"h":1,"i":"left"},
+    {"x":5,"y":0,"w":7,"h":1,"i":"right"},
   ],
   layout3x2: [
     {"x":0,"y":0,"w":4,"h":2,"i":"1"},
@@ -68,19 +68,6 @@ const mutations = {
   },
   [TOGGLE_SIDEBAR](state) {
     state.sidebar = !state.sidebar;
-    if(!state.sidebar) { // sidebar will hide => increase columns
-      state.layout2x1 = state.layout2x1.map(c => {
-        c["w"] = c["w"] + 1;
-        if(c["x"]) c["x"] = c["x"] + 1;
-        return c; 
-      });
-    } else { // sidebar will show => decrease columns
-      state.layout2x1 = state.layout2x1.map(c => {
-        c["w"] = c["w"] - 1;
-        if(c["x"]) c["x"] = c["x"] - 1;
-        return c; 
-      });
-    }
   },
   [TOGGLE_NOTIFICATIONS](state, open) {
     state.notificationsOpen = open;

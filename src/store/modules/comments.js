@@ -22,7 +22,8 @@ const state = {
     id: "",
     ancestry: "",
     content: "",
-    node_id: ""
+    node_id: "",
+    created_at: "z"
   }
 }
 
@@ -79,7 +80,7 @@ const mutations = {
     state.comments.splice(idx, 1, comment);
   },
   [ADD_COMMENT](state, comment) {
-    if(!comment) {
+    if(!comment) { // new comment
       comment = { ...state.new_comment };
     } else if(typeof comment == "number") { // passing ancestry
       let ancestry = comment;

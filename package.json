@@ -35,7 +35,7 @@
     "vue2-filters": "^0.4.1",
     "vue2-transitions": "^0.2.3",
     "vuedraggable": "^2.21.0",
-    "vuetify": "^2.0.7",
+    "vuetify": "^2.0.0",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-vuetify": "git+https://github.com/vuetifyjs/vue-cli-plugin-vuetify.git#dev",
+    "vue-cli-plugin-vuetify": "^0.6.3",
     "vue-template-compiler": "^2.5.21",
     "vuetify-loader": "^1.2.2"
   }

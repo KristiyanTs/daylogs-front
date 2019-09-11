@@ -239,9 +239,11 @@ export default {
   img
     max-width: 100%
     max-height: 300px
-.quillWrapper #quill-container
-  .ql-tooltip
-    left: 0px !important
+.quillWrapper 
+  width: 100%
+  #quill-container
+    .ql-tooltip
+      left: 0px !important
 .v-chip--pill.v-size--small .v-avatar
   height: 24px !important
   width: 24px !important

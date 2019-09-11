@@ -1,5 +1,5 @@
 <template>
-  <v-list-item color="primary" @click="inspectNode" v-on:dblclick="activateNode" dense>
+  <v-list-item @click="inspectNode" v-on:dblclick="activateNode" dense>
     <v-list-item-avatar>
       <font-awesome-icon
         icon="code-branch"
@@ -16,23 +16,16 @@
 
     <v-list-item-content>
       <v-list-item-title v-text="node.title" />
-      <v-list-item-subtitle v-if="isTask(node)">
-        <v-chip pill x-small>
-          <v-avatar
-            left
-            :color="status.color"
-          />
-          {{ status.title }}
-        </v-chip>
-      </v-list-item-subtitle>
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-flex>
-        <v-chip small v-if="!node.id" class="mr-2">Not Saved</v-chip>
-        <v-chip color="primary" small v-if="node.id == current_node.id" class="mr-2">Active</v-chip>
-        <v-chip color="secondary" small v-if="node.id == inspected_node.id">Inspected</v-chip>
-      </v-flex>
+      <v-chip pill color="white" small v-if="isTask(node)">
+        {{ status.title }}
+        <v-avatar
+          right
+          :color="status.color"
+        />
+      </v-chip>
     </v-list-item-action>
   </v-list-item>
 </template>

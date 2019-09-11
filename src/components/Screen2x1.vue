@@ -2,6 +2,7 @@
   <grid-layout
     :layout.sync="local_layout"
     :col-num="12"
+    :cols="{ lg: 12, md: 12, sm: 12, xs: 12, xxs: 12 }"
     :row-height="window.height"
     :is-draggable="resizable"
     :is-resizable="resizable"
