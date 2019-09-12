@@ -95,18 +95,8 @@
       </v-toolbar-title>
       <v-spacer />
       <FavoriteButton />
-      <v-btn @click="edit" fab depressed small class="mr-2">
-        <font-awesome-icon
-          color="grey"
-          icon="edit"
-        />
-      </v-btn>
-      <v-btn @click="remove" fab depressed small>
-        <font-awesome-icon
-          color="grey"
-          icon="trash-alt"
-        />
-      </v-btn>
+      <EditButton @clicked="editing = true" />
+      <DeleteInspectedNodeButton />
     </v-toolbar>
     <v-row v-if="task.created_at">
       <v-col>
@@ -160,6 +150,8 @@ import store from "@/store";
 import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
 import { VueEditor, Quill } from "vue2-editor";
 import FavoriteButton from "@/components/FavoriteButton.vue";
+import EditButton from "@/components/EditButton.vue";
+import DeleteInspectedNodeButton from "@/components/DeleteInspectedNodeButton.vue";
 import Comments from "@/views/Comments/Wrapper";
 
 export default {
@@ -167,7 +159,9 @@ export default {
     VueEditor,
     Quill,
     FavoriteButton,
-    Comments
+    Comments,
+    EditButton,
+    DeleteInspectedNodeButton
   },
   data() {
     return {

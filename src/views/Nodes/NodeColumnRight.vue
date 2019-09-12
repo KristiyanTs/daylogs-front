@@ -20,18 +20,8 @@
       <v-toolbar-title>{{ node.title }}</v-toolbar-title>
       <v-spacer />
       <FavoriteButton />
-      <v-btn @click="edit" fab depressed small class="mr-2">
-        <font-awesome-icon
-          color="grey"
-          icon="edit"
-        />
-      </v-btn>
-      <v-btn @click="remove" fab depressed small>
-        <font-awesome-icon
-          color="grey"
-          icon="trash-alt"
-        />
-      </v-btn>
+      <EditButton @clicked="editing = true" />
+      <DeleteInspectedNodeButton />
     </v-toolbar>
     <v-row v-if="node.created_at">
       <v-col>
@@ -47,12 +37,16 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_NODE, UPDATE_NODE, DESTROY_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
+import { CREATE_NODE, UPDATE_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions.type";
 import FavoriteButton from "@/components/FavoriteButton.vue";
+import EditButton from "@/components/EditButton.vue";
+import DeleteInspectedNodeButton from "@/components/DeleteInspectedNodeButton.vue";
 
 export default {
   components: {
-    FavoriteButton
+    FavoriteButton,
+    EditButton,
+    DeleteInspectedNodeButton
   },
   data() {
     return { 
@@ -61,12 +55,6 @@ export default {
     };
   },
   methods: {
-    edit() {
-      this.editing = true;
-    },
-    remove() {
-      store.dispatch(DESTROY_NODE, this.node);
-    },
     save() {
       this.editing = false;
       if(this.node.id == "" || this.node.id == null) {

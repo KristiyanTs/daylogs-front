@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="open" @closeDialog="closeDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+  <v-dialog :value="open" @input="closeDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
     <v-card>
       <v-container>
       <v-form @submit="submitProject">

@@ -11,7 +11,8 @@ import {
   FETCH_FAVORITES,
   FETCH_CATEGORIES,
   FETCH_STATUSES,
-  FETCH_COMMENTS
+  FETCH_COMMENTS,
+  SWITCH_PROJECT
 } from "../actions.type";
 
 import {
@@ -111,6 +112,7 @@ const actions = {
 
     if (NodeHelpers.isProject(node)) {
       dispatch(CREATE_ALERT, ["Project deleted", "success"]);
+      dispatch(SWITCH_PROJECT, null);
     } else if (NodeHelpers.isTask(node)) {
       dispatch(CREATE_ALERT, ["Task deleted", "success"]);
     } else {

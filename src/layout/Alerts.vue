@@ -5,6 +5,7 @@
       :key="idx"
       v-model="snackbar"
       :timeout="6000"
+      min-height="48"
       :top="position.includes('top')"
       :right="position.includes('right')"
       :bottom="position.includes('bottom')"
