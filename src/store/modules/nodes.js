@@ -92,13 +92,16 @@ const actions = {
   async [UPDATE_NODE](context, params) {
     const { data } = await ApiService.put(`/nodes/${params.id}`, { node: params });
     context.commit(ALTER_NODE, data);
+    dispatch(FETCH_FAVORITES);
     context.dispatch(CREATE_ALERT, ["Node updated", "success"]);
   },
   async [DESTROY_NODE]({commit, dispatch, state}, node) {
-    if(node.id != state.node.id && state.children.length) {
+    if(node.id != state.node.id && state.children.length > 1) {
       dispatch(CHANGE_INSPECTED_NODE, state.children[0]);
     } else if(node.id != state.node.id) {
       dispatch(CHANGE_INSPECTED_NODE, state.node);
+    } else {
+      // change active and inspected node to parent (you have to include it into the fetch first)
     }
 
     if(node.id == "") {
