@@ -1,6 +1,4 @@
-import {
-  RoleService
-} from "@/common/api.service";
+import ApiService from "@/common/api.service";
 
 import {
   FETCH_ROLES,
@@ -35,25 +33,25 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_ROLES]({ commit, rootState }) {
-    const { data } = await RoleService.all(rootState.project.id);
+  async [FETCH_ROLES]({ rootState, commit }) {
+    const { data } = await ApiService.query(`/nodes/${rootState.projects.project.id}/roles`);
     commit(SET_ROLES, data);
   },
-  async [CREATE_ROLE]({rootState, commit, dispatch}, params) {
-    const { data } = await RoleService.create(rootState.project.id, params);
+  async [CREATE_ROLE]({ rootState, commit, dispatch }, params) {
+    const { data } = await ApiService.post(`/nodes/${rootState.projects.project.id}/roles`, { role: params });
     commit(REMOVE_ROLE, "");
     commit(ADD_ROLE, data);
     dispatch(CREATE_ALERT, ["Role added", "success"]);
   },
-  async [UPDATE_ROLE](context, params) {
-    const { data } = await RoleService.update(params);
-    context.commit(SET_ROLE, data);
-    context.dispatch(CREATE_ALERT, ["Role saved", "success"]);
+  async [UPDATE_ROLE]({ rootState, commit, dispatch }, params) {
+    const { data } = await ApiService.update(`/nodes/${rootState.projects.project.id}/roles`, params.id, { role: params });
+    commit(SET_ROLE, data);
+    dispatch(CREATE_ALERT, ["Role saved", "success"]);
   },
-  async [DESTROY_ROLE](context, role) {
-    await RoleService.delete(role.node_id, role.id);
-    context.commit(REMOVE_ROLE, role.id);
-    context.dispatch(CREATE_ALERT, ["Role deleted", "success"]);
+  async [DESTROY_ROLE]({ rootState, commit, dispatch }, role) {
+    await ApiService.delete(`/nodes/${rootState.projects.project.id}/roles`, role.id);
+    commit(REMOVE_ROLE, role.id);
+    dispatch(CREATE_ALERT, ["Role deleted", "success"]);
   }
 }
 
@@ -66,7 +64,7 @@ const mutations = {
     state.roles.splice(idx, 1, role);
   },
   [ADD_ROLE](state, role) {
-    state.roles.push(role || JSON.parse(JSON.stringify(state.new_role)));
+    state.roles.push(role || { ...state.new_role });
   },
   [REMOVE_ROLE](state, role_id) {
     state.roles = state.roles.filter(r => r.id != role_id);

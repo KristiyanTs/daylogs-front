@@ -21,19 +21,19 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_USER_INVITATIONS](context) {
-    context.commit(SET_USER_INVITATIONS, []);
+  async [FETCH_USER_INVITATIONS]({ commit }) {
+    commit(SET_USER_INVITATIONS, []);
     const { data } = await ApiService.query("invitations");
-    context.commit(SET_USER_INVITATIONS, data);
+    commit(SET_USER_INVITATIONS, data);
   },
-  async [UPDATE_USER_INVITATION](context, params) {
+  async [UPDATE_USER_INVITATION]({ commit, dispatch}, params) {
     const { data } = await ApiService.update("invitations", params.id, { invitation: params });
-    context.commit(SET_USER_INVITATIONS, data);
+    commit(SET_USER_INVITATIONS, data);
 
     if(params.accepted) {
-      context.dispatch(CREATE_ALERT, ["Invitation accepted.", "success"]);
+      dispatch(CREATE_ALERT, ["Invitation accepted.", "success"]);
     } else {
-      context.dispatch(CREATE_ALERT, ["Invitation declined.", "success"]);
+      dispatch(CREATE_ALERT, ["Invitation declined.", "success"]);
     }
   }
 }

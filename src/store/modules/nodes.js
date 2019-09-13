@@ -68,43 +68,47 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_NODE]({commit, dispatch, state}, node_id) {
-    if(!node_id) return;
+  async [FETCH_NODE]({ commit, dispatch }, node_id) {
+    if (!node_id) return;
+
     const { data } = await ApiService.get("nodes", node_id);
-    if(!NodeHelpers.areParentAndChild(data, state.node)) {
+
+    if (!NodeHelpers.areParentAndChild(data, state.node)) {
       dispatch(FETCH_CATEGORIES, data.id);
       dispatch(FETCH_STATUSES, data.id);
     }
     dispatch(FETCH_COMMENTS, data.id);
     commit(SET_ACTIVE_NODE, data);
   },
-  async [CREATE_NODE](context, params) {
+  async [CREATE_NODE]({ commit, dispatch }, params) {
     const { data } = await ApiService.post("nodes", { node: params });
-    context.commit(REMOVE_NODE, "");
-    context.commit(ADD_NODE, data);
+
+    commit(REMOVE_NODE, "");
+    commit(ADD_NODE, data);
 
     if (NodeHelpers.isTask(data)) {
-      context.dispatch(CREATE_ALERT, ["Task added", "success"]);
+      dispatch(CREATE_ALERT, ["Task added", "success"]);
     } else {
-      context.dispatch(CREATE_ALERT, ["Node added", "success"]);
+      dispatch(CREATE_ALERT, ["Node added", "success"]);
     }
   },
-  async [UPDATE_NODE](context, params) {
+  async [UPDATE_NODE]({ commit, dispatch }, params) {
     const { data } = await ApiService.put(`/nodes/${params.id}`, { node: params });
-    context.commit(ALTER_NODE, data);
+
+    commit(ALTER_NODE, data);
     dispatch(FETCH_FAVORITES);
-    context.dispatch(CREATE_ALERT, ["Node updated", "success"]);
+    dispatch(CREATE_ALERT, ["Node updated", "success"]);
   },
-  async [DESTROY_NODE]({commit, dispatch, state}, node) {
-    if(node.id != state.node.id && state.children.length > 1) {
+  async [DESTROY_NODE]({ commit, dispatch, state }, node) {
+    if (node.id != state.node.id && state.children.length > 1) {
       dispatch(CHANGE_INSPECTED_NODE, state.children[0]);
-    } else if(node.id != state.node.id) {
+    } else if (node.id != state.node.id) {
       dispatch(CHANGE_INSPECTED_NODE, state.node);
     } else {
       // change active and inspected node to parent (you have to include it into the fetch first)
     }
 
-    if(node.id == "") {
+    if (node.id == "") {
       commit(REMOVE_NODE, "");
       return;
     }
@@ -122,11 +126,11 @@ const actions = {
       dispatch(CREATE_ALERT, ["Node deleted", "success"]);
     }
   },
-  [CHANGE_INSPECTED_NODE](context, node) {
-    if(node && node.id) {
-      context.dispatch(FETCH_COMMENTS, node.id);
+  [CHANGE_INSPECTED_NODE]({ commit, dispatch }, node) {
+    if (node && node.id) {
+      dispatch(FETCH_COMMENTS, node.id);
     }
-    context.commit(SET_INSPECTED_NODE, node)
+    commit(SET_INSPECTED_NODE, node)
   }
 }
 
@@ -145,7 +149,7 @@ const mutations = {
     state.inspected_node = { ...node } || state.children[state.children.length - 1];
   },
   [ADD_NODE](state, node) {
-    if(!node) {
+    if (!node) {
       node = { ...state.new_node };
       node.ancestry = state.node.id;
     }
@@ -153,7 +157,7 @@ const mutations = {
     state.inspected_node = node;
   },
   [ADD_TASK_NODE](state, task) {
-    if(!task) {
+    if (!task) {
       task = { ...state.new_task_node };
       task.ancestry = state.node.id;
       task.category_id = this.state.categories.categories[0].id;
@@ -163,7 +167,7 @@ const mutations = {
     state.inspected_node = task;
   },
   [ALTER_NODE](state, node) {
-    if(state.node.id == node.id) {
+    if (state.node.id == node.id) {
       state.node = node;
     } else {
       let idx = state.node.children.findIndex(c => c.id == node.id);

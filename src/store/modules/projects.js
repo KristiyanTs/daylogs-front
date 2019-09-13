@@ -29,16 +29,16 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_PROJECTS](context) {
+  async [FETCH_PROJECTS]({ commit }) {
     const { data } = await ApiService.get("nodes/user_projects");
-    context.commit(SET_PROJECTS, data);
+    commit(SET_PROJECTS, data);
   },
-  [SWITCH_PROJECT]({dispatch, state, commit}, project_id) {
+  [SWITCH_PROJECT]({ commit, dispatch }, project_id) {
     let project;
 
-    if(project_id) {
+    if (project_id) {
       let idx = state.projects.findIndex(p => p.id == project_id);
-      if(idx != -1) {
+      if (idx != -1) {
         project = state.projects[idx];
       } else {
         project = state.projects[0];
@@ -51,14 +51,14 @@ const actions = {
     dispatch(FETCH_NODE, project.id);
     dispatch(FETCH_FAVORITES);
   },
-  async [CREATE_PROJECT](context, params) {
+  async [CREATE_PROJECT]({ dispatch }, params) {
     const { data } = await ApiService.post("nodes", { node: params });
 
-    context.dispatch(FETCH_PROJECTS, data)
+    dispatch(FETCH_PROJECTS, data)
       .then(() => {
-        context.dispatch(SWITCH_PROJECT, data.id);
+        dispatch(SWITCH_PROJECT, data.id);
       })
-    context.dispatch(CREATE_ALERT, ["Project created", "success"]);
+    dispatch(CREATE_ALERT, ["Project created", "success"]);
   }
 }
 

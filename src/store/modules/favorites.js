@@ -26,17 +26,17 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_FAVORITES]({rootGetters, commit}) {
-    const { data } = await ApiService.query("favorites", { root_id: rootGetters.active_project.id });
+  async [FETCH_FAVORITES]({ rootState, commit }) {
+    const { data } = await ApiService.query("favorites", { root_id: rootState.projects.project.id });
     commit(SET_FAVORITES, data);
   },
-  async [CREATE_FAVORITE](context, params) {
+  async [CREATE_FAVORITE]({ commit }, params) {
     const { data } = await FavoriteService.create(params);
-    context.commit(ADD_FAVORITE, data);
+    commit(ADD_FAVORITE, data);
   },
-  async [DESTROY_FAVORITE](context, slug) {
+  async [DESTROY_FAVORITE]({ commit }, slug) {
     await FavoriteService.delete(slug);
-    context.commit(REMOVE_FAVORITE, slug);
+    commit(REMOVE_FAVORITE, slug);
   }
 }
 

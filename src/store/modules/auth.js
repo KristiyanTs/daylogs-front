@@ -44,60 +44,60 @@ const getters = {
 }
 
 const actions = {
-  [LOGIN](context, credentials) {
+  [LOGIN]({ commit, dispatch }, credentials) {
     return new Promise(resolve => {
       ApiService.post("login", { user: credentials })
         .then(response => {
-          context.dispatch(CREATE_ALERT, ["You logged in successfully.", "success"]);
-          context.commit(SET_AUTH, [response.headers.authorization, response.data]);
+          dispatch(CREATE_ALERT, ["You logged in successfully.", "success"]);
+          commit(SET_AUTH, [response.headers.authorization, response.data]);
           resolve(response.data);
         })
         .catch(error  => {
-          context.commit(SET_ERROR, error);
+          commit(SET_ERROR, error);
         });
     });
   },
-  [LOGOUT](context) {
+  [LOGOUT]({ commit, dispatch }) {
     return new Promise(resolve => {
       ApiService.delete("logout")
         .then(() => {
-          context.dispatch(CREATE_ALERT, ["You logged out successfully.", "success"]);
-          context.commit(PURGE_AUTH);
+          dispatch(CREATE_ALERT, ["You logged out successfully.", "success"]);
+          commit(PURGE_AUTH);
           resolve();
         })
         .catch(response => {
-          context.commit(SET_ERROR, response.data.errors);
+          commit(SET_ERROR, response.data.errors);
         });
     });
   },
-  [CHECK_AUTH](context) {
+  [CHECK_AUTH]({ commit }) {
     if (JwtService.getToken()) {
       ApiService.setHeader();
       ApiService.get("profile")
         .then(response => {
-          context.commit(SET_AUTH, [response.config.headers.Authorization, response.data]);
+          commit(SET_AUTH, [response.config.headers.Authorization, response.data]);
         })
         .catch(response => {
-          context.commit(SET_ERROR, response.data.errors);
+          commit(SET_ERROR, response.data.errors);
         });
     } else {
-      context.commit(PURGE_AUTH);
+      commit(PURGE_AUTH);
     }
   },
-  [REGISTER](context, user) {
+  [REGISTER]({ commit }, user) {
     return new Promise(resolve => {
       ApiService.post("signup", {user: user})
         .then(response => {
           resolve(response.data);
         })
         .catch(error  => {
-          context.commit(SET_ERROR, error);
+          commit(SET_ERROR, error);
         });
     });
   },
-  async [UPDATE_USER](context, user) { // should be tested when the back-end is rewritten
+  async [UPDATE_USER]({ commit }, user) { // should be tested when the back-end is rewritten
     const { data } = await UserService.update(user);
-    context.commit(SET_AUTH, data.user);
+    commit(SET_AUTH, data.user);
     return data;
   }
 }

@@ -37,25 +37,25 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_CATEGORIES](context, node_id) {
+  async [FETCH_CATEGORIES]({ commit }, node_id) {
     const { data } = await CategoryService.all(node_id);
-    context.commit(SET_CATEGORIES, data);
+    commit(SET_CATEGORIES, data);
   },
-  async [CREATE_CATEGORY](context, params) {
+  async [CREATE_CATEGORY]({ commit, dispatch }, params) {
     const { data } = await CategoryService.create(context.getters.current_node.id, params);
-    context.commit(REMOVE_CATEGORY, "");
-    context.commit(ADD_CATEGORY, data);
-    context.dispatch(CREATE_ALERT, ["Category added", "success"]);
+    commit(REMOVE_CATEGORY, "");
+    commit(ADD_CATEGORY, data);
+    dispatch(CREATE_ALERT, ["Category added", "success"]);
   },
-  async [UPDATE_CATEGORY](context, params) {
+  async [UPDATE_CATEGORY]({ commit, dispatch }, params) {
     const { data } = await CategoryService.update(params);
-    context.commit(SET_CATEGORY, data);
-    context.dispatch(CREATE_ALERT, ["Category saved", "success"]);
+    commit(SET_CATEGORY, data);
+    dispatch(CREATE_ALERT, ["Category saved", "success"]);
   },
-  async [DESTROY_CATEGORY](context, category) {
+  async [DESTROY_CATEGORY]({ commit, dispatch }, category) {
     await CategoryService.delete(category.node_id, category.id);
-    context.commit(REMOVE_CATEGORY, category.id);
-    context.dispatch(CREATE_ALERT, ["Category deleted", "success"]);
+    commit(REMOVE_CATEGORY, category.id);
+    dispatch(CREATE_ALERT, ["Category deleted", "success"]);
   }
 }
 
@@ -68,7 +68,7 @@ const mutations = {
     state.categories.splice(idx, 1, category);
   },
   [ADD_CATEGORY](state, category) {
-    state.categories.push(category || JSON.parse(JSON.stringify(state.new_category)))
+    state.categories.push(category || { ...state.new_category })
   },
   [REMOVE_CATEGORY](state, category_id) {
     state.categories = state.categories.filter(c => c.id != category_id)

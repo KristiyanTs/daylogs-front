@@ -55,7 +55,7 @@ const getters = {
 }
 
 const actions = {
-  [TOGGLE_NOTIFICATIONS]({state, commit}) {
+  [TOGGLE_NOTIFICATIONS]({ commit }) {
     if(state.notificationsOpen) {
       commit(TOGGLE_NOTIFICATIONS, false);
       commit(TOGGLE_SIDEBARRIGHT, false);

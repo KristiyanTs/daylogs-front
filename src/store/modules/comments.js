@@ -16,7 +16,7 @@ import {
 
 import ApiService from "../../common/api.service";
 
-const state = { 
+const state = {
   comments: [],
   new_comment: {
     id: "",
@@ -29,30 +29,30 @@ const state = {
 
 const getters = {
   comments(state) {
-    return state.comments.filter(c => c.ancestry == null || c.ancestry == "").sort((a,b) => (a.created_at > b.created_at) ? 1 : -1);
+    return state.comments.filter(c => c.ancestry == null || c.ancestry == "").sort((a, b) => (a.created_at > b.created_at) ? 1 : -1);
   },
   replies(state) {
-    return state.comments.filter(c => c.ancestry != null && c.ancestry != "").sort((a,b) => (a.created_at > b.created_at) ? 1 : -1);
+    return state.comments.filter(c => c.ancestry != null && c.ancestry != "").sort((a, b) => (a.created_at > b.created_at) ? 1 : -1);
   }
 }
 
 const actions = {
-  async [FETCH_COMMENTS](context, node_id) {
+  async [FETCH_COMMENTS]({ commit }, node_id) {
     const { data } = await ApiService.query(`/nodes/${node_id}/comments`);
-    context.commit(SET_COMMENTS, data);
+    commit(SET_COMMENTS, data);
   },
   async [FETCH_REPLIES](context, comment) {
     const { data } = await ApiService.query(`/nodes/${comment.node_id}/comments/${comment.id}`);
     data.map(reply => {
-      if(context.state.comments.findIndex(c => c.id == reply.id) == -1) {
+      if (context.state.comments.findIndex(c => c.id == reply.id) == -1) {
         context.commit(ADD_COMMENT, reply);
       } else {
         context.commit(SET_COMMENT, reply);
       }
     });
   },
-  async [CREATE_COMMENT]({commit, dispatch, rootState}, params) {
-    if(params.node_id == "") {
+  async [CREATE_COMMENT]({ rootState, commit, dispatch }, params) {
+    if (params.node_id == "") {
       params.node_id = rootState.nodes.inspected_node.id;
     }
     const { data } = await ApiService.post(`/nodes/${params.node_id}/comments`, { comment: params });
@@ -60,14 +60,14 @@ const actions = {
     commit(ADD_COMMENT, data);
     dispatch(CREATE_ALERT, ["Comment added", "success"]);
   },
-  async [UPDATE_COMMENT](context, params) {
+  async [UPDATE_COMMENT]({ commit }, params) {
     const { data } = await ApiService.put(`/nodes/${params.node_id}/comments/${params.id}`, { comment: params });
-    context.commit(SET_COMMENT, data);
+    commit(SET_COMMENT, data);
   },
-  async [DESTROY_COMMENT](context, comment) {
+  async [DESTROY_COMMENT]({ commit, dispatch }, comment) {
     await ApiService.delete(`/nodes/${comment.node_id}/comments`, comment.id);
-    context.commit(REMOVE_COMMENT, comment.id);
-    context.dispatch(CREATE_ALERT, ["Comment deleted", "success"]);
+    commit(REMOVE_COMMENT, comment.id);
+    dispatch(CREATE_ALERT, ["Comment deleted", "success"]);
   }
 }
 
@@ -80,13 +80,13 @@ const mutations = {
     state.comments.splice(idx, 1, comment);
   },
   [ADD_COMMENT](state, comment) {
-    if(!comment) { // new comment
+    if (!comment) { // new comment
       comment = { ...state.new_comment };
-    } else if(typeof comment == "number") { // passing ancestry
+    } else if (typeof comment == "number") { // passing ancestry
       let ancestry = comment;
       comment = { ...state.new_comment };
       comment.ancestry = ancestry;
-    } 
+    }
 
     state.comments.push(comment);
   },

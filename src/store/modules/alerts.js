@@ -30,8 +30,8 @@ const actions = {
       );
     }
   },
-  [DESTROY_ALERT](context, message) {
-    context.commit(REMOVE_ALERT, message);
+  [DESTROY_ALERT]({ commit }, message) {
+    commit(REMOVE_ALERT, message);
   }
 }
 

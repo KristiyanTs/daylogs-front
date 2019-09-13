@@ -14,7 +14,7 @@ import {
   REMOVE_MEMBERSHIP
 } from "../mutations.type";
 
-const state = { 
+const state = {
   memberships: []
 }
 
@@ -26,16 +26,16 @@ const getters = {
 
 const actions = {
   async [FETCH_MEMBERSHIPS]({ commit, rootState }) {
-    const { data } = ApiService.query(`/nodes/${rootState.project.id}/memberships`);
+    const { data } = ApiService.query(`/nodes/${rootState.projects.project.id}/memberships`);
     commit(SET_MEMBERSHIPS, data);
   },
   async [UPDATE_MEMBERSHIP]({ dispatch, commit, rootState }, params) {
-    const { data } = await ApiService.update(`/nodes/${rootState.project.id}/memberships`, params.id, { membership: params });
+    const { data } = await ApiService.update(`/nodes/${rootState.projects.project.id}/memberships`, params.id, { membership: params });
     commit(SET_MEMBERSHIP, data);
     dispatch(CREATE_ALERT, ["Membership updated.", "success"]);
   },
   async [DESTROY_MEMBERSHIP]({ commit, dispatch }, membership_id) {
-    await ApiService.delete(`/nodes/${rootState.project.id}/memberships`, membership_id);
+    await ApiService.delete(`/nodes/${rootState.projects.project.id}/memberships`, membership_id);
     commit(REMOVE_MEMBERSHIP, membership_id);
     dispatch(CREATE_ALERT, ["Member removed.", "success"]);
   }

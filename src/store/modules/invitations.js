@@ -1,6 +1,4 @@
-import {
-  InvitationService
-} from "@/common/api.service";
+import ApiService from "@/common/api.service";
 
 import {
   FETCH_INVITATIONS,
@@ -35,11 +33,11 @@ const getters = {
 
 const actions = {
   async [FETCH_INVITATIONS]({ rootState, commit }) {
-    const { data } = await InvitationService.all(rootState.project.id);
+    const { data } = await ApiService.query(`/nodes/${rootState.projects.project.id}/invitations`);
     commit(SET_INVITATIONS, data);
   },
   async [CREATE_INVITATION]({rootState, commit, dispatch}, params) {
-    const { data } = await InvitationService.create(rootState.project.id, params);
+    const { data } = await ApiService.create(rootState.projects.project.id, params);
     commit(REMOVE_INVITATION, "");
     commit(ADD_INVITATION, data);
     dispatch(CREATE_ALERT, ["Invitation sent", "success"]);
