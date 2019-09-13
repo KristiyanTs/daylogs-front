@@ -7,7 +7,7 @@
         <font-awesome-icon icon="plus" />
       </v-btn>
     </v-toolbar>
-    <v-list two-line v-if="statuses.length" dense>
+    <v-list two-line v-if="statuses.length" subheader dense>
       <draggable
         v-model="local_statuses"
         @start="drag = true"

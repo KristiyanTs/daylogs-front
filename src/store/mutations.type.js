@@ -39,6 +39,9 @@ export const SET_ROLE = "setRole";
 export const ADD_ROLE = "addRole";
 export const REMOVE_ROLE = "removeRole";
 
+export const SET_USER_INVITATIONS = "setUserInvitations";
+export const SET_USER_INVITATION = "setUserInvitation";
+
 export const SET_INVITATIONS = "setInvitations";
 export const SET_INVITATION = "setInviation";
 export const ADD_INVITATION = "addInviation";

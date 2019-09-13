@@ -37,6 +37,9 @@ export const CREATE_ROLE = "createRole";
 export const UPDATE_ROLE = "updateRole"
 export const DESTROY_ROLE = "destroyRole";
 
+export const FETCH_USER_INVITATIONS = "fetchUserInvitations";
+export const UPDATE_USER_INVITATIONS = "updateUserInvitations";
+
 export const FETCH_INVITATIONS = "fetchInvitations";
 export const CREATE_INVITATION = "createInvitation";
 export const UPDATE_INVITATION = "updateInvitation"

@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer :value="sidebarRight" absolute clipped right width="400" class="sidebar-right">
     <v-layout column fill-height align-content-start>
-      <v-divider />
     </v-layout>
   </v-navigation-drawer>
 </template>

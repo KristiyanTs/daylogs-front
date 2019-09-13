@@ -1,8 +1,7 @@
 <template>
-  <v-navigation-drawer :value="sidebar" fixed absolute clipped app>
+  <v-navigation-drawer :value="sidebar" clipped app>
     <v-layout column fill-height align-content-start>
       <v-flex shrink>
-        <v-divider dark class="my-0"></v-divider>
         <v-list dense shaped>
           <v-list-item to="/project">
             <v-list-item-action>
@@ -27,7 +26,6 @@
         </v-list>
       </v-flex>
       <v-flex shrink>
-        <v-divider dark class="my-0"></v-divider>
         <v-layout row align-center>
           <v-flex xs6>
             <v-subheader>
