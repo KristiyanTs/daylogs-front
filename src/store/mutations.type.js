@@ -47,6 +47,11 @@ export const SET_INVITATION = "setInviation";
 export const ADD_INVITATION = "addInviation";
 export const REMOVE_INVITATION = "removeInviation";
 
+export const SET_MEMBERSHIPS = "setMemberships";
+export const SET_MEMBERSHIP = "setMembership";
+export const ADD_MEMBERSHIP = "addMembership";
+export const REMOVE_MEMBERSHIP = "removeMembership";
+
 export const SET_COMMENTS = "setComments";
 export const SET_COMMENT = "setComment";
 export const ADD_COMMENT = "addComment";

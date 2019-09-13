@@ -26,8 +26,8 @@ export default {
     return { };
   },
   mounted() {
-    store.dispatch(FETCH_INVITATIONS, this.active_project.id);
-    store.dispatch(FETCH_ROLES, this.active_project.id);
+    store.dispatch(FETCH_INVITATIONS);
+    store.dispatch(FETCH_ROLES);
   },
   methods: {
     saveInvitation(idx) {
@@ -42,7 +42,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["active_project", "invitations"])
+    ...mapGetters(["invitations"])
   }
 }
 </script>

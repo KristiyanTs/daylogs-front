@@ -55,8 +55,8 @@
 <script>
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_ROLES, FETCH_INVITATIONS, CREATE_INVITATION, DESTROY_INVITATION } from "@/store/actions.type";
-import { SET_INVITATION, REMOVE_INVITATION } from "@/store/mutations.type";
+import { CREATE_INVITATION, DESTROY_INVITATION } from "@/store/actions.type";
+import { REMOVE_INVITATION } from "@/store/mutations.type";
 
 export default {
   props: {
@@ -89,7 +89,7 @@ export default {
     invitation: {
       immediate: true,
       handler() {
-        this.item = {...this.invitation};
+        this.item = { ...this.invitation };
       }
     }
   }

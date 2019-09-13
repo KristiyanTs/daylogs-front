@@ -45,6 +45,10 @@ export const CREATE_INVITATION = "createInvitation";
 export const UPDATE_INVITATION = "updateInvitation"
 export const DESTROY_INVITATION = "destroyInvitation";
 
+export const FETCH_MEMBERSHIPS = "fetchMembership";
+export const UPDATE_MEMBERSHIP = "updateMembership";
+export const DESTROY_MEMBERSHIP = "destroyMembership";
+
 export const FETCH_COMMENTS = "fetchComments";
 export const FETCH_REPLIES = "fetchReplies";
 export const CREATE_COMMENT = "createComment";

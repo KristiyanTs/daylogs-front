@@ -35,15 +35,15 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_ROLES](context, node_id) {
-    const { data } = await RoleService.all(node_id);
-    context.commit(SET_ROLES, data);
+  async [FETCH_ROLES]({ commit, rootState }) {
+    const { data } = await RoleService.all(rootState.project.id);
+    commit(SET_ROLES, data);
   },
-  async [CREATE_ROLE](context, params) {
-    const { data } = await RoleService.create(context.getters.current_node.id, params);
-    context.commit(REMOVE_ROLE, "");
-    context.commit(ADD_ROLE, data);
-    context.dispatch(CREATE_ALERT, ["Role added", "success"]);
+  async [CREATE_ROLE]({rootState, commit, dispatch}, params) {
+    const { data } = await RoleService.create(rootState.project.id, params);
+    commit(REMOVE_ROLE, "");
+    commit(ADD_ROLE, data);
+    dispatch(CREATE_ALERT, ["Role added", "success"]);
   },
   async [UPDATE_ROLE](context, params) {
     const { data } = await RoleService.update(params);

@@ -34,15 +34,15 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_INVITATIONS](context, node_id) {
-    const { data } = await InvitationService.all(node_id);
-    context.commit(SET_INVITATIONS, data);
+  async [FETCH_INVITATIONS]({ rootState, commit }) {
+    const { data } = await InvitationService.all(rootState.project.id);
+    commit(SET_INVITATIONS, data);
   },
-  async [CREATE_INVITATION](context, params) {
-    const { data } = await InvitationService.create(context.getters.current_node.id, params);
-    context.commit(REMOVE_INVITATION, "");
-    context.commit(ADD_INVITATION, data);
-    context.dispatch(CREATE_ALERT, ["Invitation sent", "success"]);
+  async [CREATE_INVITATION]({rootState, commit, dispatch}, params) {
+    const { data } = await InvitationService.create(rootState.project.id, params);
+    commit(REMOVE_INVITATION, "");
+    commit(ADD_INVITATION, data);
+    dispatch(CREATE_ALERT, ["Invitation sent", "success"]);
   },
   async [UPDATE_INVITATION](context, params) {
     const { data } = await InvitationService.update(params);
@@ -65,7 +65,7 @@ const mutations = {
     state.invitations.splice(idx, 1, invitation);
   },
   [ADD_INVITATION](state, invitation) {
-    state.invitations.push(invitation || JSON.parse(JSON.stringify(state.new_invitation)))
+    state.invitations.push(invitation || { ...state.new_invitation })
   },
   [REMOVE_INVITATION](state, invitation_id) {
     state.invitations = state.invitations.filter(i => i.id != invitation_id)
