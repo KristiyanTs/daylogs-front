@@ -21,7 +21,7 @@
 
 <script>
 import Members from "./Members";
-import Invitations from "./Invitations";
+import Invitations from "./Invitations/Invitations";
 import Roles from "./Roles";
 
 import { mapGetters } from "vuex";
