@@ -1,6 +1,4 @@
-import {
-  CategoryService
-} from "@/common/api.service";
+import ApiService from "../../common/api.service";
 
 import {
   FETCH_CATEGORIES,
@@ -37,23 +35,23 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_CATEGORIES]({ commit }, node_id) {
-    const { data } = await CategoryService.all(node_id);
+  async [FETCH_CATEGORIES]({ commit, rootState }) {
+    const { data } = await ApiService.query(`/nodes/${rootState.projects.project.id}/categories`);
     commit(SET_CATEGORIES, data);
   },
-  async [CREATE_CATEGORY]({ commit, dispatch }, params) {
-    const { data } = await CategoryService.create(context.getters.current_node.id, params);
+  async [CREATE_CATEGORY]({ commit, dispatch, rootState }, params) {
+    const { data } = await ApiService.create(`/nodes/${rootState.projects.project.id}/categories`, { category: params });
     commit(REMOVE_CATEGORY, "");
     commit(ADD_CATEGORY, data);
     dispatch(CREATE_ALERT, ["Category added", "success"]);
   },
-  async [UPDATE_CATEGORY]({ commit, dispatch }, params) {
-    const { data } = await CategoryService.update(params);
+  async [UPDATE_CATEGORY]({ commit, dispatch, rootState }, params) {
+    const { data } = await ApiService.update(`/nodes/${rootState.projects.project.id}/categories`, params.id, { category: params });
     commit(SET_CATEGORY, data);
     dispatch(CREATE_ALERT, ["Category saved", "success"]);
   },
-  async [DESTROY_CATEGORY]({ commit, dispatch }, category) {
-    await CategoryService.delete(category.node_id, category.id);
+  async [DESTROY_CATEGORY]({ commit, dispatch, rootState }, category) {
+    await ApiService.delete(`/nodes/${rootState.projects.project.id}/categories`, category.id);
     commit(REMOVE_CATEGORY, category.id);
     dispatch(CREATE_ALERT, ["Category deleted", "success"]);
   }

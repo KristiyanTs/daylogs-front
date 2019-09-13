@@ -42,7 +42,6 @@ export const UPDATE_USER_INVITATION = "updateUserInvitations";
 
 export const FETCH_INVITATIONS = "fetchInvitations";
 export const CREATE_INVITATION = "createInvitation";
-export const UPDATE_INVITATION = "updateInvitation"
 export const DESTROY_INVITATION = "destroyInvitation";
 
 export const FETCH_MEMBERSHIPS = "fetchMembership";

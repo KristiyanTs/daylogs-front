@@ -3,7 +3,6 @@ import ApiService from "@/common/api.service";
 import {
   FETCH_INVITATIONS,
   CREATE_INVITATION,
-  UPDATE_INVITATION,
   DESTROY_INVITATION,
   CREATE_ALERT
 } from "../actions.type";
@@ -42,15 +41,10 @@ const actions = {
     commit(ADD_INVITATION, data);
     dispatch(CREATE_ALERT, ["Invitation sent", "success"]);
   },
-  async [UPDATE_INVITATION](context, params) {
-    const { data } = await InvitationService.update(params);
-    context.commit(SET_INVITATION, data);
-    context.dispatch(CREATE_ALERT, ["Response saved", "success"]);
-  },
-  async [DESTROY_INVITATION](context, invitation) {
-    await InvitationService.delete(invitation.node_id, invitation.id);
-    context.commit(REMOVE_INVITATION, invitation.id);
-    context.dispatch(CREATE_ALERT, ["Invitation withdrawn", "success"]);
+  async [DESTROY_INVITATION]({rootState, commit, dispatch}, invitation) {
+    await ApiService.delete(`/nodes/${rootState.projects.project.id}/invitations`, invitation.id);
+    commit(REMOVE_INVITATION, invitation.id);
+    dispatch(CREATE_ALERT, ["Invitation withdrawn", "success"]);
   }
 }
 

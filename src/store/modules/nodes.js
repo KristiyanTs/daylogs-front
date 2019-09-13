@@ -74,8 +74,8 @@ const actions = {
     const { data } = await ApiService.get("nodes", node_id);
 
     if (!NodeHelpers.areParentAndChild(data, state.node)) {
-      dispatch(FETCH_CATEGORIES, data.id);
-      dispatch(FETCH_STATUSES, data.id);
+      dispatch(FETCH_CATEGORIES);
+      dispatch(FETCH_STATUSES);
     }
     dispatch(FETCH_COMMENTS, data.id);
     commit(SET_ACTIVE_NODE, data);

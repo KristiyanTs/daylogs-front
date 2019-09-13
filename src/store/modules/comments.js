@@ -1,3 +1,5 @@
+import ApiService from "../../common/api.service";
+
 import {
   FETCH_COMMENTS,
   FETCH_REPLIES,
@@ -13,8 +15,6 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT
 } from "../mutations.type";
-
-import ApiService from "../../common/api.service";
 
 const state = {
   comments: [],

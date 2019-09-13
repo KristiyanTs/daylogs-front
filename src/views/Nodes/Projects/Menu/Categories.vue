@@ -69,7 +69,7 @@ export default {
     return { };
   },
   mounted() {
-    store.dispatch(FETCH_CATEGORIES, this.current_node.id);
+    store.dispatch(FETCH_CATEGORIES);
   },
   methods: {
     addCategory() {
