@@ -1,6 +1,4 @@
-import {
-  StatusService
-} from "@/common/api.service";
+import ApiService from "@/common/api.service";
 
 import {
   FETCH_STATUSES,
@@ -30,30 +28,30 @@ const state = {
 
 const getters = {
   statuses(state) {
-    return state.statuses.sort((a,b) => (a.order > b.order) ? 1 : -1); 
+    return state.statuses;
   }
 }
 
 const actions = {
-  async [FETCH_STATUSES](context, node_id) {
-    const { data } = await StatusService.all(node_id);
-    context.commit(SET_STATUSES, data);
+  async [FETCH_STATUSES]({ commit, rootState }) {
+    const { data } = await ApiService.query(`/nodes/${rootState.projects.project.id}/statuses`);
+    commit(SET_STATUSES, data);
   },
-  async [CREATE_STATUS](context, params) {
-    const { data } = await StatusService.create(context.getters.current_node.id, params);
-    context.commit(REMOVE_STATUS, "");
-    context.commit(ADD_STATUS, data);
-    context.dispatch(CREATE_ALERT, ["Status added", "success"]);
+  async [CREATE_STATUS]({ dispatch, commit, rootState }, params) {
+    const { data } = await ApiService.post(`/nodes/${rootState.projects.project.id}/statuses`, { status: params });
+    commit(REMOVE_STATUS, "");
+    commit(ADD_STATUS, data);
+    dispatch(CREATE_ALERT, ["Status added", "success"]);
   },
-  async [UPDATE_STATUS](context, params) {
-    const { data } = await StatusService.update(params);
-    context.commit(SET_STATUS, data);
-    context.dispatch(CREATE_ALERT, ["Status saved", "success"]);
+  async [UPDATE_STATUS]({ dispatch, commit, rootState }, params) {
+    const { data } = await ApiService.update(`/nodes/${rootState.projects.project.id}/statuses`, params.id, { status: params });
+    commit(SET_STATUS, data);
+    dispatch(CREATE_ALERT, ["Status saved", "success"]);
   },
-  async [DESTROY_STATUS](context, status) {
-    await StatusService.delete(status.node_id, status.id);
-    context.commit(REMOVE_STATUS, status.id);
-    context.dispatch(CREATE_ALERT, ["Status deleted", "success"]);
+  async [DESTROY_STATUS]({ dispatch, commit, rootState }, status) {
+    await ApiService.delete(`/nodes/${rootState.projects.project.id}/statuses`, status.id);
+    commit(REMOVE_STATUS, status.id);
+    dispatch(CREATE_ALERT, ["Status deleted", "success"]);
   }
 }
 
@@ -67,8 +65,8 @@ const mutations = {
   },
   [ADD_STATUS](state, status) {
     if(!status) {
-      status = JSON.parse(JSON.stringify(state.new_status));
-      status.order = state.statuses.length; // add to the end
+      status = { ...state.new_status };
+      status.order = state.statuses.length;
     }
     state.statuses.push(status);
   },

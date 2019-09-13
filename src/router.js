@@ -97,7 +97,7 @@ let router = new Router({
         },
         {
           path: "statuses",
-          component: () => import("@/views/Nodes/Projects/Menu/Statuses")
+          component: () => import("@/views/Nodes/Projects/Menu/Statuses/Statuses")
         }
       ]
     }
