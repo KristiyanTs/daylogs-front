@@ -7,8 +7,7 @@ import {
 } from "../actions.type";
 
 import {
-  SET_USER_INVITATIONS,
-  SET_USER_INVITATION
+  SET_USER_INVITATIONS
 } from "../mutations.type";
 
 const state = { 
@@ -23,24 +22,26 @@ const getters = {
 
 const actions = {
   async [FETCH_USER_INVITATIONS](context) {
+    context.commit(SET_USER_INVITATIONS, []);
     const { data } = await ApiService.query("invitations");
     context.commit(SET_USER_INVITATIONS, data);
   },
   async [UPDATE_USER_INVITATION](context, params) {
     const { data } = await ApiService.update("invitations", params.id, { invitation: params });
-    context.commit(SET_USER_INVITATION, data);
-    context.dispatch(CREATE_ALERT, ["Response saved", "success"]);
+    context.commit(SET_USER_INVITATIONS, data);
+
+    if(params.accepted) {
+      context.dispatch(CREATE_ALERT, ["Invitation accepted.", "success"]);
+    } else {
+      context.dispatch(CREATE_ALERT, ["Invitation declined.", "success"]);
+    }
   }
 }
 
 const mutations = {
   [SET_USER_INVITATIONS](state, invitations) {
     state.user_invitations = invitations;
-  },
-  [SET_USER_INVITATION](state, invitation) {
-    let idx = state.user_invitations.findIndex(i => i.id == invitation.id);
-    state.user_invitations.splice(idx, 1, invitation);
-  },
+  }
 }
 
 export default {

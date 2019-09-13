@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12>
-    <v-toolbar flat dense>
+    <v-toolbar flat dense class="pr-2">
       <v-toolbar-title> Task categories </v-toolbar-title>
       <v-spacer />
       <v-btn icon @click="addCategory" color="grey">

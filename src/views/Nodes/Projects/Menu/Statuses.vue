@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12>
-    <v-toolbar flat dense>
+    <v-toolbar flat dense class="pr-2">
       <v-toolbar-title> Task statuses </v-toolbar-title>
       <v-spacer />
       <v-btn icon @click="addStatus" color="grey">

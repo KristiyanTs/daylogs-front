@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12>
-    <v-toolbar flat dense>
+    <v-toolbar flat dense class="pr-2">
       <v-toolbar-items>
         <v-tabs @change="filter">
           <v-tab>Team</v-tab>
