@@ -37,7 +37,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node"]),
+    ...mapGetters(["current_node", "inspected_node", "active_project"]),
     rootId() {
       return this.$route.params.id;
     }

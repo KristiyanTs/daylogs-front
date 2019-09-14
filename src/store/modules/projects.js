@@ -58,7 +58,6 @@ const actions = {
 
     commit(SET_ACTIVE_PROJECT, project);
     
-    dispatch(FETCH_NODE, project.id);
     dispatch(FETCH_FAVORITES);
     dispatch(FETCH_CATEGORIES);
     dispatch(FETCH_STATUSES);

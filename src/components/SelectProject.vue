@@ -36,6 +36,7 @@ import NewProject from "@/views/Nodes/Projects/NewProject/NewProject";
 import { mapGetters } from "vuex";
 import store from "@/store";
 import { FETCH_PROJECTS, SWITCH_PROJECT, TOGGLE_INVITATIONS_DIALOG } from "@/store/actions.type";
+import { SET_ACTIVE_NODE } from "@/store/mutations.type";
 import UserInvitationsDialog from "@/views/User/Invitations/InvitationsDialog";
 
 export default {
@@ -57,6 +58,7 @@ export default {
   methods: {
     switchProject(project) {
       store.dispatch(SWITCH_PROJECT, project.id);
+      store.commit(SET_ACTIVE_NODE, project);
     },
     closeProjectDialog() {
       this.projectDialog = false;
