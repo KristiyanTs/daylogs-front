@@ -14,6 +14,7 @@ export const ADD_FAVORITE = "addFavorite";
 export const REMOVE_FAVORITE = "removeFavorite";
 
 export const SET_PROJECTS = "setProjects";
+export const SET_PROJECT = "setProject";
 export const SET_ACTIVE_PROJECT = "setActiveProject";
 
 export const SET_NODE = "setNode";

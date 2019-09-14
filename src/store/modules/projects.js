@@ -3,6 +3,7 @@ import ApiService from "@/common/api.service";
 import {
   FETCH_PROJECTS,
   SWITCH_PROJECT,
+  UPDATE_PROJECT,
   FETCH_NODE,
   FETCH_FAVORITES,
   CREATE_PROJECT,
@@ -13,6 +14,7 @@ import {
 
 import {
   SET_PROJECTS,
+  SET_PROJECT,
   SET_ACTIVE_PROJECT
 } from "../mutations.type";
 
@@ -63,12 +65,23 @@ const actions = {
         dispatch(SWITCH_PROJECT, data.id);
       })
     dispatch(CREATE_ALERT, ["Project created", "success"]);
+  },
+  async [UPDATE_PROJECT]({ commit, dispatch }, params) {
+    const { data } = await ApiService.update("nodes", params.id, { node: params });
+
+    commit(SET_PROJECT, data);
+    commit(SET_ACTIVE_PROJECT, data);
+    dispatch(CREATE_ALERT, ["Project updated", "success"]);
   }
 }
 
 const mutations = {
   [SET_PROJECTS](state, projects) {
     state.projects = projects;
+  },
+  [SET_PROJECT](state, project) {
+    let idx = state.projects.findIndex(p => p.id == project.id);
+    state.projects.splice(idx, 1, project);
   },
   [SET_ACTIVE_PROJECT](state, project) {
     state.project = project;

@@ -15,6 +15,7 @@ export const DESTROY_FAVORITE = "destroyFavorite";
 export const FETCH_PROJECTS = "fetchProjects";
 export const SWITCH_PROJECT = "switchProject";
 export const CREATE_PROJECT = "createProject";
+export const UPDATE_PROJECT = "updateProject";
 
 export const FETCH_NODE = "fetchNode";
 export const CREATE_NODE = "createNode";

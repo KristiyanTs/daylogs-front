@@ -12,7 +12,7 @@
       <v-container>
         <v-layout column>
           <v-text-field
-            v-model="current_node.title"
+            v-model="item.title"
             placeholder="Project title"
             label="Project title"
             :rules="rules.title"
@@ -26,11 +26,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { UPDATE_NODE } from "@/store/actions.type";
+import { UPDATE_PROJECT } from "@/store/actions.type";
 
 export default {
   data() {
     return {
+      item: { },
       rules: {
         title: [
           v => !!v || "Title is required",
@@ -41,11 +42,19 @@ export default {
   },
   methods: {
     submit() {
-      this.$store.dispatch(UPDATE_NODE);
+      this.$store.dispatch(UPDATE_PROJECT, this.item);
     }
   },
   computed: {
-    ...mapGetters(["current_node"]),
+    ...mapGetters(["active_project"]),
+  },
+  watch: {
+    active_project: {
+      immediate: true,
+      handler() {
+        this.item = { ...this.active_project };
+      }
+    }
   }
 }
 </script>
