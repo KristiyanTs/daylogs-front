@@ -147,7 +147,7 @@ const mutations = {
   [ADD_NODE](state, node) {
     if (!node) {
       node = { ...state.new_node };
-      node.ancestry = `${state.node.ancestry}${state.node.ancestry ? "/" : ""}${state.node.id}`;
+      node.ancestry = `${state.node.ancestry ? `${state.node.ancestry}/` : ""}${state.node.id}`;
     }
     state.children.push(node);
     state.inspected_node = node;
@@ -155,7 +155,7 @@ const mutations = {
   [ADD_TASK_NODE](state, task) {
     if (!task) {
       task = { ...state.new_task_node };
-      task.ancestry = `${state.node.ancestry}${state.node.ancestry ? "/" : ""}${state.node.id}`;
+      task.ancestry = `${state.node.ancestry ? `${state.node.ancestry}/` : ""}${state.node.id}`;
       task.category_id = this.state.categories.categories[0].id;
       task.status_id = this.state.statuses.statuses[0].id;
     }
