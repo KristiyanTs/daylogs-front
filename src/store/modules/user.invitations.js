@@ -3,7 +3,8 @@ import ApiService from "@/common/api.service";
 import {
   FETCH_USER_INVITATIONS,
   UPDATE_USER_INVITATION,
-  CREATE_ALERT
+  CREATE_ALERT,
+  FETCH_PROJECTS
 } from "../actions.type";
 
 import {
@@ -31,6 +32,7 @@ const actions = {
     commit(SET_USER_INVITATIONS, data);
 
     if(params.accepted) {
+      dispatch(FETCH_PROJECTS);
       dispatch(CREATE_ALERT, ["Invitation accepted.", "success"]);
     } else {
       dispatch(CREATE_ALERT, ["Invitation declined.", "success"]);

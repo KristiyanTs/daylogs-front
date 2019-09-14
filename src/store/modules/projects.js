@@ -37,9 +37,10 @@ const getters = {
 }
 
 const actions = {
-  async [FETCH_PROJECTS]({ commit }) {
+  async [FETCH_PROJECTS]({ commit, dispatch }) {
     const { data } = await ApiService.get("users/projects");
     commit(SET_PROJECTS, data);
+    dispatch(SWITCH_PROJECT);
   },
   [SWITCH_PROJECT]({ commit, dispatch }, project_id) {
     let project;

@@ -49,7 +49,7 @@ export default {
         this.type = "roles";
       }
     },
-    addSomething() { // add only all others are saved
+    addSomething() {
       if (this.type == "invitations" && this.invitations.filter(i => i.id == "").length == 0) {
         store.commit(ADD_INVITATION, null);
       } else if(this.roles.filter(r => r.id == "").length == 0) {
@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "roles", "invitations"])
+    ...mapGetters(["roles", "invitations"])
   }
 };
 </script>

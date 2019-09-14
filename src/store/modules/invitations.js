@@ -36,7 +36,7 @@ const actions = {
     commit(SET_INVITATIONS, data);
   },
   async [CREATE_INVITATION]({rootState, commit, dispatch}, params) {
-    const { data } = await ApiService.create(rootState.projects.project.id, params);
+    const { data } = await ApiService.post(`/nodes/${rootState.projects.project.id}/invitations`, { invitation: params });
     commit(REMOVE_INVITATION, "");
     commit(ADD_INVITATION, data);
     dispatch(CREATE_ALERT, ["Invitation sent", "success"]);

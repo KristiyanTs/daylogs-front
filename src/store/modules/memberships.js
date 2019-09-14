@@ -34,9 +34,9 @@ const actions = {
     commit(SET_MEMBERSHIP, data);
     dispatch(CREATE_ALERT, ["Membership updated.", "success"]);
   },
-  async [DESTROY_MEMBERSHIP]({ commit, dispatch, rootState }, membership_id) {
-    await ApiService.delete(`/nodes/${rootState.projects.project.id}/memberships`, membership_id);
-    commit(REMOVE_MEMBERSHIP, membership_id);
+  async [DESTROY_MEMBERSHIP]({ commit, dispatch, rootState }, membership) {
+    await ApiService.delete(`/nodes/${rootState.projects.project.id}/memberships`, membership.id);
+    commit(REMOVE_MEMBERSHIP, membership.id);
     dispatch(CREATE_ALERT, ["Member removed.", "success"]);
   }
 }

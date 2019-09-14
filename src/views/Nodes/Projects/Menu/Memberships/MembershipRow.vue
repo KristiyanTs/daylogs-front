@@ -48,62 +48,6 @@
       </v-flex>
     </td>
   </tr>
-
-
-
-<!-- 
-  <v-list-item>
-    <v-list-item-avatar>
-      <font-awesome-icon icon="user" color="grey" />
-    </v-list-item-avatar>
-
-    <v-list-item-content>
-      <v-list-item-title v-text="item.user.name" />
-    </v-list-item-content>
-
-    <v-list-item-content v-if="item.editing">
-      <v-row>
-        <v-col>
-          <v-list-item-title v-text="item.user.name" />
-        </v-col>
-        <v-col>
-          <v-select
-            :items="roles"
-            label="Role"
-            v-model="item.role_id"
-            item-text="title"
-            item-value="id"
-          ></v-select>
-        </v-col>
-      </v-row>
-    </v-list-item-content>
-    <v-list-item-content v-else>
-      <v-list-item-title v-text="item.user.name" />
-      <v-list-item-subtitle v-text="roles.find(r => r.id == item.role_id).title" />
-    </v-list-item-content>
-
-    <v-list-item-action>
-      <v-flex>
-        <v-btn
-          v-if="item.editing"
-          @click="saveMembership"
-          fab
-          depressed
-          outlined
-          small
-          color="primary"
-        >
-          <font-awesome-icon icon="check" />
-        </v-btn>
-        <v-btn icon @click="editMembership" color="grey" v-else>
-          <font-awesome-icon icon="edit" />
-        </v-btn>
-        <v-btn icon @click="removeMembership" color="grey">
-          <font-awesome-icon icon="trash-alt" />
-        </v-btn>
-      </v-flex>
-    </v-list-item-action>
-  </v-list-item> -->
 </template>
 
 <script>
@@ -126,7 +70,7 @@ export default {
   },
   methods: {
     removeMembership() {
-      store.dispatch(UPDATE_MEMBERSHIP, this.item);
+      store.dispatch(DESTROY_MEMBERSHIP, this.item);
     },
     editMembership() {
       this.item.editing = true;
