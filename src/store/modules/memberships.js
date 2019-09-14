@@ -26,7 +26,7 @@ const getters = {
 
 const actions = {
   async [FETCH_MEMBERSHIPS]({ commit, rootState }) {
-    const { data } = ApiService.query(`/nodes/${rootState.projects.project.id}/memberships`);
+    const { data } = await ApiService.query(`/nodes/${rootState.projects.project.id}/memberships`);
     commit(SET_MEMBERSHIPS, data);
   },
   async [UPDATE_MEMBERSHIP]({ dispatch, commit, rootState }, params) {
@@ -34,7 +34,7 @@ const actions = {
     commit(SET_MEMBERSHIP, data);
     dispatch(CREATE_ALERT, ["Membership updated.", "success"]);
   },
-  async [DESTROY_MEMBERSHIP]({ commit, dispatch }, membership_id) {
+  async [DESTROY_MEMBERSHIP]({ commit, dispatch, rootState }, membership_id) {
     await ApiService.delete(`/nodes/${rootState.projects.project.id}/memberships`, membership_id);
     commit(REMOVE_MEMBERSHIP, membership_id);
     dispatch(CREATE_ALERT, ["Member removed.", "success"]);
@@ -46,8 +46,8 @@ const mutations = {
     state.memberships = memberships;
   },
   [SET_MEMBERSHIP](state, membership) {
-    let idx = state.membership.findIndex(m => m.id == membership.id);
-    state.membership.splice(idx, 1, membership);
+    let idx = state.memberships.findIndex(m => m.id == membership.id);
+    state.memberships.splice(idx, 1, membership);
   },
   [ADD_MEMBERSHIP](state, membership) {
     state.memberships.push(membership);

@@ -13,14 +13,14 @@
         <font-awesome-icon icon="plus" />
       </v-btn>
     </v-toolbar>
-    <Members v-if="type == 'members'" />
+    <Memberships v-if="type == 'members'" />
     <Invitations v-else-if="type == 'invitations'" />
     <Roles v-else />
   </v-flex>
 </template>
 
 <script>
-import Members from "./Members";
+import Memberships from "./Memberships/Memberships";
 import Invitations from "./Invitations/Invitations";
 import Roles from "./Roles";
 
@@ -30,7 +30,7 @@ import { ADD_ROLE, ADD_INVITATION } from "@/store/mutations.type";
 
 export default {
   components: {
-    Members,
+    Memberships,
     Invitations,
     Roles
   },

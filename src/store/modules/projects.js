@@ -4,18 +4,22 @@ import {
   FETCH_PROJECTS,
   SWITCH_PROJECT,
   UPDATE_PROJECT,
+  DESTROY_PROJECT,
   FETCH_NODE,
   FETCH_FAVORITES,
   CREATE_PROJECT,
   CREATE_ALERT,
   FETCH_CATEGORIES,
-  FETCH_STATUSES
+  FETCH_STATUSES,
+  FETCH_MEMBERSHIPS,
+  FETCH_ROLES
 } from "../actions.type";
 
 import {
   SET_PROJECTS,
   SET_PROJECT,
-  SET_ACTIVE_PROJECT
+  SET_ACTIVE_PROJECT,
+  REMOVE_PROJECT
 } from "../mutations.type";
 
 const state = {
@@ -34,7 +38,7 @@ const getters = {
 
 const actions = {
   async [FETCH_PROJECTS]({ commit }) {
-    const { data } = await ApiService.get("nodes/user_projects");
+    const { data } = await ApiService.get("users/projects");
     commit(SET_PROJECTS, data);
   },
   [SWITCH_PROJECT]({ commit, dispatch }, project_id) {
@@ -52,13 +56,16 @@ const actions = {
     }
 
     commit(SET_ACTIVE_PROJECT, project);
+    
     dispatch(FETCH_NODE, project.id);
     dispatch(FETCH_FAVORITES);
     dispatch(FETCH_CATEGORIES);
     dispatch(FETCH_STATUSES);
+    dispatch(FETCH_MEMBERSHIPS);
+    dispatch(FETCH_ROLES);
   },
   async [CREATE_PROJECT]({ dispatch }, params) {
-    const { data } = await ApiService.post("nodes", { node: params });
+    const { data } = await ApiService.post("users/projects", { project: params });
 
     dispatch(FETCH_PROJECTS)
       .then(() => {
@@ -67,11 +74,17 @@ const actions = {
     dispatch(CREATE_ALERT, ["Project created", "success"]);
   },
   async [UPDATE_PROJECT]({ commit, dispatch }, params) {
-    const { data } = await ApiService.update("nodes", params.id, { node: params });
+    const { data } = await ApiService.update("users/projects", params.id, { node: params });
 
     commit(SET_PROJECT, data);
     commit(SET_ACTIVE_PROJECT, data);
     dispatch(CREATE_ALERT, ["Project updated", "success"]);
+  },
+  async [DESTROY_PROJECT]({ commit, dispatch }, project) {
+    await ApiService.delete("users/projects", project.id);
+
+    commit(REMOVE_PROJECT, project);
+    dispatch(CREATE_ALERT, ["Project deleted", "success"]);
   }
 }
 
@@ -85,6 +98,9 @@ const mutations = {
   },
   [SET_ACTIVE_PROJECT](state, project) {
     state.project = project;
+  },
+  [REMOVE_PROJECT](state, project) {
+    state.projects = state.projects.filter(p => p.id != project.id);
   }
 }
 

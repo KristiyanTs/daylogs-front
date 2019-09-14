@@ -23,11 +23,11 @@ const getters = {
 const actions = {
   async [FETCH_USER_INVITATIONS]({ commit }) {
     commit(SET_USER_INVITATIONS, []);
-    const { data } = await ApiService.query("invitations");
+    const { data } = await ApiService.query("users/invitations");
     commit(SET_USER_INVITATIONS, data);
   },
   async [UPDATE_USER_INVITATION]({ commit, dispatch}, params) {
-    const { data } = await ApiService.update("invitations", params.id, { invitation: params });
+    const { data } = await ApiService.update("users/invitations", params.id, { invitation: params });
     commit(SET_USER_INVITATIONS, data);
 
     if(params.accepted) {
