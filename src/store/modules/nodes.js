@@ -70,13 +70,8 @@ const getters = {
 const actions = {
   async [FETCH_NODE]({ commit, dispatch }, node_id) {
     if (!node_id) return;
-
     const { data } = await ApiService.get("nodes", node_id);
 
-    if (!NodeHelpers.areParentAndChild(data, state.node)) {
-      dispatch(FETCH_CATEGORIES);
-      dispatch(FETCH_STATUSES);
-    }
     dispatch(FETCH_COMMENTS, data.id);
     commit(SET_ACTIVE_NODE, data);
   },

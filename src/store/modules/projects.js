@@ -6,7 +6,9 @@ import {
   FETCH_NODE,
   FETCH_FAVORITES,
   CREATE_PROJECT,
-  CREATE_ALERT
+  CREATE_ALERT,
+  FETCH_CATEGORIES,
+  FETCH_STATUSES
 } from "../actions.type";
 
 import {
@@ -50,11 +52,13 @@ const actions = {
     commit(SET_ACTIVE_PROJECT, project);
     dispatch(FETCH_NODE, project.id);
     dispatch(FETCH_FAVORITES);
+    dispatch(FETCH_CATEGORIES);
+    dispatch(FETCH_STATUSES);
   },
   async [CREATE_PROJECT]({ dispatch }, params) {
     const { data } = await ApiService.post("nodes", { node: params });
 
-    dispatch(FETCH_PROJECTS, data)
+    dispatch(FETCH_PROJECTS)
       .then(() => {
         dispatch(SWITCH_PROJECT, data.id);
       })

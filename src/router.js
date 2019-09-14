@@ -93,7 +93,7 @@ let router = new Router({
         },
         {
           path: "categories",
-          component: () => import("@/views/Nodes/Projects/Menu/Categories")
+          component: () => import("@/views/Nodes/Projects/Menu/Categories/Categories")
         },
         {
           path: "statuses",

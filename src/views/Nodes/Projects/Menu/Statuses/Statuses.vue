@@ -27,7 +27,7 @@ import StatusRow from "./StatusRow";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
-import { FETCH_STATUSES, UPDATE_STATUS, CREATE_ALERT } from "@/store/actions.type";
+import { UPDATE_STATUS, CREATE_ALERT } from "@/store/actions.type";
 import { ADD_STATUS } from "@/store/mutations.type";
 
 export default {
@@ -58,7 +58,7 @@ export default {
   computed: {
     statuses: {
       get() {
-        return this.$store.state.statuses.statuses
+        return JSON.parse(JSON.stringify(this.$store.state.statuses.statuses)).sort((a,b) => (a.order > b.order) ? 1 : -1);
       },
       set(new_statuses) {
         if(this.statuses.findIndex(s => s.editing) != -1) {
@@ -69,7 +69,6 @@ export default {
             new_status.order = idx;
             store.dispatch(UPDATE_STATUS, new_status);
           });
-          store.dispatch(FETCH_STATUSES);
         }
       }
     }

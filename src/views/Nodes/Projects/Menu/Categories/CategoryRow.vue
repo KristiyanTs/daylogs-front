@@ -1,9 +1,11 @@
 <template>
   <v-list-item>
     <v-list-item-avatar>
-      <ColorPicker
+      <ColorIconPicker
         :color="item.color"
-        @changeColor="color => changeColor(color, idx)"
+        :icon="item.icon"
+        :icon_color="item.icon_color"
+        @changeColorIcon="(bg, ic, col) => changeColorIcon(bg, ic, col)"
       />
     </v-list-item-avatar>
 
@@ -26,7 +28,7 @@
       <v-flex>
         <v-btn
           v-if="item.editing"
-          @click="saveStatus"
+          @click="saveCategory"
           fab
           depressed
           outlined
@@ -35,10 +37,10 @@
         >
           <font-awesome-icon icon="check" />
         </v-btn>
-        <v-btn v-else @click="editStatus" icon color="grey">
+        <v-btn v-else icon @click="editCategory" color="grey">
           <font-awesome-icon icon="edit" />
         </v-btn>
-        <v-btn @click="deleteStatus" icon color="grey">
+        <v-btn icon @click="deleteCategory" color="grey">
           <font-awesome-icon icon="trash-alt" />
         </v-btn>
       </v-flex>
@@ -47,68 +49,62 @@
 </template>
 
 <script>
-import ColorPicker from "@/components/ColorPicker";
+import ColorIconPicker from "@/components/ColorIconPicker";
 
-import { mapGetters } from "vuex";
 import store from "@/store";
-import { CREATE_STATUS, UPDATE_STATUS, DESTROY_STATUS, CREATE_ALERT } from "@/store/actions.type";
-import { SET_STATUS } from "@/store/mutations.type";
+import { CREATE_CATEGORY, UPDATE_CATEGORY, DESTROY_CATEGORY } from "@/store/actions.type";
+import { SET_CATEGORY, REMOVE_CATEGORY } from "@/store/mutations.type";
 
 export default {
   props: {
-    status: {
+    category: {
       type: Object,
       default: () => {}
     }
   },
   components: {
-    ColorPicker
+    ColorIconPicker
   },
   data() {
-    return { 
+    return {
       item: {}
     };
   },
   methods: {
-    saveStatus() {
-      if(this.status.id) {
-        store.dispatch(UPDATE_STATUS, this.item);
+    saveCategory() {
+      if(this.category.id) {
+        store.dispatch(UPDATE_CATEGORY, this.item);
       } else {
-        store.dispatch(CREATE_STATUS, this.item);
+        store.dispatch(CREATE_CATEGORY, this.item);
       }
     },
-    editStatus() {
-      this.item.editing = true;
-      store.commit(SET_STATUS, this.item);
-    },
-    deleteStatus() {
-      if(this.item.id) {
-        store.dispatch(DESTROY_STATUS, this.item);
+    deleteCategory() {
+      if(this.category.id) {
+        store.dispatch(DESTROY_CATEGORY, this.item);
       } else {
-        store.commit(REMOVE_STATUS, "");
+        store.commit(REMOVE_CATEGORY, "");
       }
     },
-    changeColor(color, idx) {
+    editCategory() {
       this.item.editing = true;
-      this.item.color = color;
-      store.commit(SET_STATUS, this.item);
+      store.commit(SET_CATEGORY, this.item);
+    },
+    changeColorIcon(bg, ic, col, idx) {
+      this.item.editing = true;
+      this.item.color = bg;
+      this.item.icon = ic;
+      this.item.icon_color = col;
+
+      store.commit(SET_CATEGORY, this.item);
     }
   },
   watch: {
-    status: {
+    category: {
       immediate: true,
       handler() {
-        this.item = { ...this.status }
+        this.item = { ...this.category };
       }
     }
   }
 }
 </script>
-
-<style lang="sass" scoped>
-.ghost
-  opacity: 0.2
-  background: #c8ebfb
-  .v-list-item__action, .v-list-item__content, .v-list-item__avatar
-    opacity: 0
-</style>

@@ -40,7 +40,7 @@ const actions = {
     commit(SET_CATEGORIES, data);
   },
   async [CREATE_CATEGORY]({ commit, dispatch, rootState }, params) {
-    const { data } = await ApiService.create(`/nodes/${rootState.projects.project.id}/categories`, { category: params });
+    const { data } = await ApiService.post(`/nodes/${rootState.projects.project.id}/categories`, { category: params });
     commit(REMOVE_CATEGORY, "");
     commit(ADD_CATEGORY, data);
     dispatch(CREATE_ALERT, ["Category added", "success"]);
