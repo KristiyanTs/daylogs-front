@@ -12,7 +12,9 @@
         item-value="id"
       ></v-select>
     </td>
-    <td></td>
+    <td>
+      <NodeSelectInline />
+    </td>
     <td class="text-right">
       <v-flex>
         <v-btn
@@ -55,6 +57,7 @@ import { mapGetters } from "vuex";
 import store from "@/store";
 import { UPDATE_MEMBERSHIP, DESTROY_MEMBERSHIP } from "@/store/actions.type";
 import { SET_MEMBERSHIP } from "@/store/mutations.type";
+import NodeSelectInline from "@/components/NodeSelectInline";
 
 export default {
   props: {
@@ -63,9 +66,12 @@ export default {
       default: () => {}
     }
   },
+  components: {
+    NodeSelectInline
+  },
   data() {
     return {
-      item: { }
+      item: { },
     };
   },
   methods: {
@@ -78,6 +84,9 @@ export default {
     },
     saveMembership() {
       store.dispatch(UPDATE_MEMBERSHIP, this.item);
+    },
+    updateScope(items) {
+      this.item.scope = items;
     }
   },
   computed: {

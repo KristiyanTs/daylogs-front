@@ -16,7 +16,9 @@
         item-value="id"
       ></v-select>
     </td>
-    <td></td>
+    <td>
+      <NodeSelectInline />
+    </td>
     <td class="text-right">
       <v-flex>
         <v-btn
@@ -57,6 +59,7 @@ import { mapGetters } from "vuex";
 import store from "@/store";
 import { CREATE_INVITATION, DESTROY_INVITATION } from "@/store/actions.type";
 import { REMOVE_INVITATION } from "@/store/mutations.type";
+import NodeSelectInline from "@/components/NodeSelectInline";
 
 export default {
   props: {
@@ -64,6 +67,9 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  components: {
+    NodeSelectInline
   },
   data() {
     return { 

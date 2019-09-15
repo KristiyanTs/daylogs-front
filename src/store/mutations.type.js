@@ -57,3 +57,6 @@ export const SET_COMMENTS = "setComments";
 export const SET_COMMENT = "setComment";
 export const ADD_COMMENT = "addComment";
 export const REMOVE_COMMENT = "removeComment";
+
+export const APPEND_TO_TREE  = "appendToTree";
+export const RESET_TREE  = "resetTree";

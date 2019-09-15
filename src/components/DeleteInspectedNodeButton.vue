@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     remove() {
+      this.prompt = false;
       store.dispatch(DESTROY_NODE, this.inspected_node);
     },
   },

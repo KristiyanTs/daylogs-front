@@ -58,3 +58,5 @@ export const DESTROY_COMMENT = "destroyComment";
 export const TOGGLE_NOTIFICATIONS = "toggleNotifications";
 export const TOGGLE_INVITATIONS_DIALOG = "toggleInvitationsDialog";
 
+export const FETCH_SUBTREE = "fetchSubtree";
+
