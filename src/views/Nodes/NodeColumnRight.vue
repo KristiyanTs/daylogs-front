@@ -24,7 +24,7 @@
       <v-spacer />
       <FavoriteButton />
       <EditButton @clicked="editing = true" />
-      <DeleteInspectedNodeButton />
+      <DeleteInspectedNodeButton v-if="node.ancestry" />
     </v-toolbar>
     <v-row v-if="node.created_at">
       <v-col>
@@ -34,6 +34,7 @@
         Updated {{ moment(node.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
+    <v-divider />
     <v-row v-on:dblclick="editing = true">
       <v-col>
         <div v-html="node.description" class="preview"></div>

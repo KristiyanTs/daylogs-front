@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="toggleFavorite" fab depressed small class="mr-2 white">
+  <v-btn @click="toggleFavorite" fab depressed small class="white">
     <font-awesome-icon
       :color="isFavorite ? 'orange' : 'grey'"
       icon="star"

@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="edit" fab depressed small class="mr-2 white">
+  <v-btn @click="edit" fab depressed small class="white">
     <font-awesome-icon
       color="grey"
       icon="edit"
