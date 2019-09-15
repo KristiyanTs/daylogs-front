@@ -6,7 +6,7 @@
           rounded
           depressed
           class="mr-2"
-          :to="`/nodes/${current_node.ancestry}`"
+          :to="`/nodes/${current_node.ancestry.split('/').slice(-1)}`"
         >
           <font-awesome-icon
             icon="arrow-left"

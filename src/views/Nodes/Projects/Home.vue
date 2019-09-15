@@ -4,7 +4,7 @@
       <v-card flat>
         <v-list dense subheader>
           <v-subheader>
-            New
+            In progress
           </v-subheader>
         </v-list>
       </v-card>
