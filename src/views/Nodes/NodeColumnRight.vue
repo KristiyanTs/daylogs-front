@@ -13,6 +13,9 @@
           <v-text-field v-model="node.title" label="Title" />
         </v-col>
       </v-row>
+      <v-row>
+        <vue-editor v-model="node.description" :editor-toolbar="customToolbar" />
+      </v-row>
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
@@ -31,6 +34,13 @@
         Updated {{ moment(node.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
+    <v-row v-on:dblclick="editing = true">
+      <v-col>
+        <div v-html="node.description" class="preview"></div>
+      </v-col>
+    </v-row>
+    <v-divider />
+    <Comments />
   </v-container>
 </template>
 
@@ -41,12 +51,17 @@ import { CREATE_NODE, UPDATE_NODE, CHANGE_INSPECTED_NODE } from "@/store/actions
 import FavoriteButton from "@/components/FavoriteButton.vue";
 import EditButton from "@/components/EditButton.vue";
 import DeleteInspectedNodeButton from "@/components/DeleteInspectedNodeButton.vue";
+import { VueEditor, Quill } from "vue2-editor";
+import Comments from "@/views/Comments/Wrapper";
 
 export default {
   components: {
+    VueEditor,
+    Quill,
     FavoriteButton,
     EditButton,
-    DeleteInspectedNodeButton
+    DeleteInspectedNodeButton,
+    Comments
   },
   data() {
     return { 

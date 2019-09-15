@@ -85,7 +85,7 @@
       </v-row>
       <v-row>
         <vue-editor v-model="task.description" :editor-toolbar="customToolbar" />
-      </v-row>
+      </v-row> 
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
