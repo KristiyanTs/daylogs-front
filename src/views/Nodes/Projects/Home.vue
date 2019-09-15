@@ -34,6 +34,7 @@
             Top level topics
           </v-subheader>
           <NodeRow
+            clickToOpen
             v-for="child in child_nodes"
             :key="child.id"
             :node="child"

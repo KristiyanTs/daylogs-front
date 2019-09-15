@@ -70,7 +70,6 @@ const getters = {
 const actions = {
   async [FETCH_NODE]({ commit, dispatch }, node_id) {
     if (!node_id) return;
-    console.log(node_id);
     const { data } = await ApiService.get("nodes", node_id);
 
     dispatch(FETCH_COMMENTS, data.id);

@@ -1,5 +1,5 @@
 <template>
-  <v-list-item @click="inspectNode" v-on:dblclick="activateNode" dense>
+  <v-list-item @click="clickToOpen ? activateNode() : inspectNode()" v-on:dblclick="activateNode" dense>
     <v-list-item-avatar>
       <font-awesome-icon
         icon="code-branch"
@@ -45,6 +45,10 @@ export default {
     node: {
       type: Object,
       default: () => {}
+    },
+    clickToOpen: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
