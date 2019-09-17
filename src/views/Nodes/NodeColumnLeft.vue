@@ -16,7 +16,7 @@
           />
           Back
         </v-btn>
-        /
+        <span class="grey--text">/</span>
         <NodeBreadcrumb />
       </v-toolbar-title>
     </v-toolbar>

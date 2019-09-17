@@ -16,7 +16,7 @@
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title v-text="node.title" @click="activateNode" />
+      <v-list-item-title v-text="node.title" />
     </v-list-item-content>
 
     <v-list-item-action>

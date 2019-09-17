@@ -1,5 +1,5 @@
 <template>
-  <Screen>
+  <Screen v-if="active_project">
     <template v-slot:box-1>
       <v-card flat>
         <v-list dense subheader>
@@ -61,6 +61,9 @@
       </v-card>
     </template>
   </Screen>
+  <div v-else class="grey--text text-center no-projects">
+    <h3>Create a project or accept an invitation</h3>
+  </div>
 </template>
 
 <script>
@@ -93,4 +96,13 @@ export default {
 .v-card
   height: 100%
   overflow: auto
+.no-projects
+  height: calc(100vh - 64px)
+  display: table
+  text-align: center
+  width: 100%
+  h3
+    display: table-cell
+    text-align: center
+    vertical-align: middle
 </style>

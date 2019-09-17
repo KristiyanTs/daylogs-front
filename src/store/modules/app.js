@@ -43,8 +43,8 @@ const getters = {
   layout3x2(state) {
     return state.layout3x2;
   },
-  sidebar(state) {
-    return state.sidebar;
+  sidebar(state, _, rootState) {
+    return state.sidebar && rootState.projects.project.hasOwnProperty('id');
   },
   sidebarRight(state) {
     return state.sidebarRight;
