@@ -11,7 +11,7 @@
       label="Search"
       prepend-inner-icon="search"
     ></v-text-field>
-    <SelectProject />
+    <ProjectSelect />
     <v-spacer />
     <Alerts />
     <v-btn fab dedpressed small :text="!resizable" color="grey" @click="toggleResizable">
@@ -48,12 +48,12 @@ import store from "@/store";
 import { CREATE_ALERT, LOGOUT, TOGGLE_NOTIFICATIONS } from "@/store/actions.type";
 import { TOGGLE_RESIZABLE, TOGGLE_SIDEBAR } from "@/store/mutations.type";
 import Alerts from "./Alerts";
-import SelectProject from "@/components/SelectProject";
+import ProjectSelect from "@/components/ProjectSelect";
 
 export default {
   components: {
     Alerts,
-    SelectProject
+    ProjectSelect
   },
   data() {
     return {

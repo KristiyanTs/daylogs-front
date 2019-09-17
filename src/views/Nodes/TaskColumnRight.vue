@@ -150,8 +150,8 @@
     <v-row v-if="task.assignees">
       <v-col>
         Assignees 
-        <v-chip pill small v-for="assignee in task.assignees" :key="assignee">
-          {{ members.find(m => m.id == assignee).name }}
+        <v-chip pill small v-for="assignee in assignees" :key="assignee.id">
+          {{ assignee.name }}
         </v-chip>
       </v-col>
     </v-row>
@@ -245,6 +245,13 @@ export default {
     },
     status() {
       return this.statuses.find(s => s.id == this.task.status_id);
+    },
+    assignees() {
+      if(this.inspected_node.hasOwnProperty("assignees") && this.inspected_node.assignees instanceof Array && this.members instanceof Array) {
+        return this.members.filter(m => this.task.assignees.includes(m.id));
+      } else {
+        return [];
+      }
     }
   },
   watch: {

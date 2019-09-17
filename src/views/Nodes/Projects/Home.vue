@@ -35,7 +35,7 @@
           </v-subheader>
           <NodeRow
             clickToOpen
-            v-for="child in child_nodes"
+            v-for="child in active_project.children"
             :key="child.id"
             :node="child"
           />
@@ -83,11 +83,8 @@ export default {
       items: [[], [], [], [], [], []]
     };
   },
-  mounted() {
-    store.dispatch(FETCH_NODE, this.active_project.id);
-  },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "active_project", "child_tasks", "child_nodes"]),
+    ...mapGetters(["active_project", "child_nodes"]),
   }
 }
 </script>

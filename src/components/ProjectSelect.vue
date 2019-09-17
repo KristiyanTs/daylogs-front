@@ -50,10 +50,7 @@ export default {
     };
   },
   mounted() {
-    store.dispatch(FETCH_PROJECTS)
-      .then(() => {
-        store.dispatch(SWITCH_PROJECT, null);
-      })
+    store.dispatch(FETCH_PROJECTS);
   },
   methods: {
     switchProject(project) {
