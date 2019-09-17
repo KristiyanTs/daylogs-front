@@ -83,6 +83,20 @@
           </v-select>
         </v-col>
       </v-row>
+      <v-row dense>
+        <v-col>
+          <v-select
+            v-model="task.assignees"
+            :items="members"
+            label="Assignees"
+            chips
+            item-text="name"
+            item-value="id"
+            multiple
+            dense
+          />
+        </v-col>
+      </v-row>
       <v-row>
         <vue-editor v-model="task.description" :editor-toolbar="customToolbar" />
       </v-row> 
@@ -130,6 +144,14 @@
             :color="status.color"
           />
           {{ status.title }}
+        </v-chip>
+      </v-col>
+    </v-row>
+    <v-row v-if="task.assignees">
+      <v-col>
+        Assignees 
+        <v-chip pill small v-for="assignee in task.assignees" :key="assignee">
+          {{ members.find(m => m.id == assignee).name }}
         </v-chip>
       </v-col>
     </v-row>
@@ -188,7 +210,8 @@ export default {
     },
     save() {
       this.editing = false;
-      if(this.task.id == "" || this.task.id == null) { // it has an id => it exists => update
+      this.setupAssigneesAttrtibutes();
+      if(this.task.id == "" || this.task.id == null) {
         store.dispatch(CREATE_NODE, this.task);
       } else {
         store.dispatch(UPDATE_NODE, this.task);
@@ -201,10 +224,22 @@ export default {
         this.editing = false;
         this.task = { ...this.inspected_node }; 
       }
+    },
+    setupAssigneesAttrtibutes() {
+      if(!this.task.assignees) {
+        this.task.assignees = [];
+      }
+      
+      this.task.assignees_attributes = this.task.assignees.map(a => {
+        return {
+          user_id: typeof a == "number" ? a : a.user_id,
+          id: a.id || null
+        }
+      })
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "categories", "statuses"]),
+    ...mapGetters(["current_node", "inspected_node", "categories", "statuses", "members"]),
     category() {
       return this.categories.find(c => c.id == this.task.category_id);
     },
@@ -217,6 +252,7 @@ export default {
       immediate: true,
       handler() {
         this.task = { ...this.inspected_node };
+        this.task.assignees = this.inspected_node.assignees.map(a => a.user_id);
         if(this.task.id == "") {
           this.editing = true;
         } else {

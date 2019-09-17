@@ -9,14 +9,11 @@ import {
   DESTROY_NODE,
   CREATE_ALERT,
   FETCH_FAVORITES,
-  FETCH_CATEGORIES,
-  FETCH_STATUSES,
   FETCH_COMMENTS,
   SWITCH_PROJECT
 } from "../actions.type";
 
 import {
-  SET_NODE,
   SET_ACTIVE_NODE,
   SET_INSPECTED_NODE,
   ADD_NODE,
@@ -71,7 +68,6 @@ const actions = {
   async [FETCH_NODE]({ commit, dispatch }, node_id) {
     if (!node_id) return;
     const { data } = await ApiService.get("nodes", node_id);
-
     dispatch(FETCH_COMMENTS, data.id);
     commit(SET_ACTIVE_NODE, data);
   },
@@ -130,14 +126,9 @@ const actions = {
 }
 
 const mutations = {
-  [SET_NODE](state, node) {
-    state.node = node;
-    state.children = state.node.children;
-    state.inspected_node = state.node;
-  },
   [SET_ACTIVE_NODE](state, node) {
     state.node = node;
-    state.children = state.node.children;
+    state.children = node.children || [];
     state.inspected_node = state.node;
   },
   [SET_INSPECTED_NODE](state, node) { // select the provided one or the first

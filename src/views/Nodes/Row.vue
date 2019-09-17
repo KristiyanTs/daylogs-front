@@ -2,7 +2,7 @@
   <v-list-item @click="clickToOpen ? activateNode() : inspectNode()" v-on:dblclick="activateNode" dense>
     <v-list-item-avatar>
       <font-awesome-icon
-        icon="code-branch"
+        icon="folder"
         class="grey--text"
         v-if="!isTask(node)"
       />
@@ -16,7 +16,7 @@
     </v-list-item-avatar>
 
     <v-list-item-content>
-      <v-list-item-title v-text="node.title" />
+      <v-list-item-title v-text="node.title" @click="activateNode" />
     </v-list-item-content>
 
     <v-list-item-action>

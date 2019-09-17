@@ -17,7 +17,6 @@ export const SET_PROJECTS = "setProjects";
 export const SET_PROJECT = "setProject";
 export const SET_ACTIVE_PROJECT = "setActiveProject";
 
-export const SET_NODE = "setNode";
 export const SET_ACTIVE_NODE = "setActiveNode";
 export const SET_INSPECTED_NODE = "setInspectedNode";
 export const ADD_NODE = "addNode";

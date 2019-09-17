@@ -21,6 +21,20 @@ const state = {
 const getters = {
   memberships(state) {
     return state.memberships;
+  },
+  members(state) {
+    const filterUsers = users => {
+      return users.reduce((acc, current) => {
+        const x = acc.find(item => item.id === current.id);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+    }
+    let members = state.memberships.map(m => m.user);
+    return filterUsers(members);
   }
 }
 

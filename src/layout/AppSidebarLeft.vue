@@ -42,7 +42,7 @@
             :to="`/nodes/${node.id}`"
           >
             <v-list-item-action>
-              <font-awesome-icon icon="code-branch" class="grey--text" />
+              <font-awesome-icon icon="folder" class="grey--text" />
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>
