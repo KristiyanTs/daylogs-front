@@ -1,8 +1,9 @@
 <template>
   <v-container class="px-0 py-0 white">
-    <v-toolbar flat dense v-if="current_node.ancestry">
+    <v-toolbar flat dense>
       <v-toolbar-title>
         <v-btn
+          v-if="current_node.ancestry"
           rounded
           depressed
           class="mr-2"
@@ -15,13 +16,10 @@
           />
           Back
         </v-btn>
+        /
+        <NodeBreadcrumb />
       </v-toolbar-title>
     </v-toolbar>
-    <v-list dense subheader>
-      <NodeRow
-        :node="current_node"
-      />
-    </v-list>
     <v-list dense subheader>
       <v-subheader>
         Topics
@@ -57,6 +55,7 @@
 
 <script>
 import NodeRow from "./Row";
+import NodeBreadcrumb from "./NodeBreadcrumb";
 
 import { mapGetters } from "vuex";
 import store from "@/store";
@@ -65,7 +64,8 @@ import { ADD_NODE, ADD_TASK_NODE } from "@/store/mutations.type";
 
 export default {
   components: {
-    NodeRow
+    NodeRow,
+    NodeBreadcrumb
   },
   data() {
     return { };
