@@ -93,7 +93,6 @@
             item-text="name"
             item-value="id"
             multiple
-            dense
           />
         </v-col>
       </v-row>
@@ -113,16 +112,18 @@
       <DeleteInspectedNodeButton />
     </v-toolbar>
     <v-row v-if="item.created_at">
-      <v-col>
-        Created {{ moment(item.created_at).format("M/D/YY, H:mm") }}
+      <v-col class="py-1">
+        <span class="grey--text">Created</span>
+        {{ moment(item.created_at).format("M/D/YY, H:mm") }}
       </v-col>
-      <v-col>
-        Updated {{ moment(item.updated_at).format("M/D/YY, H:mm") }}
+      <v-col class="py-1">
+        <span class="grey--text">Updated</span>
+        {{ moment(item.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
     <v-row v-if="item.created_at">
-      <v-col>
-        Category 
+      <v-col class="py-1">
+        <span class="grey--text">Category</span>
         <v-chip pill small>
           <v-avatar
             left
@@ -136,8 +137,8 @@
           {{ category.title }}
         </v-chip>
       </v-col>
-      <v-col>
-        Status 
+      <v-col class="py-1">
+        <span class="grey--text">Status</span>
         <v-chip pill small>
           <v-avatar
             left
@@ -148,8 +149,8 @@
       </v-col>
     </v-row>
     <v-row v-if="item.assignees">
-      <v-col>
-        Assignees 
+      <v-col class="py-1">
+        <span class="grey--text">Assignees</span> 
         <v-chip pill small v-for="assignee in assignees" :key="assignee.id">
           {{ assignee.name }}
         </v-chip>
@@ -248,7 +249,7 @@ export default {
       immediate: true,
       handler() {
         this.item = { ...this.inspected_node };
-        this.item.assignees = this.inspected_node.assignees.map(a => a.user_id);
+        this.item.assignees =  this.item.id ? this.inspected_node.assignees.map(a => a.user_id) : [];
         if(this.item.id == "") {
           this.editing = true;
         } else {
@@ -273,5 +274,6 @@ export default {
 .v-chip--pill.v-size--small .v-avatar
   height: 24px !important
   width: 24px !important
-
+.v-text-field__details
+  display: none
 </style>
