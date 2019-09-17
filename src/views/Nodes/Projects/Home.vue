@@ -37,7 +37,7 @@
             clickToOpen
             v-for="child in active_project.children"
             :key="child.id"
-            :node="child"
+            :item="child"
           />
         </v-list>
       </v-card>

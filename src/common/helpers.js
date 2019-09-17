@@ -14,3 +14,27 @@ export const NodeHelpers = {
     return node1.ancestry == node2.id.toString() || node2.ancestry == node1.id.toString();
   }
 }
+
+export const TaskHelpers = {
+  category() {
+    if(this.categories) {
+      return this.categories.find(c => c.id == this.item.category_id);
+    } else {
+      return { title: "", icon: "", color: "", icon_color: "" }
+    }
+  },
+  status() {
+    if(this.statuses) {
+      return this.statuses.find(s => s.id == this.item.status_id);
+    } else {
+      return { title: "", color: "" }
+    }
+  },
+  assignees() {
+    if(this.inspected_node.hasOwnProperty("assignees") && this.inspected_node.assignees instanceof Array && this.members instanceof Array) {
+      return this.members.filter(m => this.item.assignees.includes(m.id));
+    } else {
+      return [];
+    }
+  }
+}

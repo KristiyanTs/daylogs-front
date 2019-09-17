@@ -32,7 +32,7 @@
       <NodeRow
         v-for="child in child_nodes"
         :key="child.id"
-        :node="child"
+        :item="child"
       />
     </v-list>
     <v-list dense subheader>
@@ -47,7 +47,7 @@
       <NodeRow
         v-for="child in child_tasks"
         :key="child.id"
-        :node="child"
+        :item="child"
       />
     </v-list>
   </v-container>

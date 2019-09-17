@@ -10,13 +10,13 @@
     <v-container>
       <v-row dense>
         <v-col>
-          <v-text-field v-model="task.title" label="Title" />
+          <v-text-field v-model="item.title" label="Title" />
         </v-col>
       </v-row>
       <v-row dense>
         <v-col>
           <v-select
-            v-model="task.category_id"
+            v-model="item.category_id"
             :items="categories"
             label="Type"
             chips
@@ -55,7 +55,7 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="task.status_id"
+            v-model="item.status_id"
             :items="statuses"
             label="Status"
             chips
@@ -86,7 +86,7 @@
       <v-row dense>
         <v-col>
           <v-select
-            v-model="task.assignees"
+            v-model="item.assignees"
             :items="members"
             label="Assignees"
             chips
@@ -98,29 +98,29 @@
         </v-col>
       </v-row>
       <v-row>
-        <vue-editor v-model="task.description" :editor-toolbar="customToolbar" />
+        <vue-editor v-model="item.description" :editor-toolbar="customToolbar" />
       </v-row> 
     </v-container>
   </v-container>
   <v-container class="px-0 py-0" v-else>
     <v-toolbar flat dense>
       <v-toolbar-title>
-        {{ task.title }}
+        {{ item.title }}
       </v-toolbar-title>
       <v-spacer />
       <FavoriteButton />
       <EditButton @clicked="editing = true" />
       <DeleteInspectedNodeButton />
     </v-toolbar>
-    <v-row v-if="task.created_at">
+    <v-row v-if="item.created_at">
       <v-col>
-        Created {{ moment(task.created_at).format("M/D/YY, H:mm") }}
+        Created {{ moment(item.created_at).format("M/D/YY, H:mm") }}
       </v-col>
       <v-col>
-        Updated {{ moment(task.updated_at).format("M/D/YY, H:mm") }}
+        Updated {{ moment(item.updated_at).format("M/D/YY, H:mm") }}
       </v-col>
     </v-row>
-    <v-row v-if="task.created_at">
+    <v-row v-if="item.created_at">
       <v-col>
         Category 
         <v-chip pill small>
@@ -147,7 +147,7 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-row v-if="task.assignees">
+    <v-row v-if="item.assignees">
       <v-col>
         Assignees 
         <v-chip pill small v-for="assignee in assignees" :key="assignee.id">
@@ -155,10 +155,10 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-divider v-if="task.created_at" />
+    <v-divider v-if="item.created_at" />
     <v-row v-on:dblclick="edit">
       <v-col>
-        <div v-html="task.description" class="preview"></div>
+        <div v-html="item.description" class="preview"></div>
       </v-col>
     </v-row>
     <v-divider />
@@ -175,8 +175,10 @@ import FavoriteButton from "@/components/FavoriteButton.vue";
 import EditButton from "@/components/EditButton.vue";
 import DeleteInspectedNodeButton from "@/components/DeleteInspectedNodeButton.vue";
 import Comments from "@/views/Comments/Wrapper";
+import { TaskCommonFinders } from "./node.mixins";
 
 export default {
+  mixins: [TaskCommonFinders],
   components: {
     VueEditor,
     Quill,
@@ -187,7 +189,7 @@ export default {
   },
   data() {
     return {
-      task: {},
+      item: {},
       editing: false,
       customToolbar: [
         [{ header: [false, 1, 2, 3, 4, 5, 6] }],
@@ -206,31 +208,31 @@ export default {
       this.editing = true;
     },
     remove() {
-      store.dispatch(DESTROY_NODE, this.task);
+      store.dispatch(DESTROY_NODE, this.item);
     },
     save() {
       this.editing = false;
       this.setupAssigneesAttrtibutes();
-      if(this.task.id == "" || this.task.id == null) {
-        store.dispatch(CREATE_NODE, this.task);
+      if(this.item.id == "" || this.item.id == null) {
+        store.dispatch(CREATE_NODE, this.item);
       } else {
-        store.dispatch(UPDATE_NODE, this.task);
+        store.dispatch(UPDATE_NODE, this.item);
       }
     },
     cancel() {
-      if(this.task.id == "") {
+      if(this.item.id == "") {
         this.remove();
       } else {
         this.editing = false;
-        this.task = { ...this.inspected_node }; 
+        this.item = { ...this.inspected_node }; 
       }
     },
     setupAssigneesAttrtibutes() {
-      if(!this.task.assignees) {
-        this.task.assignees = [];
+      if(!this.item.assignees) {
+        this.item.assignees = [];
       }
       
-      this.task.assignees_attributes = this.task.assignees.map(a => {
+      this.item.assignees_attributes = this.item.assignees.map(a => {
         return {
           user_id: typeof a == "number" ? a : a.user_id,
           id: a.id || null
@@ -239,28 +241,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["current_node", "inspected_node", "categories", "statuses", "members"]),
-    category() {
-      return this.categories.find(c => c.id == this.task.category_id);
-    },
-    status() {
-      return this.statuses.find(s => s.id == this.task.status_id);
-    },
-    assignees() {
-      if(this.inspected_node.hasOwnProperty("assignees") && this.inspected_node.assignees instanceof Array && this.members instanceof Array) {
-        return this.members.filter(m => this.task.assignees.includes(m.id));
-      } else {
-        return [];
-      }
-    }
+    ...mapGetters(["current_node", "inspected_node", "categories", "statuses", "members"])
   },
   watch: {
     inspected_node: {
       immediate: true,
       handler() {
-        this.task = { ...this.inspected_node };
-        this.task.assignees = this.inspected_node.assignees.map(a => a.user_id);
-        if(this.task.id == "") {
+        this.item = { ...this.inspected_node };
+        this.item.assignees = this.inspected_node.assignees.map(a => a.user_id);
+        if(this.item.id == "") {
           this.editing = true;
         } else {
           this.editing = false;

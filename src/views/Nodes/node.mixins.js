@@ -1,4 +1,4 @@
-import { NodeHelpers } from '@/common/helpers.js';
+import { NodeHelpers, TaskHelpers } from '@/common/helpers.js';
 
 export const NodeTypeCheck = {
   methods: {
@@ -6,5 +6,13 @@ export const NodeTypeCheck = {
     isTask: NodeHelpers.isTask,
     isProject: NodeHelpers.isProject,
     areParentAndChild: NodeHelpers.areParentAndChild
+  }
+};
+
+export const TaskCommonFinders = {
+  computed: {
+    category: TaskHelpers.category,
+    status: TaskHelpers.status,
+    assignees: TaskHelpers.assignees
   }
 };
