@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-0 py-0" v-if="editing">
+  <v-container class="px-0 py-0 task-editing" v-if="editing">
     <v-toolbar flat dense>
       <v-toolbar-title>
       </v-toolbar-title>
@@ -274,6 +274,7 @@ export default {
 .v-chip--pill.v-size--small .v-avatar
   height: 24px !important
   width: 24px !important
-.v-text-field__details
-  display: none
+.task-editing
+  .v-text-field__details
+    display: none
 </style>

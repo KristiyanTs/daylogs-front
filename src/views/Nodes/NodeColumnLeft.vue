@@ -5,7 +5,7 @@
         <v-btn
           v-if="current_node.ancestry"
           rounded
-          depressed
+          text
           class="mr-2"
           :to="`/nodes/${current_node.ancestry.split('/').slice(-1)}`"
         >

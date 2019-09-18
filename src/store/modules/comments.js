@@ -42,7 +42,9 @@ const actions = {
     commit(SET_COMMENTS, data);
   },
   async [FETCH_REPLIES](context, comment) {
-    const { data } = await ApiService.query(`/nodes/${comment.node_id}/comments/${comment.id}`);
+    const { data } = await ApiService.query(`/nodes/${comment.node_id}/comments`, { 
+      comment_id: comment.id 
+    });
     data.map(reply => {
       if (context.state.comments.findIndex(c => c.id == reply.id) == -1) {
         context.commit(ADD_COMMENT, reply);

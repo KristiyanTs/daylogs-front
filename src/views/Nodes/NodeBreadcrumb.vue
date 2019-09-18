@@ -1,7 +1,7 @@
 <template>
   <v-btn
     rounded
-    depressed
+    text
     :class="{ 'pl-0': isTask(current_node) }"
     class="ml-2 text-none"
     @click="inspectNode"
