@@ -6,13 +6,18 @@
         class="grey--text"
         v-if="!isTask(item)"
       />
-      <v-btn fab v-else-if="category" :color="category.color" depressed x-small>
-        <font-awesome-icon
-          :icon="category.icon"
-          :color="category.icon_color"
-          size="lg"
-        />
-      </v-btn>
+      <v-tooltip bottom v-else-if="category" open-delay="200">
+        <template v-slot:activator="data">
+          <v-btn fab :color="category.color" depressed x-small v-on="data.on">
+            <font-awesome-icon
+              :icon="category.icon"
+              :color="category.icon_color"
+              size="lg"
+            />
+          </v-btn>
+        </template>
+        <span>{{ category.title }}</span>
+      </v-tooltip>
     </v-list-item-avatar>
 
     <v-list-item-content>
@@ -20,13 +25,12 @@
     </v-list-item-content>
 
     <v-list-item-action v-if="status">
-      <v-chip pill color="white" small v-if="isTask(item)">
-        {{ status.title }}
-        <v-avatar
-          right
-          :color="status.color"
-        />
-      </v-chip>
+      <v-tooltip bottom open-delay="200">
+        <template v-slot:activator="data">
+          <v-btn fab :color="status.color" depressed x-small v-on="data.on"/>
+        </template>
+        <span>{{ status.title }}</span>
+      </v-tooltip>
     </v-list-item-action>
   </v-list-item>
 </template>

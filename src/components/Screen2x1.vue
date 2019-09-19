@@ -81,6 +81,6 @@ export default {
 .col-left, .col-right
   background: white
   height: calc(100vh - 62px)
-  overflow: scroll
+  overflow: auto
   border-right: 1px solid rgba(0,0,0,.12)
 </style>

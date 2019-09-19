@@ -12,7 +12,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.8.1",
     "@fortawesome/free-solid-svg-icons": "^5.7.1",
     "@fortawesome/vue-fontawesome": "^0.1.5",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bootstrap-vue": "^2.0.0-rc.12",
     "flatpickr": "^4.5.2",
     "lodash.camelcase": "^4.3.0",
@@ -35,7 +35,7 @@
     "vue2-filters": "^0.4.1",
     "vue2-transitions": "^0.2.3",
     "vuedraggable": "^2.21.0",
-    "vuetify": "^2.0.0",
+    "vuetify": "^2.0.18",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
