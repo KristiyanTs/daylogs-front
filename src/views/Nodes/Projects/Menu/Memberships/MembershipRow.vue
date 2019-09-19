@@ -13,7 +13,7 @@
       ></v-select>
     </td>
     <td>
-      <NodeSelectInline />
+      <NodeSelectInline @selected="updateSelected" />
     </td>
     <td class="text-right">
       <v-flex>
@@ -85,9 +85,9 @@ export default {
     saveMembership() {
       store.dispatch(UPDATE_MEMBERSHIP, this.item);
     },
-    updateScope(items) {
-      this.item.scope = items;
-    }
+    updateSelected(item) {
+      this.item.node_id = item;
+    },
   },
   computed: {
     ...mapGetters(["roles"])

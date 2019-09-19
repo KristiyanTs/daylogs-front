@@ -111,7 +111,7 @@ export default {
         ["#FF5722", "#795548", "#607D8B"],
         ["#9E9E9E", "$FFFFFF"]
       ],
-      icons: ["bug", "list-ul", "list-ol", "quote-right", "code", "chevron-left", "chevron-right", "angle-double-left", "angle-double-right", "plus", "check", "redo", "trash-alt", "spinner", "user", "edit", "save", "play", "pause", "lock", "ellipsis-v", "at", "key", "times", "grip-vertical", "sticky-note", "pencil-alt", "code-branch", "tasks", "cog", "star", "redo-alt", "info-circle"]
+      icons: ["bug", "list-ul", "list-ol", "quote-right", "code", "chevron-left", "chevron-right", "angle-double-left", "angle-double-right", "plus", "check", "redo", "trash-alt", "spinner", "user", "edit", "save", "play", "pause", "lock", "ellipsis-v", "at", "key", "times", "grip-vertical", "sticky-note", "pencil-alt", "code-branch", "tasks", "cog", "star", "redo-alt", "info-circle", "comment", "folder", "home", "users-cog", "bell", "shield-alt"]
     };
   },
   methods: {

@@ -17,7 +17,7 @@
       ></v-select>
     </td>
     <td>
-      <NodeSelectInline />
+      <NodeSelectInline @selected="updateSelected" />
     </td>
     <td class="text-right">
       <v-flex>
@@ -79,6 +79,7 @@ export default {
   methods: {
     saveInvitation() {
       store.dispatch(CREATE_INVITATION, this.item);
+      // Sending the correct node_id. Niko should make it work
     },
     deleteInvitation() {
       if(this.invitation.id) {
@@ -87,6 +88,9 @@ export default {
         store.commit(REMOVE_INVITATION, "");
       }
     },
+    updateSelected(item) {
+      this.item.node_id = item;
+    }
   },
   computed: {
     ...mapGetters(["roles"])

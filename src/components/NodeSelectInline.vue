@@ -15,7 +15,7 @@
     </template>
 
     <v-card>
-      <NodeSelect @selected="updateScope"/>
+      <NodeSelect @selected="updateSelected"/>
 
       <v-card-actions>
         <div class="flex-grow-1"></div>
@@ -39,8 +39,8 @@ export default {
     }
   },
   methods: {
-    updateSelected(items) {
-      this.$emit();
+    updateSelected(item) {
+      this.$emit("selected", item);
     }
   }
 }

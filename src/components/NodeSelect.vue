@@ -7,7 +7,11 @@
     :items="tree"
     transition
     open-on-click
+    selection-type="independent"
     @input="emitSelected"
+    @update:active="emitSelected"
+    :value="selected"
+    indeterminate-icon="$vuetify.icons.checkboxOff"
   ></v-treeview>
 </template>
 
@@ -20,7 +24,8 @@ import { RESET_TREE } from "@/store/mutations.type";
 export default {
   data() {
     return {
-      items: []
+      items: [],
+      selected: []
     }
   },
   mounted() {
@@ -34,7 +39,23 @@ export default {
       store.dispatch(FETCH_SUBTREE, item);
     },
     emitSelected(items) {
-      this.$emit("selected", items);
+      // this is really buggy, better just write your own
+      if(this.selected.length) {
+        if(items.length == 1) {
+          this.selected = items;
+        } else if(items.includes(this.selected[0])) {
+          this.selected = [];
+        } else {
+          this.selected = [];
+        }
+      } else {
+        if(items.length == 1) {
+          this.selected = items;
+        } else {
+          this.selected = [];
+        }
+      }
+      this.$emit("selected", this.selected[0]);
     }
   },
   computed: {
