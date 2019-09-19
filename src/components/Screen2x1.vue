@@ -57,7 +57,7 @@ export default {
   methods: {
     handleResize() {
       this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight - 62;
+      this.window.height = window.innerHeight - 65;
     },
     layoutUpdatedEvent(new_layout) {
       store.commit(SET_LAYOUT, JSON.parse(JSON.stringify(new_layout)));
@@ -80,7 +80,7 @@ export default {
 <style scoped lang="sass">
 .col-left, .col-right
   background: white
-  height: calc(100vh - 62px)
+  height: calc(100vh - 65px)
   overflow: auto
   border-right: 1px solid rgba(0,0,0,.12)
 </style>

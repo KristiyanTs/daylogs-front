@@ -159,6 +159,10 @@ const mutations = {
       let idx = state.node.children.findIndex(c => c.id == node.id);
       state.node.children.splice(idx, 1, node);
     }
+
+    if(state.inspected_node.id == node.id) {
+      state.inspected_node = node;
+    }
   },
   [REMOVE_NODE](state, node_id) {
     state.children = state.children.filter(c => c.id != node_id);

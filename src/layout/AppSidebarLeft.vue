@@ -34,7 +34,7 @@
           </v-flex>
         </v-layout>
       </v-flex>
-      <v-flex class="projects-wrapper" shrink>
+      <v-flex class="projects-wrapper white" shrink>
         <v-list dense class="p-0" shaped>
           <v-list-item
             v-for="(node, k) in favorites"
@@ -76,5 +76,6 @@ export default {
   height: 100%
 .projects-wrapper
   max-height: 200px
-  overflow-y: scroll
+  overflow-y: auto
+
 </style>

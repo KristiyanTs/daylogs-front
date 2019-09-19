@@ -1,5 +1,10 @@
 <template>
-  <v-list-item @click="clickToOpen ? activateNode() : inspectNode()" v-on:dblclick="activateNode" dense>
+  <v-list-item
+    :class="{'blue-grey lighten-5': item.id == inspected_node.id}"
+    @click="clickToOpen ? activateNode() : inspectNode()" 
+    v-on:dblclick="activateNode" 
+    dense
+    v-if="item.id != ''">
     <v-list-item-avatar>
       <font-awesome-icon
         icon="folder"
@@ -27,7 +32,14 @@
     <v-list-item-action v-if="status">
       <v-tooltip bottom open-delay="200">
         <template v-slot:activator="data">
-          <v-btn fab :color="status.color" depressed x-small v-on="data.on"/>
+          <v-btn 
+            fab 
+            :color="status.color" 
+            depressed 
+            height="20" 
+            width="20" 
+            class="ml-1"
+            v-on="data.on"/>
         </template>
         <span>{{ status.title }}</span>
       </v-tooltip>

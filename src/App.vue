@@ -28,4 +28,6 @@ export default {
   padding: 0px
 button:focus, a:focus
   outline: 0 !important
+html
+  overflow-y: auto !important
 </style>
