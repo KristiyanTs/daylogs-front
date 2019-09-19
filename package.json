@@ -20,7 +20,7 @@
     "register-service-worker": "^1.5.2",
     "tiptap": "^1.14.0",
     "tiptap-extensions": "^1.14.0",
-    "vue": "^2.5.22",
+    "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-cookies": "^1.5.12",
     "vue-flatpickr-component": "^8.1.2",
