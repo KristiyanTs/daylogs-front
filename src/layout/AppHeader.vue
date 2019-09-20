@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app clipped-left elevation="0">
-    <v-app-bar-nav-icon @click="toggleSidebar"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="toggleSidebar" />
     <span class="title ml-3 mr-5 white--grey">
       <span class="font-weight-light">Work</span>Tree
     </span>
@@ -14,12 +14,38 @@
     <ProjectSelect />
     <v-spacer />
     <Alerts />
-    <v-btn fab dedpressed small :text="!resizable" color="grey" @click="toggleResizable">
-      <font-awesome-icon icon="columns" />
-    </v-btn>
-    <v-btn fab dedpressed small text color="grey" @click="toggleNotifications">
-      <font-awesome-icon icon="bell" />
-    </v-btn>
+    <v-tooltip bottom open-delay="1000">
+      <template v-slot:activator="data">
+        <v-btn 
+          fab 
+          dedpressed 
+          small 
+          :text="!resizable" 
+          color="grey" 
+          @click="toggleResizable" 
+          v-on="data.on"
+        >
+          <font-awesome-icon icon="columns" />
+        </v-btn>
+      </template>
+      Customize layout
+    </v-tooltip>
+    <v-tooltip bottom open-delay="1000">
+      <template v-slot:activator="data">
+        <v-btn 
+          fab 
+          dedpressed 
+          small 
+          text 
+          color="grey" 
+          @click="toggleNotifications"
+          v-on="data.on"
+        >
+          <font-awesome-icon icon="bell" />
+        </v-btn>
+      </template>
+      Toggle notifications
+    </v-tooltip>
     <v-menu
       transition="slide-y-transition"
       bottom

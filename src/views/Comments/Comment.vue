@@ -57,7 +57,7 @@ export default {
   },
   props: {
     comment_id: {
-      type: Number,
+      type: [Number, String],
       default: -1
     }
   },

@@ -1,10 +1,15 @@
 <template>
-  <v-btn @click="toggleFavorite" fab depressed small class="white">
-    <font-awesome-icon
-      :color="isFavorite ? 'orange' : 'grey'"
-      icon="star"
-    />
-  </v-btn>
+  <v-tooltip bottom open-delay="200">
+    <template v-slot:activator="data">
+      <v-btn @click="toggleFavorite" fab depressed small class="white" v-on="data.on">
+        <font-awesome-icon
+          :color="isFavorite ? 'orange' : 'grey'"
+          icon="star"
+        />
+      </v-btn>
+    </template>
+    Add to favorites
+  </v-tooltip>
 </template>
 
 <script>

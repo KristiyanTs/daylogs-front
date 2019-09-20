@@ -1,11 +1,16 @@
 <template>
   <span>
-    <v-btn @click="prompt = true" fab depressed small class="white">
-      <font-awesome-icon
-        color="grey"
-        icon="trash-alt"
-      />
-    </v-btn>
+    <v-tooltip bottom open-delay="200">
+      <template v-slot:activator="data">
+        <v-btn @click="prompt = true" fab depressed small class="white" v-on="data.on">
+          <font-awesome-icon
+            color="grey"
+            icon="trash-alt"
+          />
+        </v-btn>
+      </template>
+      Delete
+    </v-tooltip>
     <v-dialog
       v-model="prompt"
       max-width="290"

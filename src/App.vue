@@ -30,4 +30,6 @@ button:focus, a:focus
   outline: 0 !important
 html
   overflow-y: auto !important
+.v-btn
+  text-transform: none !important
 </style>

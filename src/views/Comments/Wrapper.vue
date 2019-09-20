@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <Comment v-for="comment in comments" :key="comment.id" :comment_id="comment.id" />
-    <v-btn small color="grey" class="mb-5" text @click="addComment" v-if="!isCommenting">
+    <v-btn small color="grey" class="mb-5 ml-2" text @click="addComment" v-if="!isCommenting">
       <font-awesome-icon
         icon="comment"
         class="mr-2"

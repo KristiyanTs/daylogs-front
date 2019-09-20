@@ -15,8 +15,8 @@ import {
 const state = {
   resizable: false,
   layout2x1: [
-    {"x":0,"y":0,"w":5,"h":1,"i":"left"},
-    {"x":5,"y":0,"w":7,"h":1,"i":"right"},
+    {"x":0,"y":0,"w":4,"h":1,"i":"left"},
+    {"x":4,"y":0,"w":8,"h":1,"i":"right"},
   ],
   layout3x2: [
     {"x":0,"y":0,"w":4,"h":2,"i":"1"},

@@ -26,18 +26,22 @@
       <EditButton @clicked="editing = true" />
       <DeleteInspectedNodeButton v-if="node.ancestry" />
     </v-toolbar>
-    <v-row v-if="node.created_at">
-      <v-col>
-        Created {{ moment(node.created_at).format("M/D/YY, H:mm") }}
-      </v-col>
-      <v-col>
-        Updated {{ moment(node.updated_at).format("M/D/YY, H:mm") }}
+    <v-divider />
+    <v-row v-on:dblclick="editing = true" >
+      <v-col class="px-4">
+        <span class="grey--text caption">Description</span>
+        <br/>
+        <div v-html="node.description" class="preview"></div>
       </v-col>
     </v-row>
-    <v-divider />
-    <v-row v-on:dblclick="editing = true">
-      <v-col>
-        <div v-html="node.description" class="preview"></div>
+    <v-row v-if="node.created_at">
+      <v-col class="px-4">
+        <v-tooltip bottom open-delay="500">
+          <template v-slot:activator="data">
+            <span class="caption grey--text" v-on="data.on">Created {{ moment(node.created_at).format("M/D/YY, H:mm") }}</span>
+          </template>
+          Updated {{ moment(node.updated_at).format("M/D/YY, H:mm") }}
+        </v-tooltip>
       </v-col>
     </v-row>
     <v-divider />

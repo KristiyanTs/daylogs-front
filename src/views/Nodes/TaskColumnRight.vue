@@ -111,19 +111,10 @@
       <EditButton @clicked="editing = true" />
       <DeleteInspectedNodeButton />
     </v-toolbar>
-    <v-row v-if="item.created_at">
+    <v-row v-if="item.created_at" class="px-1">
       <v-col class="py-1">
-        <span class="grey--text">Created</span>
-        {{ moment(item.created_at).format("M/D/YY, H:mm") }}
-      </v-col>
-      <v-col class="py-1">
-        <span class="grey--text">Updated</span>
-        {{ moment(item.updated_at).format("M/D/YY, H:mm") }}
-      </v-col>
-    </v-row>
-    <v-row v-if="item.created_at">
-      <v-col class="py-1">
-        <span class="grey--text">Category</span>
+        <span class="grey--text caption">Category</span>
+        <br/>
         <v-chip pill small>
           <v-avatar
             left
@@ -138,7 +129,8 @@
         </v-chip>
       </v-col>
       <v-col class="py-1">
-        <span class="grey--text">Status</span>
+        <span class="grey--text caption">Status</span>
+        <br/>
         <v-chip pill small>
           <v-avatar
             left
@@ -147,19 +139,30 @@
           {{ status.title }}
         </v-chip>
       </v-col>
-    </v-row>
-    <v-row v-if="item.assignees">
-      <v-col class="py-1">
-        <span class="grey--text">Assignees</span> 
+      <v-col class="py-1" v-if="item.assignees">
+        <span class="grey--text caption">Assignees</span>
+        <br/>
         <v-chip pill small v-for="assignee in assignees" :key="assignee.id">
           {{ assignee.name }}
         </v-chip>
       </v-col>
     </v-row>
-    <v-divider v-if="item.created_at" />
+    <v-divider v-if="item.created_at" class="mt-2"/>
     <v-row v-on:dblclick="edit">
-      <v-col>
+      <v-col class="px-4">
+        <span class="grey--text caption">Description</span>
+        <br/>
         <div v-html="item.description" class="preview"></div>
+      </v-col>
+    </v-row>
+    <v-row v-if="item.created_at" class="px-2">
+      <v-col>
+        <v-tooltip bottom open-delay="500">
+          <template v-slot:activator="data">
+            <span class="caption grey--text" v-on="data.on">Created {{ moment(item.created_at).format("M/D/YY, H:mm") }}</span>
+          </template>
+          Updated {{ moment(item.updated_at).format("M/D/YY, H:mm") }}
+        </v-tooltip>
       </v-col>
     </v-row>
     <v-divider />
@@ -225,7 +228,8 @@ export default {
         this.remove();
       } else {
         this.editing = false;
-        this.item = { ...this.inspected_node }; 
+        this.item = { ...this.inspected_node };
+        this.item.assignees =  this.item.id ? this.inspected_node.assignees.map(a => a.user_id) : [];
       }
     },
     setupAssigneesAttrtibutes() {
