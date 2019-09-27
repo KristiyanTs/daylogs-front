@@ -2,7 +2,7 @@
   <v-app-bar app flat hide-on-scroll short color="white">
     <v-toolbar-title>
       <span class="title ml-3 mr-5 white--grey">
-        <span class="font-weight-light">Day</span>Logs
+        <span class="font-weight-light">Work</span>Tree
       </span>
     </v-toolbar-title>
     <Alerts :position="['top']"/>

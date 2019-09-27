@@ -28,16 +28,17 @@ Vue.component("default-layout", Default);
 Vue.component("no-sidebar-layout", NoSidebar);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.prototype.moment = moment;
-
 Vue.config.productionTip = false;
-
 ApiService.init();
 
-// Ensure we checked auth before each page load.
-// TODO: Causes /profile check on every page load, check the local storage instead
-router.beforeEach((to, from, next) =>
-  Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
-);
+// check auth if required
+router.beforeEach((to, from, next) => {
+  if(to.meta.requiresAuth) {
+    Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
+  } else {
+    next();
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   let v = new Vue({

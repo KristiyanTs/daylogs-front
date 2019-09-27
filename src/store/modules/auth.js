@@ -1,5 +1,6 @@
 import ApiService from "@/common/api.service";
 import JwtService from "@/common/jwt.service";
+import router from '@/router';
 
 import {
   UserService
@@ -70,18 +71,29 @@ const actions = {
         });
     });
   },
-  [CHECK_AUTH]({ commit }) {
+  [CHECK_AUTH]({ commit, dispatch }) {
     if (JwtService.getToken()) {
       ApiService.setHeader();
       ApiService.get("profile")
         .then(response => {
-          commit(SET_AUTH, [response.config.headers.Authorization, response.data]);
+          if(response.data == null) {
+            commit(PURGE_AUTH);
+            router.push('/login');
+            dispatch(CREATE_ALERT, ["Please, log in first"]);
+          } else {
+            commit(SET_AUTH, [response.config.headers.Authorization, response.data]);
+          }
         })
         .catch(response => {
+          commit(PURGE_AUTH);
           commit(SET_ERROR, response.data.errors);
+          router.push('/login');
+          dispatch(CREATE_ALERT, ["Please, log in first"]);
         });
     } else {
       commit(PURGE_AUTH);
+      router.push('/login');
+      dispatch(CREATE_ALERT, ["Please, log in first"]);
     }
   },
   [REGISTER]({ commit }, user) {
