@@ -33,6 +33,7 @@
     "vue-smooth-reflow": "^0.1.12",
     "vue2-editor": "^2.10.2",
     "vue2-filters": "^0.4.1",
+    "vue2-smooth-scroll": "^1.1.0",
     "vue2-transitions": "^0.2.3",
     "vuedraggable": "^2.21.0",
     "vuetify": "^2.0.18",
