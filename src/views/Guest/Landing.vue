@@ -1,31 +1,29 @@
 <template>
   <div class="body">
-    <section class="initial">
-      <div class="initial">
-        <div class="attention">
-          <h1 class="text-uppercase">Plan it, keep it</h1>
-          <h4>
-            DayLogs is a personal journal and a task manager. It makes organizing your day and logging the memories and ideas you want to keep easier.
-          </h4>
-          <v-btn
-            large
-            rounded
-            color="primary"
-            class="call-to-action"
-            to="/signup"
-          >
-            <span>Get Started - It's Free!</span>
-          </v-btn>
-        </div>
-        <img src="@/assets/images/landing-mockup.png" />
-      </div>
-    </section>
+    <Landing />
+    <About />
+    <Timeline />
+    <Calendar />
+    <Contacts />
   </div>
 </template>
 
 <script>
+import Landing from "./Landing/Landing";
+import About from "./Landing/About";
+import Calendar from "./Landing/Calendar";
+import Contacts from "./Landing/Contacts";
+import Timeline from "./Landing/Timeline";
+
 export default {
   name: "landing",
+  components: {
+    Landing,
+    About,
+    Calendar,
+    Contacts,
+    Timeline
+  },
   data() {
     return {};
   }
