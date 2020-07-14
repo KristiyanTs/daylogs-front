@@ -2,14 +2,14 @@
   <v-app-bar app flat hide-on-scroll short color="white">
     <v-toolbar-title>
       <span class="title ml-3 mr-5 white--grey">
-        <span class="font-weight-light">Work</span>Tree
+        <span class="font-weight-light">Bg</span>Mentor
       </span>
     </v-toolbar-title>
     <Alerts :position="['top']"/>
 
     <v-spacer></v-spacer>
 
-    <v-btn text color="primary" to="/login">
+    <!-- <v-btn text color="primary" to="/login">
       Log in
     </v-btn>
 
@@ -23,7 +23,7 @@
 
     <v-btn text>
       Features
-    </v-btn>
+    </v-btn> -->
   </v-app-bar>
 </template>
 
@@ -37,3 +37,12 @@ export default{
   }
 }
 </script>
+
+<style scoped lang='sass'>
+.font-weight-light
+  color: white
+  text-shadow: -1px -1px 0 #1976d2, 1px -1px 0 #1976d2, -1px 1px 0 #1976d2, 1px 1px 0 #1976d2
+.title.ml-3.mr-5.white--grey
+  font-size: 25px !important
+  color: #1976d2
+</style>

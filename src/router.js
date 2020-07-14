@@ -40,67 +40,11 @@ let router = new Router({
       component: () => import("@/views/Guest/Privacy")
     },
     {
-      path: "/profile",
-      name: "Profile",
-      meta: { requiresAuth: true },
-      component: () => import("@/views/User/Profile"),
-      children: [
-        {
-          path: "general",
-          component: () => import("@/views/User/Profile/General")
-        },
-        {
-          path: "security",
-          component: () => import("@/views/User/Profile/Security")
-        },
-        {
-          path: "notifications",
-          component: () => import("@/views/User/Profile/Notifications")
-        }
-      ]
-    },
-    {
-      path: "/notes/:id?",
-      name: "Notes",
-      meta: { requiresAuth: true },
-      component: () => import("@/views/Notes/NotesWrapper")
-    },
-    {
-      path: "/nodes/:id?",
-      name: "Nodes",
-      meta: { requiresAuth: true },
-      component: () => import("@/views/Nodes/Wrapper")
-    },
-    {
       path: "/project",
       name: "ProjectHome",
       meta: { requiresAuth: true },
       component: () => import("@/views/Nodes/Projects/Home")
     },
-    {
-      path: "/settings",
-      name: "ProjectSettings",
-      meta: { requiresAuth: true },
-      component: () => import("@/views/Nodes/Projects/Settings"),
-      children: [
-        {
-          path: "general",
-          component: () => import("@/views/Nodes/Projects/Menu/General")
-        },
-        {
-          path: "team",
-          component: () => import("@/views/Nodes/Projects/Menu/RolesTeam")
-        },
-        {
-          path: "categories",
-          component: () => import("@/views/Nodes/Projects/Menu/Categories/Categories")
-        },
-        {
-          path: "statuses",
-          component: () => import("@/views/Nodes/Projects/Menu/Statuses/Statuses")
-        }
-      ]
-    }
   ]
 });
 

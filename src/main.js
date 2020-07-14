@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import ApiService from "./common/api.service";
-import { CHECK_AUTH } from "@/store/actions.type";
+// import { CHECK_AUTH } from "@/store/actions.type";
 
 import vuetify from './plugins/vuetify';
 
@@ -13,6 +13,7 @@ import NoSidebar from "@/layout/NoSidebar";
 import Vue2Filters from "vue2-filters";
 import vSelect from "vue-select";
 import moment from "moment";
+import vueSmoothScroll from 'vue2-smooth-scroll'
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -23,6 +24,7 @@ library.add({faBold, faItalic, faStrikethrough, faUnderline, faParagraph, faList
 Vue.use(Vue2Filters);
 Vue.use(require("vue-cookies"));
 Vue.use(require("vue-moment"));
+Vue.use(vueSmoothScroll);
 Vue.component("v-select", vSelect);
 Vue.component("default-layout", Default);
 Vue.component("no-sidebar-layout", NoSidebar);
@@ -31,14 +33,14 @@ Vue.prototype.moment = moment;
 Vue.config.productionTip = false;
 ApiService.init();
 
-// check auth if required
-router.beforeEach((to, from, next) => {
-  if(to.meta.requiresAuth) {
-    Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
-  } else {
-    next();
-  }
-});
+// // check auth if required
+// router.beforeEach((to, from, next) => {
+//   if(to.meta.requiresAuth) {
+//     Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
+//   } else {
+//     next();
+//   }
+// });
 
 document.addEventListener("DOMContentLoaded", () => {
   let v = new Vue({

@@ -7,8 +7,8 @@
       <v-btn color="white" class="my-2" text rounded to="/privacy">
         Privacy
       </v-btn>
-      <v-flex primary lighten-2 py-3 text-xs-center white--text xs12>
-        &copy;{{ new Date().getFullYear() }} <strong>DayLogs</strong>
+      <v-flex primary lighten-2 py-3 class="text-center" white--text xs12>
+        &copy;{{ new Date().getFullYear() }} <strong>BgMentor</strong>
       </v-flex>
     </v-layout>
   </v-footer>
