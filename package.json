@@ -35,7 +35,7 @@
     "vue2-filters": "^0.4.1",
     "vue2-transitions": "^0.2.3",
     "vuedraggable": "^2.21.0",
-    "vuetify": "^2.0.18",
+    "vuetify": "^2.6.10",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
